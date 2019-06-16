@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		    <arg name="world_name" value="test1.world"/>
+    		<arg name="debug" value="false" />
+    		<arg name="gui" value="true" />
+    		<arg name="paused" value="false"/>
+    		<arg name="use_sim_time" value="true"/>
+    		<arg name="headless" value="false"/>
+	</include>
+
+  <group ns="4omni">
+    <arg name="robot_name" default="4omni"/>
+    <arg name="model" default="$(find robot_description)/urdf/4omni_sim.urdf"/>   
+	  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
+
+	  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) -x 0 -y 0 -z 1" />
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find robot_control)/config/4omni_control.yaml" command="load"/>
+
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+      output="screen" args="wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller"/>
+
+    <!-- convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+      <param name="tf_prefix" value="$(arg robot_name)"/>
+      <remap from="/joint_states" to="joint_states" />
+    </node>
+    <node name="matrixcal" pkg="robot_control" type="matrixcal.py">
+        <remap from="/wheel0" to="wheel0_motor_shaft_joint_controller/command" />
+        <remap from="/wheel1" to="wheel1_motor_shaft_joint_controller/command" />
+        <remap from="/wheel2" to="wheel2_motor_shaft_joint_controller/command" />
+        <remap from="/wheel3" to="wheel3_motor_shaft_joint_controller/command" />
+        <param name="radius" value="0.1"/>
+        <param name="center_to_wheel" value="0.25"/>
+    </node>
+  </group>
+</launch>
