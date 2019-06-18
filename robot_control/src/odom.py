@@ -29,15 +29,15 @@ if __name__ == '__main__':
         r.header.stamp = rospy.Time.now()
         r.header.frame_id = "4omni/odom"
         r.child_frame_id ="4omni/base_link"
-        rospy.wait_for_service('/gazebo/get_model_state')
-        state = state_prox('4omni','world')
-        euler = quaternion_to_euler(state.pose.orientation)
-        euler.z *= 0.9
-        r.pose.pose.orientation = euler_to_quaternion(euler)
-        r.pose.pose.position = state.pose.position
-        r.pose.covariance = [0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]
-        r.twist.twist = state.twist
-        r.twist.covariance =[0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]
+#        rospy.wait_for_service('/gazebo/get_model_state')
+#        state = state_prox('4omni','world')
+#        euler = quaternion_to_euler(state.pose.orientation)
+#        euler.z *= 0.9
+ #       r.pose.pose.orientation = euler_to_quaternion(euler)
+ #       r.pose.pose.position = state.pose.position
+ #       r.pose.covariance = [0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]
+ #       r.twist.twist = state.twist
+ #       r.twist.covariance =[0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]
         pub.publish(r)
         rospy.loginfo('Transform Published')
         rospy.Rate(200.0).sleep()

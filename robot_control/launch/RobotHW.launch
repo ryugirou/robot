@@ -22,7 +22,7 @@
       <remap from="/joint_states" to="joint_states" />
     </node>
 
-    <node name="matrixcal" pkg="robot_control" type="matrixcal.py">
+    <node name="trans" pkg="robot_control" type="4omni_trans.py">
         <remap from="/wheel0" to="base/motor0_cmd_vel" />
         <remap from="/wheel1" to="base/motor1_cmd_vel" />
         <remap from="/wheel2" to="base/motor2_cmd_vel" />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+  <arg name="robot_name"/>
 
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		    <arg name="world_name" value="test1.world"/>
@@ -10,8 +11,7 @@
     		<arg name="headless" value="false"/>
 	</include>
 
-  <group ns="4omni">
-    <arg name="robot_name" default="4omni"/>
+  <group ns="$(arg robot_name)">
     <arg name="model" default="$(find robot_description)/urdf/4omni_sim.urdf"/>   
 	  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
 
@@ -29,7 +29,9 @@
       <param name="tf_prefix" value="$(arg robot_name)"/>
       <remap from="/joint_states" to="joint_states" />
     </node>
-    <node name="matrixcal" pkg="robot_control" type="matrixcal.py">
+
+    <!-- convert x-y velocity to each motor velocity -->
+    <node name="trans" pkg="robot_control" type="4omni_trans.py">
         <remap from="/wheel0" to="wheel0_motor_shaft_joint_controller/command" />
         <remap from="/wheel1" to="wheel1_motor_shaft_joint_controller/command" />
         <remap from="/wheel2" to="wheel2_motor_shaft_joint_controller/command" />
@@ -37,5 +39,17 @@
         <param name="radius" value="0.1"/>
         <param name="center_to_wheel" value="0.25"/>
     </node>
+
+    <!-- publish odom -->
+    <node name="gazebo_odom" pkg="robot_control" type="gazebo_odom"  output="screen">
+      <param name="model_name"  value="$(arg robot_name)" />
+      <param name="odom_frame" value="$(arg robot_name)/odom" />
+      <param name="base_frame"  value="$(arg robot_name)/base_link" />
+      <param name="publish_rate"  value="200" />
+      <param name="noise"  value="0.0" />
+      <param name="tf_enable" value="true" />
+      <remap from="odom" to="odometry" />
+    </node>
+
   </group>
 </launch>

@@ -217,3 +217,7 @@ add_dependencies(can ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGE
 add_executable(usb_can_node src/usb_can_node.cpp)
 target_link_libraries(usb_can_node ${catkin_LIBRARIES})
 add_dependencies(usb_can_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(gazebo_odom src/gazebo_odom.cpp)
+target_link_libraries(gazebo_odom ${catkin_LIBRARIES})
+add_dependencies(gazebo_odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
