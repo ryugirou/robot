@@ -32,7 +32,7 @@ void tf_publish(geometry_msgs::Pose pose0){
   br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), odom_frame, base_frame));
 }
 
-nav_msgs::Odometry last_odom;
+nav_msgs::Odometry last_odom=nav_msgs::Odometry();
 bool enable_odom=false;
 void models_callback(const gazebo_msgs::ModelStates& model_msg){    
   int model_size=model_msg.name.size();
@@ -89,7 +89,7 @@ int main(int argc, char **argv){
   pnh.getParam("tf_enable",    tf_enable);
 
   //publisher
-  odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 1);
+  odom_pub = nh.advertise<nav_msgs::Odometry>("odomoppp", 10);
 
   //subscriibe
   ros::Subscriber model_sub   = nh.subscribe("/gazebo/model_states", 10, models_callback);

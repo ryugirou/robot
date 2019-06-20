@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <group ns="4omni">
-    <arg name="robot_name" default="4omni"/>
+  <arg name="robot_name"/>
+  <group ns="$(arg robot_name)">
     <arg name="model" default="$(find robot_description)/urdf/4omni.urdf"/>   
 	  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
 
     <!-- CAN -->
 	  <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
-		<remap from="/can_tx" to="can_tx"/>
-		<remap from="/can_rx" to="can_rx"/>
+  		<remap from="/can_tx" to="can_tx"/>
+  		<remap from="/can_rx" to="can_rx"/>
+  		<remap from="/can_rx" to="can_rx"/>
+  		<remap from="/can_rx" to="can_rx"/>
+  		<remap from="/can_rx" to="can_rx"/>
 	  </node>
 	  <node name="can" pkg="robot_control" type="can" output="screen"/>
 
-    <!-- LRF 
+    <!-- LRF -->
     <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
       <param name="ip_address" value="192.168.0.100"/>
       <param name="frame_id" value="laser_link"/>
       <remap from="scan" to="scan"/>
     </node>
-    -->
+
+    <!-- publish odom to TF -->
+    <node name="odom" pkg="robot_control" type="odom"  output="screen">
+      <param name="odom_frame" value="$(arg robot_name)/odom" />
+      <param name="base_frame"  value="$(arg robot_name)/base_link" />
+      <param name="publish_rate"  value="200" />
+    </node>
+
 
     <!-- convert joint states to TF transforms for rviz, etc -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
@@ -30,7 +40,7 @@
         <remap from="/wheel0" to="base/motor0_cmd_vel" />
         <remap from="/wheel1" to="base/motor1_cmd_vel" />
         <remap from="/wheel2" to="base/motor2_cmd_vel" />
-	<remap from="/wheel3" to="base/motor3_cmd_vel" />
+      	<remap from="/wheel3" to="base/motor3_cmd_vel" />
         <param name="radius" value="0.038"/>
         <param name="center_to_wheel" value="0.1"/>
     </node>
