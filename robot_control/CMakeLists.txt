@@ -14,11 +14,10 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
-  actionlib_msgs
   control_msgs
   controller_manager
   robot_state_publisher
-  sensor_msgs
+  gmapping
 )
 
 ## System dependencies are found with CMake's conventions

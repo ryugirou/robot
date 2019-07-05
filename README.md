@@ -18,6 +18,7 @@ urdf記述してIMUとLRFつけてgmmapingとかamclとかDWAとかでいい感�
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/ryugirou/robot.git
+rosdep install --from-paths src --ignore-src
 ```
 ## Usage
 - gazebo上でジョイスティックで動かす
@@ -28,6 +29,11 @@ roslaunch robot_control main.launch sim:=true
 ```
 roslaunch robot_control main.launch sim:=false
 ```
+- 地図を保存
+```
+cd ~/catkin_ws/src/robot/robot_control/resources/map
+rosrun map_server map_saver map:=/4omni/map
+``` 
 ## Environment
 | OS | ros | gazebo |
 | ---------- | :--------: | --------: |
