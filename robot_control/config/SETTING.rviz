@@ -5,13 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Status1
         - /Odometry1/Shape1
-        - /Odometry3
-        - /Odometry3/Shape1
-        - /Map1
-        - /PoseArray1
-        - /LaserScan1
+        - /CostMap1
+        - /CostMap1/Position1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -56,90 +52,6 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Class: jsk_rviz_plugin/TFTrajectory
-      Enabled: false
-      Name: TFTrajectory
-      Value: false
-      color: 255; 0; 0
-      duration: 10
-      frame: 4omni/ground_truth
-      line_width: 0.00999999978
-    - Class: jsk_rviz_plugin/TFTrajectory
-      Enabled: false
-      Name: TFTrajectory
-      Value: false
-      color: 25; 255; 240
-      duration: 10
-      frame: 4omni/base_link
-      line_width: 0.00999999978
-    - Angle Tolerance: 0.100000001
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.300000012
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: false
-      Enabled: false
-      Keep: 1
-      Name: Odometry
-      Position Tolerance: 0.100000001
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.100000001
-        Color: 0; 85; 0
-        Head Length: 0.300000012
-        Head Radius: 0.100000001
-        Shaft Length: 1
-        Shaft Radius: 0.0500000007
-        Value: Arrow
-      Topic: /4omni/controller/odom
-      Unreliable: false
-      Value: false
-    - Angle Tolerance: 0.100000001
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.300000012
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: false
-      Enabled: false
-      Keep: 1
-      Name: Odometry
-      Position Tolerance: 0.100000001
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.100000001
-        Color: 255; 25; 0
-        Head Length: 0.300000012
-        Head Radius: 0.100000001
-        Shaft Length: 1
-        Shaft Radius: 0.0500000007
-        Value: Arrow
-      Topic: /4omni/tracking/groundtruth
-      Unreliable: false
-      Value: false
     - Angle Tolerance: 0.100000001
       Class: rviz/Odometry
       Covariance:
@@ -165,13 +77,13 @@ Visualization Manager:
         Alpha: 1
         Axes Length: 1
         Axes Radius: 0.100000001
-        Color: 0; 255; 255
+        Color: 0; 170; 0
         Head Length: 0.300000012
         Head Radius: 0.100000001
         Shaft Length: 1
         Shaft Radius: 0.0500000007
         Value: Arrow
-      Topic: /4omni/odometry
+      Topic: /4omni/odomoppp
       Unreliable: false
       Value: true
     - Alpha: 0.699999988
@@ -199,16 +111,6 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /particlecloud
       Unreliable: false
-      Value: true
-    - Alpha: 0.699999988
-      Class: rviz/Map
-      Color Scheme: costmap
-      Draw Behind: false
-      Enabled: true
-      Name: LocalCostMap
-      Topic: /move_base/local_costmap/costmap
-      Unreliable: false
-      Use Timestamp: false
       Value: true
     - Alpha: 1
       Buffer Length: 1
@@ -286,6 +188,16 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 0.699999988
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: CostMap
+      Topic: /4omni/costmap_node/costmap/costmap
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -311,16 +223,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 12.7762709
+      Distance: 16.9542332
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.00256404094
-        Y: -1.63761258
-        Z: 0.0632490665
+        X: 2.98922443
+        Y: 2.75330949
+        Z: -0.15832597
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
