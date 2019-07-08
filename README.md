@@ -4,10 +4,6 @@ robot
 4omniからできるだけhard依存の部分を分けやすいようにして別のレポジトリを作成
 urdf記述してIMUとLRFつけてgmmapingとかamclとかDWAとかでいい感じにnavigationできるようになりたい
 
-## new
-将来1つのROSMASTERで複数台動かす時のためにNSをまとめた
-実機の部分を実装（途中）
-
 ## Description
 - [x] 4輪オムニホイールのurdf
 - [x] gazebo上で動かす

@@ -6,15 +6,15 @@
 	  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
 
     <!-- CAN -->
-	  <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
-		<param name="port" value="/dev/ttyACM0"/>
-  		<remap from="/can_tx" to="can_tx"/>
-  		<remap from="/can_rx" to="can_rx"/>
-  		<remap from="/can_rx" to="can_rx"/>
-  		<remap from="/can_rx" to="can_rx"/>
-  		<remap from="/can_rx" to="can_rx"/>
-	  </node>
-	  <node name="can" pkg="robot_control" type="can" output="screen"/>
+<node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
+	<param name="port" value="/dev/ttyACM0"/>
+	<remap from="/can_tx" to="can_tx"/>
+	<remap from="/can_rx" to="can_rx"/>
+	<remap from="/can_rx" to="can_rx"/>
+	<remap from="/can_rx" to="can_rx"/>
+	<remap from="/can_rx" to="can_rx"/>
+  </node>
+  <node name="can" pkg="robot_control" type="can" output="screen"/>
 
     <!-- LRF -->
     <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
