@@ -89,7 +89,7 @@ int main(int argc, char **argv){
   pnh.getParam("tf_enable",    tf_enable);
 
   //publisher
-  odom_pub = nh.advertise<nav_msgs::Odometry>("odomoppp", 10);
+  odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 10);
 
   //subscriibe
   ros::Subscriber model_sub   = nh.subscribe("/gazebo/model_states", 10, models_callback);

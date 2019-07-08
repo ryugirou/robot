@@ -30,6 +30,11 @@ roslaunch robot_control main.launch sim:=false
 cd ~/catkin_ws/src/robot/robot_control/resources/map
 rosrun map_server map_saver map:=/4omni/map
 ``` 
+
+## dependeces
+```
+  map_server
+```
 ## Environment
 | OS | ros | gazebo |
 | ---------- | :--------: | --------: |

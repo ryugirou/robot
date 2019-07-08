@@ -224,3 +224,7 @@ add_dependencies(gazebo_odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORT
 add_executable(odom src/odom.cpp)
 target_link_libraries(odom ${catkin_LIBRARIES})
 add_dependencies(odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(goal_generator src/goal_generator.cpp)
+target_link_libraries(goal_generator ${catkin_LIBRARIES})
+add_dependencies(goal_generator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

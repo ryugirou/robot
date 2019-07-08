@@ -29,6 +29,7 @@
       <param name="tf_prefix" value="$(arg robot_name)"/>
       <remap from="/joint_states" to="joint_states" />
     </node>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
     <!-- convert x-y velocity to each motor velocity -->
     <node name="trans" pkg="robot_control" type="4omni_trans.py">
@@ -48,7 +49,7 @@
       <param name="publish_rate"  value="200" />
       <param name="noise"  value="0.0" />
       <param name="tf_enable" value="true" />
-      <remap from="odom" to="odometry" />
+      <remap from="odom" to="odom" />
     </node>
 
   </group>

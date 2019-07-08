@@ -17,6 +17,8 @@
 
 #define CAN_MTU 8
 
+#include <stdint.h>
+
 template<typename T>
 union _Encapsulator
 {
@@ -155,6 +157,10 @@ CanNode::CanNode(void)
     _expand_motor_status_pub        = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
     _expand_motor_cmd_sub	        = _nh.subscribe<std_msgs::UInt8>("expand_motor_cmd", 10, &CanNode::expandmotorCmdCallback, this);
     _expand_motor_cmd_pos_sub	    = _nh.subscribe<std_msgs::Float32>("expand_motor_cmd_pos", 10, &CanNode::expandmotorCmdPosCallback, this);
+
+    
+   // auto _nh = ros::NodeHandle("~");
+   // _nh.param<std::uint16_t>("odom_frame", odom_frame, "odom");
 }
 
 
