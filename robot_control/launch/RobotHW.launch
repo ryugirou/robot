@@ -34,11 +34,6 @@
     </node>
 
 
-    <!-- convert joint states to TF transforms for rviz, etc -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-      <param name="tf_prefix" value="$(arg robot_name)"/>
-      <remap from="/joint_states" to="joint_states" />
-    </node>
 
     <node name="trans" pkg="robot_control" type="4omni_trans.py">
         <remap from="/wheel0" to="base/motor0_cmd_vel" />

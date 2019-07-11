@@ -19,6 +19,13 @@
 
   <!-- main nodes -->
   <group ns="$(arg robot_name)">
+    <!-- convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+      <param name="tf_prefix" value="$(arg robot_name)"/>
+      <remap from="/joint_states" to="joint_states" />
+    </node>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
     <!-- dual shock4 -->
     <!--
 	  <node name="joy_node" pkg="joy" type="joy_node" />
@@ -55,5 +62,7 @@
  
   </group>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/config/SETTING.rviz"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/config/SETTING.rviz">
+    <remap from="/move_base_simple/goal" to="/$(arg robot_name)/move_base_simple/goal"/>
+  </node>
 </launch>

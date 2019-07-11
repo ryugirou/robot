@@ -24,13 +24,6 @@
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
       output="screen" args="wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller"/>
 
-    <!-- convert joint states to TF transforms for rviz, etc -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-      <param name="tf_prefix" value="$(arg robot_name)"/>
-      <remap from="/joint_states" to="joint_states" />
-    </node>
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-
     <!-- convert x-y velocity to each motor velocity -->
     <node name="trans" pkg="robot_control" type="4omni_trans.py">
         <remap from="/wheel0" to="wheel0_motor_shaft_joint_controller/command" />

@@ -675,7 +675,7 @@ Visualization Manager:
     - Class: rviz/SetInitialPose
       Topic: /initialpose
     - Class: rviz/SetGoal
-      Topic: /move_base_simple
+      Topic: /move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
@@ -698,10 +698,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.914796948
+      Pitch: 0.919796944
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.81857646
+      Yaw: 1.80857646
     Saved:
       - Class: rviz/Orbit
         Distance: 10
