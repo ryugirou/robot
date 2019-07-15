@@ -15,8 +15,13 @@
 	    <remap from="/can_rx" to="can_rx"/>
     </node>
 
-    <node name="can" pkg="robot_control" type="can" output="screen">
-      <param name="odom_frame" value="$(arg robot_name)/odom" />
+    <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">
+    	<param name="alpha0" value="0x4a0" />
+    	<param name="beta0" value="0x4f4" />
+		<remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
+		<remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
+		<remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
+		<remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
     </node>
 
     <!-- LRF -->

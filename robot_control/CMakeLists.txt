@@ -213,6 +213,10 @@ add_executable(can src/can.cpp)
 target_link_libraries(can ${catkin_LIBRARIES})
 add_dependencies(can ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_executable(tr_can src/tr_can.cpp)
+target_link_libraries(tr_can ${catkin_LIBRARIES})
+add_dependencies(tr_can ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 add_executable(usb_can_node src/usb_can_node.cpp)
 target_link_libraries(usb_can_node ${catkin_LIBRARIES})
 add_dependencies(usb_can_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
