@@ -165,12 +165,12 @@ TrCan::TrCan(void)
     _beta_motor9_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor9_cmd_vel", 10, &TrCan::betamotor9CmdVelCallback, this);
 
     auto pnh = ros::NodeHandle("~");
-	for(int i=0;i < ALPHA;i++){
-    	pnh.param<int>("alpha" + std::to_string(i) , id_alpha[i], 0x010 + i);
-	}
-	for(int i=0;i < BETA;i++){
-    	pnh.param<int>("beta" + std::to_string(i) , id_beta[i], 0x110 + i);
-	}
+  	for(int i=0;i < ALPHA;i++){
+      	pnh.param<int>("alpha" + std::to_string(i) , id_alpha[i], 0x010 + i);
+  	}
+  	for(int i=0;i < BETA;i++){
+      	pnh.param<int>("beta" + std::to_string(i) , id_beta[i], 0x110 + i);
+  	}
 }
 
 void TrCan::alphaCmdCallback(const std_msgs::UInt16::ConstPtr& msg)

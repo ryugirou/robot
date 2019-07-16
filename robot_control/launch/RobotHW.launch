@@ -16,12 +16,11 @@
     </node>
 
     <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">
-    	<param name="alpha0" value="0x4a0" />
-    	<param name="beta0" value="0x4f4" />
-		<remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
-		<remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
-		<remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
-		<remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
+      <rosparam command="load" file="$(find robot_control)/config/tr_can.yaml" />
+		  <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
+		  <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
+		  <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
+		  <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
     </node>
 
     <!-- LRF -->
@@ -38,15 +37,14 @@
       <param name="publish_rate"  value="200" />
     </node>
 
-
-
     <node name="trans" pkg="robot_control" type="4omni_trans.py">
-        <remap from="/wheel0" to="base/motor0_cmd_vel" />
-        <remap from="/wheel1" to="base/motor1_cmd_vel" />
-        <remap from="/wheel2" to="base/motor2_cmd_vel" />
-      	<remap from="/wheel3" to="base/motor3_cmd_vel" />
+        <remap from="beta/wheel0" to="base/motor0_cmd_vel" />
+        <remap from="beta/wheel1" to="base/motor1_cmd_vel" />
+        <remap from="beta/wheel2" to="base/motor2_cmd_vel" />
+      	<remap from="beta/wheel3" to="base/motor3_cmd_vel" />
         <param name="radius" value="0.038"/>
         <param name="center_to_wheel" value="0.1"/>
     </node>
+
   </group>
 </launch>

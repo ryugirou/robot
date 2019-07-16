@@ -209,10 +209,6 @@ add_executable(ds4_to_twist src/ds4_to_twist.cpp)
 target_link_libraries(ds4_to_twist ${catkin_LIBRARIES})
 add_dependencies(ds4_to_twist ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(can src/can.cpp)
-target_link_libraries(can ${catkin_LIBRARIES})
-add_dependencies(can ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
 add_executable(tr_can src/tr_can.cpp)
 target_link_libraries(tr_can ${catkin_LIBRARIES})
 add_dependencies(tr_can ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
