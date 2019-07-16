@@ -1,11 +1,13 @@
-update_min_d : 0.0
-update_min_a : 0.0
+#Overall filter parameters
+update_min_d : 0.2 #Translational movement required before performing a filter update. [m]
+update_min_a : 0.0 #Rotational movement required before performing a filter update. [rad]
 resample_interval : 2
 use_map_topic : true
+first_map_only : true #When set to true, AMCL will only use the first map it subscribes to, rather than updating each time a new one is received.
 gui_publish_rate : -1.0
 save_pose_rate : 0.5
 laser_max_beams : 30
-min_particles : 500
+min_particles : 500 #パーティクルの数の範囲　パーティクルの数は分散に応じて可変
 max_particles : 5000
 kld_err : 0.05
 kld_z : 0.99
@@ -18,6 +20,8 @@ initial_cov_aa : 0.1
 recovery_alpha_slow : 0.001
 recovery_alpha_fast : 0.1
 
+
+#Laser model parameters
 odom_model_type : omni-corrected
 laser_z_hit : 0.5
 laser_z_short : 0.05
@@ -29,6 +33,8 @@ laser_model_type : likelihood_field
 #laser_model_type : beam
 laser_likelihood_max_dist : 2.0
 
+
+#Odometry model parameters
 # alpha1: Specifies the expected noise in odometry's rotation estimate from the rotational component of the robot's motion.
 odom_alpha1 : 0.005
 # alpha2: Specifies the expected noise in odometry's rotation estimate from translational component of the robot's motion.

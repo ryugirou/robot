@@ -23,9 +23,12 @@
       <param name="tf_prefix" value="$(arg robot_name)"/>
       <remap from="/joint_states" to="joint_states" />
     </node>
+
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
 	  <node name="joy_node" pkg="joy" type="joy_node" />
 	  <node name="ds4_to_twist" pkg="robot_control" type="ds4_to_twist"/>
+
     <!-- gmapping -->
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" clear_params="true">
       <rosparam command="load" file="$(find robot_control)/config/gmapping.yaml" />

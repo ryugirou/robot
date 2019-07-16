@@ -26,12 +26,6 @@
     </node>
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
-    <!-- dual shock4 -->
-    <!--
-	  <node name="joy_node" pkg="joy" type="joy_node" />
-	  <node name="ds4_to_twist" pkg="robot_control" type="ds4_to_twist"/>
-    -->
-
     <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/map/map.yaml">
       <param name="frame_id" value="$(arg robot_name)/map"/>
     </node>
