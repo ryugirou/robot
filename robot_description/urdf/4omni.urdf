@@ -61,6 +61,6 @@
  	<link name="wheel3_attach_link" />
 	<xacro:omni_wheel_set prefix="wheel3" parent="wheel3_attach_link" />
 
-  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0 0 0.13" robot_name="4omni"/>
+  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.331 0 0.044" robot_name="4omni"/>
   <xacro:imu_macro prefix="imu" parent="base_link" xyz="-0.05 0 0.10" robot_name="4omni"/>
 </robot>
