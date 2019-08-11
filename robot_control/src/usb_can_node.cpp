@@ -156,7 +156,7 @@ UsbCanNode::UsbCanNode(void)
 
 bool UsbCanNode::waitForStatus(void)
 {
-    while(!this->_status_changed)
+    while(!this->_status_changed and ros::ok())
     {
         if(this->_stop)
         {
