@@ -224,3 +224,7 @@ add_dependencies(gazebo_odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORT
 add_executable(odom src/odom.cpp)
 target_link_libraries(odom ${catkin_LIBRARIES})
 add_dependencies(odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(base_controller_4wheel src/base_controller_4wheel.cpp)
+target_link_libraries(base_controller_4wheel ${catkin_LIBRARIES})
+add_dependencies(base_controller_4wheel ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
