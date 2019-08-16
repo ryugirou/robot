@@ -239,7 +239,7 @@ void TrCan::betaCmdCallback(const std_msgs::UInt8::ConstPtr& msg)
 
 void TrCan::betamotor0CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
 {
-    this->sendData(id_beta[0]+1, msg->data);
+    this->sendData(id_beta[0]+1, (double)(msg->data));
 }
 
 void TrCan::betamotor1CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)

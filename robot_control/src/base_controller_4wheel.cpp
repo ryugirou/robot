@@ -41,7 +41,7 @@ private:
 	ros::Publisher motor0CmdVel_pub;
 	ros::Publisher motor1CmdVel_pub;
 	ros::Publisher motor2CmdVel_pub;
-    ros::Publisher motor3CmdVel_pub;
+  ros::Publisher motor3CmdVel_pub;
 
 	double targetVelX;
 	double targetVelY;
@@ -88,7 +88,7 @@ BaseController::BaseController(void)
 	motor0CmdVel_pub = nh.advertise<std_msgs::Float64>("motor0_cmd_vel", 1);
 	motor1CmdVel_pub = nh.advertise<std_msgs::Float64>("motor1_cmd_vel", 1);
 	motor2CmdVel_pub = nh.advertise<std_msgs::Float64>("motor2_cmd_vel", 1);
-    motor3CmdVel_pub = nh.advertise<std_msgs::Float64>("motor3_cmd_vel", 1);
+  motor3CmdVel_pub = nh.advertise<std_msgs::Float64>("motor3_cmd_vel", 1);
 
 	control_tim = nh.createTimer(ros::Duration(1.0 / ctrl_freq), &BaseController::TimerCallback, this);
 
@@ -97,11 +97,12 @@ BaseController::BaseController(void)
 	lastTarget[0] = 0.0;
 	lastTarget[1] = 0.0;
 	lastTarget[2] = 0.0;
-    lastTarget[3] = 0.0;
+  lastTarget[3] = 0.0;
+
 	motorCmdVelmsg[0].data = 0.0;
 	motorCmdVelmsg[1].data = 0.0;
 	motorCmdVelmsg[2].data = 0.0;
-    motorCmdVelmsg[3].data = 0.0;
+  motorCmdVelmsg[3].data = 0.0;
 }
 
 void BaseController::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
@@ -137,10 +138,10 @@ void BaseController::TimerCallback(const ros::TimerEvent& event)
 void BaseController::CalcWheelSpeed(double actualDt){
 	double t[4];
 
-	t[0] = -(									  (targetVelY * 1)				    + (targetRotZ * RobotRadius)) / wheel_radius;
-	t[1] = -((targetVelX * sin(1 * M_PI / 2))	+ (targetVelY * cos(1 * M_PI / 2)) 	+ (targetRotZ * RobotRadius)) / wheel_radius;
-	t[2] = -((targetVelX * sin(2 * M_PI / 2))	+ (targetVelY * cos(2 * M_PI / 2)) 	+ (targetRotZ * RobotRadius)) / wheel_radius;
-    t[3] = -((targetVelX * sin(3 * M_PI / 2))	+ (targetVelY * cos(3 * M_PI / 2)) 	+ (targetRotZ * RobotRadius)) / wheel_radius;
+	t[0] = -((targetVelX * sin(1 * M_PI / 4))	+ (targetVelY * cos(1 * M_PI / 4)) 	+ (targetRotZ * RobotRadius)) / wheel_radius;
+	t[1] = -((targetVelX * sin(3 * M_PI / 4))	+ (targetVelY * cos(3 * M_PI / 4)) 	+ (targetRotZ * RobotRadius)) / wheel_radius;
+	t[2] = -((targetVelX * sin(5 * M_PI / 4))	+ (targetVelY * cos(5 * M_PI / 4)) 	+ (targetRotZ * RobotRadius)) / wheel_radius;
+  t[3] = -((targetVelX * sin(7 * M_PI / 4))	+ (targetVelY * cos(7 * M_PI / 4)) 	+ (targetRotZ * RobotRadius)) / wheel_radius;
 
 	double _k = 1.0;
 

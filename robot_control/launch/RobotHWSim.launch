@@ -25,13 +25,18 @@
       output="screen" args="wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller"/>
 
     <!-- convert x-y velocity to each motor velocity -->
-    <node name="trans" pkg="robot_control" type="4omni_trans.py">
-        <remap from="/wheel0" to="wheel0_motor_shaft_joint_controller/command" />
-        <remap from="/wheel1" to="wheel1_motor_shaft_joint_controller/command" />
-        <remap from="/wheel2" to="wheel2_motor_shaft_joint_controller/command" />
-        <remap from="/wheel3" to="wheel3_motor_shaft_joint_controller/command" />
-        <param name="radius" value="0.1"/>
-        <param name="center_to_wheel" value="0.25"/>
+    <node pkg="robot_control" type="base_controller_4wheel" name="base_controller_4wheel" output="screen">
+        <param name="motor_max_acc" value="50.0" />
+        <param name="motor_max_vel" value="80.0" />
+        <param name="invert_x" value="true" />
+        <param name="invert_y" value="false" />
+        <param name="invert_z" value="false" />
+        <param name="robot_radius" value="0.25" />
+        <param name="wheel_radius" value="0.1" />
+        <remap from="motor0_cmd_vel" to="wheel0_motor_shaft_joint_controller/command" />
+        <remap from="motor1_cmd_vel" to="wheel1_motor_shaft_joint_controller/command" />
+        <remap from="motor2_cmd_vel" to="wheel2_motor_shaft_joint_controller/command" />
+        <remap from="motor3_cmd_vel" to="wheel3_motor_shaft_joint_controller/command" />
     </node>
 
     <!-- publish odom -->
