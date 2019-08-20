@@ -75,16 +75,16 @@ private:
     void alphamotor9CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);
 
     void betaCmdCallback(const std_msgs::UInt8::ConstPtr& msg);
-    void betamotor0CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor1CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor2CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor3CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor4CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor5CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor6CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor7CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor8CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
-    void betamotor9CmdVelCallback(const std_msgs::Float32::ConstPtr& msg);    
+    void betamotor0CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor1CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor2CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor3CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor4CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor5CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor6CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor7CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor8CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void betamotor9CmdVelCallback(const std_msgs::Float64::ConstPtr& msg);    
 
     void canRxCallback(const can_msgs::CanFrame::ConstPtr &msg);
 
@@ -153,16 +153,16 @@ TrCan::TrCan(void)
     _alpha_motor9_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("alpha/motor9_cmd_vel", 10, &TrCan::alphamotor9CmdVelCallback, this);
 
     _beta_cmd_sub	        = _nh.subscribe<std_msgs::UInt8>("beta/cmd", 10, &TrCan::betaCmdCallback, this);
-    _beta_motor0_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor0_cmd_vel", 10, &TrCan::betamotor0CmdVelCallback, this);
-    _beta_motor1_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor1_cmd_vel", 10, &TrCan::betamotor1CmdVelCallback, this);
-    _beta_motor2_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor2_cmd_vel", 10, &TrCan::betamotor2CmdVelCallback, this);
-    _beta_motor3_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor3_cmd_vel", 10, &TrCan::betamotor3CmdVelCallback, this);
-    _beta_motor4_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor4_cmd_vel", 10, &TrCan::betamotor4CmdVelCallback, this);
-    _beta_motor5_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor5_cmd_vel", 10, &TrCan::betamotor5CmdVelCallback, this);
-    _beta_motor6_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor6_cmd_vel", 10, &TrCan::betamotor6CmdVelCallback, this);
-    _beta_motor7_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor7_cmd_vel", 10, &TrCan::betamotor7CmdVelCallback, this);
-    _beta_motor8_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor8_cmd_vel", 10, &TrCan::betamotor8CmdVelCallback, this);
-    _beta_motor9_cmd_vel_sub	= _nh.subscribe<std_msgs::Float32>("beta/motor9_cmd_vel", 10, &TrCan::betamotor9CmdVelCallback, this);
+    _beta_motor0_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor0_cmd_vel", 10, &TrCan::betamotor0CmdVelCallback, this);
+    _beta_motor1_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor1_cmd_vel", 10, &TrCan::betamotor1CmdVelCallback, this);
+    _beta_motor2_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor2_cmd_vel", 10, &TrCan::betamotor2CmdVelCallback, this);
+    _beta_motor3_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor3_cmd_vel", 10, &TrCan::betamotor3CmdVelCallback, this);
+    _beta_motor4_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor4_cmd_vel", 10, &TrCan::betamotor4CmdVelCallback, this);
+    _beta_motor5_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor5_cmd_vel", 10, &TrCan::betamotor5CmdVelCallback, this);
+    _beta_motor6_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor6_cmd_vel", 10, &TrCan::betamotor6CmdVelCallback, this);
+    _beta_motor7_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor7_cmd_vel", 10, &TrCan::betamotor7CmdVelCallback, this);
+    _beta_motor8_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor8_cmd_vel", 10, &TrCan::betamotor8CmdVelCallback, this);
+    _beta_motor9_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("beta/motor9_cmd_vel", 10, &TrCan::betamotor9CmdVelCallback, this);
 
     auto pnh = ros::NodeHandle("~");
   	for(int i=0;i < ALPHA;i++){
@@ -237,54 +237,54 @@ void TrCan::betaCmdCallback(const std_msgs::UInt8::ConstPtr& msg)
 	}
 }
 
-void TrCan::betamotor0CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor0CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[0]+1, (double)(msg->data));
+    this->sendData(id_beta[0]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor1CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor1CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[1]+1, msg->data);
+    this->sendData(id_beta[1]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor2CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor2CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[2]+1, msg->data);
+    this->sendData(id_beta[2]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor3CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor3CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[3]+1, msg->data);
+    this->sendData(id_beta[3]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor4CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor4CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[4]+1, msg->data);
+    this->sendData(id_beta[4]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor5CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor5CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[5]+1, msg->data);
+    this->sendData(id_beta[5]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor6CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor6CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[6]+1, msg->data);
+    this->sendData(id_beta[6]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor7CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor7CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[7]+1, msg->data);
+    this->sendData(id_beta[7]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor8CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor8CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[8]+1, msg->data);
+    this->sendData(id_beta[8]+1, (float)(msg->data));
 }
 
-void TrCan::betamotor9CmdVelCallback(const std_msgs::Float32::ConstPtr& msg)
+void TrCan::betamotor9CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_beta[9]+1, msg->data);
+    this->sendData(id_beta[9]+1, (float)(msg->data));
 }
 
 void TrCan::canRxCallback(const can_msgs::CanFrame::ConstPtr &msg)
