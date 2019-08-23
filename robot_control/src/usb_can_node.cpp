@@ -218,9 +218,13 @@ bool UsbCanNode::Open(void)
 
     if(_error)
     {
-        ROS_ERROR("failed to open port: %d", _error.value());
+        ROS_ERROR("failed to open port: %d,trying to open /dev/ttyUSB1", _error.value());
 
-        return true;
+    	this->_port->open("/dev/ttyUSB1", _error);
+	if(_error){
+        	ROS_ERROR("failed to open port: %d", _error.value());
+        	return true;
+	}
     }
 
     _port->set_option(serial_port_base::baud_rate(_baud_uart));
