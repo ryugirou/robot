@@ -228,3 +228,7 @@ add_dependencies(odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARG
 add_executable(base_controller_4wheel src/base_controller_4wheel.cpp)
 target_link_libraries(base_controller_4wheel ${catkin_LIBRARIES})
 add_dependencies(base_controller_4wheel ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(shutdown_controller src/shutdown_controller.cpp)
+target_link_libraries(shutdown_controller ${catkin_LIBRARIES})
+add_dependencies(shutdown_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
