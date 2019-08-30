@@ -25,7 +25,7 @@
       output="screen" args="wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller"/>
 
     <!-- convert x-y velocity to each motor velocity -->
-    <node pkg="robot_control" type="base_controller_4wheel" name="base_controller_4wheel" output="screen">
+    <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
         <param name="motor_max_acc" value="50.0" />
         <param name="motor_max_vel" value="80.0" />
         <param name="invert_x" value="true" />
@@ -51,4 +51,7 @@
     </node>
 
   </group>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/config/SETTING.rviz">
+    <remap from="/move_base_simple/goal" to="/$(arg robot_name)/move_base_simple/goal"/>
+  </node>
 </launch>

@@ -38,7 +38,7 @@
     </node>
 
     <!-- convert x-y velocity to each motor velocity -->
-    <node pkg="robot_control" type="base_controller_4wheel" name="base_controller_4wheel" output="screen">
+    <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
         <param name="motor_max_acc" value="50.0" />
         <param name="motor_max_vel" value="80.0" />
         <param name="invert_x" value="true" />
