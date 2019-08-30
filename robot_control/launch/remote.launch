@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <machine name="crs002" address="robot1" env-loader="/home/r_user/catkin_ws/devel/env.sh" user="r_user" password="password"/>
+  <arg name="robot_name" default="4omni"/>
+  <group ns="$(arg robot_name)">
+
+    <!-- CAN -->
+    <node machine="crs002" name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
+	    <remap from="/can_tx" to="can_tx"/>
+	    <remap from="/can_rx" to="can_rx"/>
+	    <remap from="/can_rx" to="can_rx"/>
+	    <remap from="/can_rx" to="can_rx"/>
+	    <remap from="/can_rx" to="can_rx"/>
+    </node>
+
+    <node machine="crs002" name="tr_can" pkg="robot_control" type="tr_can" output="screen">
+      <rosparam command="load" file="$(find robot_control)/config/tr_can.yaml" />
+		  <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
+		  <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
+		  <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
+		  <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/config/SETTING.rviz"/>
+  </group>
+</launch>

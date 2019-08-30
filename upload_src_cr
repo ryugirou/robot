@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rsync -avz ~/catkin_ws/src/robot/ nhk@crs002.local:~/catkin_ws/src/robot/
+#rsync -avz ~/catkin_ws/src/robot/ yusaku@crs001.local:~/catkin_ws/src/robot/

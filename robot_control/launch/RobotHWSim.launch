@@ -3,7 +3,7 @@
   <arg name="robot_name"/>
 
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
-		    <arg name="world_name" value="test1.world"/>
+		    <arg name="world_name" value="nhk2020.world"/>
     		<arg name="debug" value="false" />
     		<arg name="gui" value="true" />
     		<arg name="paused" value="false"/>
@@ -12,7 +12,7 @@
 	</include>
 
   <group ns="$(arg robot_name)">
-    <arg name="model" default="$(find robot_description)/urdf/4omni_sim.urdf"/>   
+    <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/sim.urdf"/>   
 	  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
 
 	  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) -x 0 -y 0 -z 1" />

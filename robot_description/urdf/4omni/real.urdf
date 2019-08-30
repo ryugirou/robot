@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot name="4omni" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:property name="robot_name" value="4omni" />
-	<xacro:include filename="$(find robot_description)/urdf/odm_omni_wheel_set1.xacro"/>	
-  <xacro:include filename="$(find robot_description)/urdf/laser_macro.xacro" />
-  <xacro:include filename="$(find robot_description)/urdf/imu_macro.xacro" />
+	<xacro:include filename="$(find robot_description)/urdf/4omni/odm_omni_wheel_set1.xacro"/>	
+  <xacro:include filename="$(find robot_description)/urdf/4omni/laser_macro.xacro" />
+  <xacro:include filename="$(find robot_description)/urdf/4omni/imu_macro.xacro" />
  	<link name="base_link"/>
 
  	<joint name="body_joint" type="fixed">

@@ -2,8 +2,8 @@
 <launch>
   <arg name="robot_name"/>
   <group ns="$(arg robot_name)">
-    <arg name="model" default="$(find robot_description)/urdf/4omni.urdf"/>   
-	  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
+    <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/real.urdf"/>   
+	  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
 
     <!-- CAN -->
     <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
