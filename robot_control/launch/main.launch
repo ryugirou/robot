@@ -13,7 +13,7 @@
   <!-- real mode-->
   <group unless="$(arg sim)">
 	  <include file="$(find robot_control)/launch/RobotHW.launch">
-		    <arg name="robot_name" value="4omni"/>
+		    <arg name="robothttps://www.youtube.com/watch?v=ZDQDAbxR3A0_name" value="4omni"/>
     </include>
   </group>
 

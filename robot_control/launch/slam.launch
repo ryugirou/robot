@@ -18,6 +18,7 @@
   </group>
 
   <group ns="$(arg robot_name)">
+
     <!-- convert joint states to TF transforms for rviz, etc -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
       <param name="tf_prefix" value="$(arg robot_name)"/>
@@ -26,8 +27,12 @@
 
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
-	  <node name="joy_node" pkg="joy" type="joy_node" />
-	  <node name="ds4_to_twist" pkg="robot_control" type="ds4_to_twist"/>
+	  <node name="joy_node" pkg="joy" type="joy_node" />    
+
+    <!-- joy teleop -->
+    <node pkg="base_controller" type="base_teleop_joy" name="base_teleop_joy" output="screen">
+      <rosparam file="$(find base_controller)/config/ds4.yaml" command="load" />
+    </node>
 
     <!-- gmapping -->
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" clear_params="true">
