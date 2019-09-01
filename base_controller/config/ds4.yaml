@@ -1,0 +1,18 @@
+ButtonA: 2 #O
+ButtonB: 1 #X
+ButtonX: 3 #Δ
+ButtonY: 0 #□
+ButtonLB: 4
+ButtonRB: 5
+ButtonSelect: 8 #share
+ButtonStart: 12 #logo
+ButtonLeftThumb: 10
+ButtonRightThumb: 11
+AxisLeftThumbX: 2
+AxisLeftThumbY: 5
+AxisRightThumbX: 0
+AxisRightThumbY: 1
+AxisLeftTrigger: 3
+AxisRightTrigger: 4
+AxisDPadX: 9
+AxisDPadY: 10

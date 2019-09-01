@@ -21,7 +21,7 @@ rosrun map_server map_saver map:=/4omni/map
 ```
 roslaunch robot_control main.launch sim:=true
 ```
-###notepcでデバック
+### notepcでデバック
 export ROS_MASTER_URI=http://crs002.local:11311
 ## Environment
 | OS | ros | gazebo |
