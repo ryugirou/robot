@@ -7,12 +7,12 @@
 
     <!-- CAN -->
     <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
-      <param name="port" value="/dev/ttyACM0"/>
-	    <remap from="/can_tx" to="can_tx"/>
-	    <remap from="/can_rx" to="can_rx"/>
-	    <remap from="/can_rx" to="can_rx"/>
-	    <remap from="/can_rx" to="can_rx"/>
-	    <remap from="/can_rx" to="can_rx"/>
+    		<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:1:1.0-port0"/>
+		<remap from="/can_tx" to="can_tx"/>
+		<remap from="/can_rx" to="can_rx"/>
+		<remap from="/can_rx" to="can_rx"/>
+	    	<remap from="/can_rx" to="can_rx"/>
+	    	<remap from="/can_rx" to="can_rx"/>
     </node>
 
     <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">

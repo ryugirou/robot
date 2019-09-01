@@ -89,8 +89,7 @@ private:
     int _status = 0;
     bool _status_changed = false;
 
-    int i;
-    string _port_name[4] = {"/dev/ttyUSB0","/dev/ttyUSB1","/dev/ttyACM0","/dev/ttyACM1"};
+    string _port_name;
     int _baud;
     int _baud_uart;	// this really needs to be deprecated
 
@@ -116,6 +115,12 @@ private:
 UsbCanNode::UsbCanNode(void)
 {
     auto nh_priv = ros::NodeHandle("~");
+    if(!nh_priv.getParam("port", _port_name))
+    {
+        _port_name = "/dev/ttyUSB0";
+        //ROS_ERROR("value for parameter port is invalid.");
+        //exit(-1);
+    }
 
     if(!nh_priv.getParam("baud", _baud))
     {
@@ -208,21 +213,15 @@ bool UsbCanNode::Open(void)
 
         return true;
     }
-    
-    for(i=0;true;i++){
-      this->_port->open(_port_name[i], _error);
 
-      if(_error)
-      {
-        if(i >= sizeof(_port_name)/sizeof(*_port_name) - 1) return true;
-        ROS_ERROR("failed to open %s: %d,trying to open %s",_port_name[i].c_str(), _error.value(),_port_name[i+1].c_str());
-  	  }
-      else
-      {
-        break;
-      }
+    this->_port->open(_port_name, _error);
 
-    }    
+    if(_error)
+    {
+        ROS_ERROR("failed to open port: %d", _error.value());
+
+        return true;
+    }
 
     _port->set_option(serial_port_base::baud_rate(_baud_uart));
     _port->set_option(serial_port_base::character_size(8));
