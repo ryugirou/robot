@@ -8,10 +8,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <sensor_msgs/Joy.h>
-
-static constexpr int LeftThumbY = 1;
-static constexpr int LeftThumbX = 0;
-static constexpr int RightThumbX = 2;
+#include <std_msgs/UInt8.h>
 
 class BaseTeleop
 {
@@ -20,94 +17,74 @@ public:
 
 private:
     void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
-
+    std::string cmd;
     ros::NodeHandle nh_;
+    ros::NodeHandle private_nh_;
 
     ros::Publisher vel_pub_;
+    ros::Publisher cmd_pub_;
     ros::Subscriber joy_sub_;
 
     double max_lin;
-    double max_lin_turbo;
     double max_ang;
-    double max_ang_turbo;
 
-    static int ButtonA;
-	static int ButtonB;
-	static int ButtonX;
-	static int ButtonY;
-	static int ButtonLB;
-	static int ButtonRB;
-	static int ButtonSelect;
-	static int ButtonStart;
-	static int ButtonLeftThumb;
-	static int ButtonRightThumb;
+    int ButtonA;
+	  int ButtonB;
+	  int ButtonX;
+	  int ButtonY;
+	  int ButtonLB;
+	  int ButtonRB;
+	  int ButtonSelect;
+	  int ButtonStart;
+	  int ButtonLeftThumb;
+	  int ButtonRightThumb;
 
-	static int AxisDPadX;
-	static int AxisDPadY;
-	static int AxisLeftThumbX;
-	static int AxisLeftThumbY;
-	static int AxisRightThumbX;
-    static int AxisRightThumbY;
-    static int AxisLeftTrigger;
-    static int AxisRightTrigger;
+	  int AxisDPadX;
+	  int AxisDPadY;
+	  int AxisLeftThumbX;
+	  int AxisLeftThumbY;
+	  int AxisRightThumbX;
+    int AxisRightThumbY;
+    int AxisLeftTrigger;
+    int AxisRightTrigger;
 };
 
-int BaseTeleop::ButtonA = 2;
-int BaseTeleop::ButtonB = 1;
-int BaseTeleop::ButtonX = 3;
-int BaseTeleop::ButtonY = 0;
-int BaseTeleop::ButtonLB = 4;
-int BaseTeleop::ButtonRB = 5;
-int BaseTeleop::ButtonSelect = 8;
-int BaseTeleop::ButtonStart = 12;
-int BaseTeleop::ButtonLeftThumb = 10;
-int BaseTeleop::ButtonRightThumb = 11;
-
-int BaseTeleop::AxisDPadX = 9;
-int BaseTeleop::AxisDPadY = 10;
-int BaseTeleop::AxisLeftThumbX = 2;
-int BaseTeleop::AxisLeftThumbY = 5;
-int BaseTeleop::AxisRightThumbX = 0;
-int BaseTeleop::AxisRightThumbY = 1;
-int BaseTeleop::AxisLeftTrigger = 3;
-int BaseTeleop::AxisRightTrigger = 4;
-
-
-BaseTeleop::BaseTeleop()
+BaseTeleop::BaseTeleop():private_nh_("~")
 {
 
+
+    private_nh_.getParam("ButtonA", ButtonA);ROS_INFO("ButtonA: %d", ButtonA);
+    private_nh_.getParam("ButtonB", ButtonB);ROS_INFO("ButtonB: %d", ButtonB);
+    private_nh_.getParam("ButtonX", ButtonX);ROS_INFO("ButtonX: %d", ButtonX);
+    private_nh_.getParam("ButtonY", ButtonY);ROS_INFO("ButtonY: %d", ButtonY);
+    private_nh_.getParam("ButtonLB", ButtonLB);ROS_INFO("ButtonLB: %d", ButtonLB);
+    private_nh_.getParam("ButtonRB", ButtonRB);ROS_INFO("ButtonRB: %d", ButtonRB);
+    private_nh_.getParam("ButtonSelect", ButtonSelect);ROS_INFO("ButtonSelect: %d", ButtonSelect);
+    private_nh_.getParam("ButtonStart", ButtonStart);ROS_INFO("ButtonStart: %d", ButtonStart);
+    private_nh_.getParam("ButtonLeftThumb", ButtonLeftThumb);ROS_INFO("ButtonLeftThumb: %d", ButtonLeftThumb);
+    private_nh_.getParam("ButtonRightThumb", ButtonRightThumb);ROS_INFO("ButtonRightThumb: %d", ButtonRightThumb);
+
+    private_nh_.getParam("AxisDPadX", AxisDPadX);ROS_INFO("AxisDPadX: %d", AxisDPadX);
+    private_nh_.getParam("AxisDPadY", AxisDPadY);ROS_INFO("AxisDPadY: %d", AxisDPadY);
+    private_nh_.getParam("AxisLeftThumbX", AxisLeftThumbX);ROS_INFO("AxisLeftThumbX: %d", AxisLeftThumbX);
+    private_nh_.getParam("AxisLeftThumbY", AxisLeftThumbY);ROS_INFO("AxisLeftThumbY: %d", AxisLeftThumbY);
+    private_nh_.getParam("AxisRightThumbX", AxisRightThumbX);ROS_INFO("AxisRightThumbX: %d", AxisRightThumbX);
+    private_nh_.getParam("AxisRightThumbY", AxisRightThumbY);ROS_INFO("AxisRightThumbY: %d", AxisRightThumbY);
+    private_nh_.getParam("AxisLeftTrigger", AxisLeftTrigger);ROS_INFO("AxisLeftTrigger: %d", AxisLeftTrigger);
+    private_nh_.getParam("AxisRightTrigger", AxisRightTrigger);ROS_INFO("AxisRightTrigger: %d", AxisRightTrigger);
+
+    private_nh_.getParam("max_lin",max_lin);ROS_INFO("max_lin: %lf", max_lin);
+    private_nh_.getParam("max_ang",max_ang);ROS_INFO("max_ang: %lf", max_ang);
+    
     vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-
+    cmd_pub_ = nh_.advertise<std_msgs::UInt8>("cmd", 1);
     joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &BaseTeleop::joyCallback, this);
-
-    nh_.getParam("AxisLeftThumbX", AxisLeftThumbX);
-    nh_.getParam("AxisLeftThumbY", AxisLeftThumbY);
-    nh_.getParam("AxisRightThumbX", AxisRightThumbX);
-    nh_.getParam("AxisRightThumbY", AxisRightThumbY);
-    nh_.getParam("AxisLeftTriger", AxisLeftTrigger);
-    nh_.getParam("AxisRightTriger", AxisRightTrigger);
-    nh_.getParam("ButtonRB", ButtonRB);
-
-    auto _nh = ros::NodeHandle("~");
-
-    _nh.param("max_lin", this->max_lin, 1.0);
-    _nh.param("max_lin_turbo", this->max_lin_turbo, this->max_lin);
-    _nh.param("max_ang", this->max_ang, M_PI);
-    _nh.param("max_ang_turbo", this->max_ang_turbo, this->max_ang);
-
-    ROS_INFO("max_lin: %lf", this->max_lin);
-    ROS_INFO("max_lin_turbo: %lf", this->max_lin_turbo);
-    ROS_INFO("max_ang: %lf", this->max_ang);
-    ROS_INFO("max_ang_turbo: %lf", this->max_ang_turbo);
+    
 }
 
 void BaseTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
     geometry_msgs::Twist twist;
-
-    // double vel_x = joy->axes[AxisLeftThumbY];
-    // double vel_y = joy->axes[AxisLeftThumbX];
-    // double vel_z = joy->axes[AxisRightThumbX];
 
     double vel_x = joy->axes[AxisRightThumbY];
     double vel_y = joy->axes[AxisRightThumbX];
@@ -122,24 +99,30 @@ void BaseTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
         vel_y /= vel_norm;
     }
 
-    if (joy->buttons[ButtonRB] != 0)
-    {
-        vel_x *= this->max_lin_turbo;
-        vel_y *= this->max_lin_turbo;
-        vel_z *= this->max_ang_turbo;
-    }
-    else
-    {
-        vel_x *= this->max_lin;
-        vel_y *= this->max_lin;
-        vel_z *= this->max_ang;
-    }
+    vel_x *= this->max_lin;
+    vel_y *= this->max_lin;
+    vel_z *= this->max_ang;
 
     twist.linear.x = vel_x;
     twist.linear.y = vel_y;
     twist.angular.z = vel_z;
 
     vel_pub_.publish(twist);
+
+
+    std_msgs::UInt8 msg;
+    //disable
+    if (joy->buttons[ButtonRB] != 0){
+      msg.data = 0;
+      cmd_pub_.publish(msg);
+      ROS_WARN("disable");
+    }
+    //enable
+    else if (joy->buttons[ButtonLB] != 0){
+      msg.data = 1;
+      cmd_pub_.publish(msg);
+      ROS_WARN("enable");
+    }
 }
 
 int main(int argc, char** argv)

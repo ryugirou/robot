@@ -2,7 +2,6 @@
 <launch>
   <arg name="sim" default="false"/>
   <arg name="robot_name" default="4omni"/>
-  <rosparam file="$(find base_controller)/config/ds4.yaml" command="load" />
 
   <!-- simulation mode-->
   <group if="$(arg sim)">
@@ -32,6 +31,10 @@
 
     <!-- joy teleop -->
     <node pkg="base_controller" type="base_teleop_joy" name="base_teleop_joy" output="screen">
+      <rosparam file="$(find base_controller)/config/ds4.yaml" command="load" />
+      <param name="max_lin" value="1.0" />
+      <param name="max_ang" value="3.14" />
+      <remap from="cmd" to="beta/cmd" />
     </node>
 
     <!-- gmapping -->
