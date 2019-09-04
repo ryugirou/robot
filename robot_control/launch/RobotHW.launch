@@ -7,7 +7,7 @@
 
     <!-- CAN -->
     <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
-    		<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:1:1.0-port0"/>
+    		<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:4:1.0-port0"/>
 		<remap from="/can_tx" to="can_tx"/>
 		<remap from="/can_rx" to="can_rx"/>
 		<remap from="/can_rx" to="can_rx"/>
@@ -27,6 +27,8 @@
     <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
       <param name="ip_address" value="192.168.0.10"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>
+      <param name="angle_min" value="-1.57"/>
+      <param name="angle_max" value="1.57"/>
       <remap from="scan" to="scan"/>
     </node>
 
@@ -35,6 +37,9 @@
       <param name="odom_frame" value="$(arg robot_name)/odom" />
       <param name="base_frame"  value="$(arg robot_name)/base_link" />
       <param name="publish_rate"  value="200" />
+      <remap from="odom/x" to="base/odom/x"/>
+      <remap from="odom/y" to="base/odom/y"/>
+      <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
 
     <!-- convert x-y velocity to each motor velocity -->

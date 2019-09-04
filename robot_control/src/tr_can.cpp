@@ -123,9 +123,9 @@ private:
     ros::Subscriber _beta_motor8_cmd_vel_sub;
     ros::Subscriber _beta_motor9_cmd_vel_sub;
 
-    static constexpr uint16_t id_baseOdomX              = 0x206;
-    static constexpr uint16_t id_baseOdomY              = 0x207;
-    static constexpr uint16_t id_baseOdomYaw            = 0x208;
+    static constexpr uint16_t id_baseOdomX              = 0x205;
+    static constexpr uint16_t id_baseOdomY              = 0x206;
+    static constexpr uint16_t id_baseOdomYaw            = 0x207;
    
     int id_alpha[ALPHA];
     int id_beta[BETA];

@@ -5,7 +5,10 @@
 
     <!-- CAN -->
     <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
-    	<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:1:1.0-port0"/>
+    	<!--
+	<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:1:1.0-port0"/>
+	-->
+      	<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:4:1.0-port0"/>
 	<remap from="/can_tx" to="can_tx"/>
 	<remap from="/can_rx" to="can_rx"/>
 	<remap from="/can_rx" to="can_rx"/>
@@ -21,7 +24,7 @@
 		  <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
     </node>
 
-    <!-- convert x-y velocity to each motor velocity -->
+    <!-- convert x-y velocity to each motor velocity 
     <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
         <param name="motor_max_acc" value="50.0" />
         <param name="motor_max_vel" value="80.0" />
@@ -35,7 +38,7 @@
         <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
         <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
     </node>
-
+-->
 
   </group>
 </launch>
