@@ -8,10 +8,10 @@ ButtonSelect: 8 #share
 ButtonStart: 12 #logo
 ButtonLeftThumb: 10
 ButtonRightThumb: 11
-AxisLeftThumbX: 2
-AxisLeftThumbY: 5
-AxisRightThumbX: 0
-AxisRightThumbY: 1
+AxisLeftThumbX: 0
+AxisLeftThumbY: 1
+AxisRightThumbX: 2
+AxisRightThumbY: 5
 AxisLeftTrigger: 3
 AxisRightTrigger: 4
 AxisDPadX: 9

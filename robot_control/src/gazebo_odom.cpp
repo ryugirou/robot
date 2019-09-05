@@ -22,6 +22,8 @@ std::string odom_frame="odom";
 std::string base_frame="base_link";
 float publish_rate=20.0;
 float noise=0.0;
+float x_ratio=1.0;
+float y_ratio=1.0;
 bool tf_enable=false;
 ros::Publisher odom_pub;
 
@@ -44,7 +46,9 @@ void models_callback(const gazebo_msgs::ModelStates& model_msg){
       last_odom.pose.pose=model_msg.pose[i];
 
       last_odom.pose.pose.position.x+=sdlab_normal(0.0, noise);
+      last_odom.pose.pose.position.x*=x_ratio;
       last_odom.pose.pose.position.y+=sdlab_normal(0.0, noise);
+      last_odom.pose.pose.position.y*=y_ratio;
       last_odom.pose.covariance = {
       0.5, 0, 0, 0, 0, 0,  // covariance on gps_x
       0, 0.5, 0, 0, 0, 0,  // covariance on gps_y
@@ -86,6 +90,8 @@ int main(int argc, char **argv){
   pnh.getParam("base_frame",   base_frame);
   pnh.getParam("publish_rate", publish_rate);
   pnh.getParam("noise",        noise);
+  pnh.getParam("x_ratio",        x_ratio);
+  pnh.getParam("y_ratio",        y_ratio);
   pnh.getParam("tf_enable",    tf_enable);
 
   //publisher

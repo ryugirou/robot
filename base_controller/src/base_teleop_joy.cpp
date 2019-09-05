@@ -86,11 +86,9 @@ void BaseTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
     geometry_msgs::Twist twist;
 
-    double vel_x = joy->axes[AxisRightThumbY];
-    double vel_y = joy->axes[AxisRightThumbX];
-    double vel_z_l = (joy->axes[AxisLeftTrigger] - 1.0) * (1.0 - 0.0) / (- 1.0 - 1.0) + 0.0;
-    double vel_z_r = (joy->axes[AxisRightTrigger] - 1.0) * (- 1.0 - 0.0) / (- 1.0 - 1.0) + 0.0;
-    double vel_z = vel_z_l + vel_z_r;
+    double vel_x = joy->axes[AxisLeftThumbY];
+    double vel_y = joy->axes[AxisLeftThumbX];
+    double vel_z = joy->axes[AxisRightThumbX];
 
     double vel_norm = hypot(vel_x, vel_y);
     if (vel_norm > 1.0)
