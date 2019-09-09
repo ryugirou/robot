@@ -15,7 +15,7 @@
     <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/sim.urdf"/>   
 	  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
 
-	  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) -x 0 -y 0 -z 0" />
+	  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) -x 0.5 -y 0.5 -z 1" />
 
     <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find robot_control)/config/4omni_control.yaml" command="load"/>
@@ -26,8 +26,8 @@
 
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
-        <param name="motor_max_acc" value="50.0" />
-        <param name="motor_max_vel" value="80.0" />
+        <param name="motor_max_acc" value="1000.0" />
+        <param name="motor_max_vel" value="1000.0" />
         <param name="invert_x" value="true" />
         <param name="invert_y" value="false" />
         <param name="invert_z" value="false" />
@@ -46,8 +46,8 @@
       <param name="base_frame"  value="$(arg robot_name)/base_link" />
       <param name="publish_rate"  value="200" />
       <param name="noise"  value="0.0" />
-      <param name="x_ratio"  value="0.9" />
-      <param name="y_ratio"  value="0.9" />
+      <param name="x_ratio"  value="1.0" />
+      <param name="y_ratio"  value="1.0" />
       <param name="tf_enable" value="true" />
       <remap from="odom" to="odom" />
     </node>

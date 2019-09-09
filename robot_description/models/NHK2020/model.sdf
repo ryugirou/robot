@@ -1,239 +1,1091 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-  <model name='NHK2020'>
-    <pose frame=''>6.65 5 0 0 -0 0</pose>
-    <link name='Wall_0'>
-      <collision name='Wall_0_Collision'>
-        <geometry>
-          <box>
-            <size>13.32 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_0_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>13.32 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>0 -5 0 0 -0 0</pose>
-    </link>
-    <link name='Wall_2'>
-      <collision name='Wall_2_Collision'>
-        <geometry>
-          <box>
-            <size>10.02 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_2_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>10.02 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>-6.65 0 0 0 -0 1.5708</pose>
-    </link>
-    <link name='Wall_24'>
-      <collision name='Wall_24_Collision'>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_24_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>-2.575 -4.205 0 0 -0 1.5708</pose>
-    </link>
-    <link name='Wall_26'>
-      <collision name='Wall_26_Collision'>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_26_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>2.575 -4.205 0 0 -0 1.5708</pose>
-    </link>
-    <link name='Wall_28'>
-      <collision name='Wall_28_Collision'>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_28_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>-2.575 4.205 0 0 0 -1.5708</pose>
-    </link>
-    <link name='Wall_30'>
-      <collision name='Wall_30_Collision'>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_30_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>1.61 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>2.575 4.205 0 0 0 -1.5708</pose>
-    </link>
-    <link name='Wall_4'>
-      <collision name='Wall_4_Collision'>
-        <geometry>
-          <box>
-            <size>10.02 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_4_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>10.02 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>6.65 0 0 0 -0 1.5708</pose>
-    </link>
-    <link name='Wall_6'>
-      <collision name='Wall_6_Collision'>
-        <geometry>
-          <box>
-            <size>13.32 0.02 0.1</size>
-          </box>
-        </geometry>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-      </collision>
-      <visual name='Wall_6_Visual'>
-        <pose frame=''>0 0 0.05 0 -0 0</pose>
-        <geometry>
-          <box>
-            <size>13.32 0.02 0.1</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
-          <ambient>1 1 1 1</ambient>
-        </material>
-        <meta>
-          <layer>0</layer>
-        </meta>
-      </visual>
-      <pose frame=''>0 5 0 0 -0 0</pose>
-    </link>
-    <static>1</static>
-  </model>
+	<model name='NHK2020'>
+		<static>true</static>
+		<pose>0 0 0 0 0 0</pose>
+		<link name="base_link" />
+
+		<link name="floor_main_link">
+			<collision name="floor_main_collision">
+				<pose>5.050 6.7 0.005 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10.10 13.40 0.01</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="floor_main_visual">
+				<pose>5.050 6.7 0.005 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10.10 13.40 0.01</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="floor_goal_link">
+			<collision name="floor_goal_collision">
+				<pose>10.450 6.7 0.005 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.7 1.42 0.01</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="floor_goal_visual">
+				<pose>10.450 6.7 0.005 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.7 1.42 0.01</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="floor_kickballrack_link">
+			<collision name="floor_kickballrack_collision">
+				<pose>-0.2 6.7 0.005 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.4 1.5 0.01</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="floor_goal_visual">
+				<pose>-0.2 6.7 0.005 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.4 1.5 0.01</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_blue_link">
+			<collision name="wall_blue_collision">
+				<pose>5.050 0.025 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.05 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_blue_visual">
+				<pose>5.050 0.025 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.05 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_red_link">
+			<collision name="wall_red_collision">
+				<pose>5.050 13.375 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.05 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_red_visual">
+				<pose>5.050 13.375 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.05 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_goal_link">
+			<collision name="wall_goal_collision">
+				<pose>10.075 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.05 13.400 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_goal_visual">
+				<pose>10.075 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.05 13.400 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_rack_link">
+			<collision name="wall_rack_collision">
+				<pose>0.025 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.05 13.400 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_goal_visual">
+				<pose>0.025 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.05 13.400 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_prsz_blue_link">
+			<collision name="wall_prsz_blue_collision">
+				<pose>1.5415 4.15 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>2.983 0.05 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_prsz_blue_visual">
+				<pose>1.5415 4.15 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>2.983 0.05 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_prsz_red_link">
+			<collision name="wall_prsz_red_collision">
+				<pose>1.5415 9.250 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>2.983 0.05 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_prsz_red_visual">
+				<pose>1.5415 9.250 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>2.983 0.05 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_trsz_blue_link">
+			<collision name="wall_trsz_blue_collision">
+				<pose>9.3085 4.15 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.483 0.05 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_trsz_blue_visual">
+				<pose>9.3085 4.15 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.483 0.05 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="wall_trsz_red_link">
+			<collision name="wall_trsz_red_collision">
+				<pose>9.3085 9.250 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.483 0.05 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="wall_prsz_blue_visual">
+				<pose>9.3085 9.250 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.483 0.05 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Wood</name>
+					</script>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_tbrack_link">
+			<collision name="obj_tbrack_collision">
+				<pose>0.8 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.5 1.0 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_tbrack_visual">
+				<pose>0.8 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.5 1.0 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.5333 0.7922 0.9137 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<!-- count from rack -->
+		<link name="obj_trspots0_link">
+			<collision name="obj_trspots0_collision">
+				<pose>2.2 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.3 1.0 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_trspots0_visual">
+				<pose>2.2 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.3 1.0 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_trspots1_link">
+			<collision name="obj_trspots1_collision">
+				<pose>3.805 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_trspots1_visual">
+				<pose>3.805 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_trspots2_link">
+			<collision name="obj_trspots2_collision">
+				<pose>5.135 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_trspots2_visual">
+				<pose>5.135 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_trspots3_link">
+			<collision name="obj_trspots3_collision">
+				<pose>6.465 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_trspots3_visual">
+				<pose>6.465 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_trspots4_link">
+			<collision name="obj_trspots4_collision">
+				<pose>7.795 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_trspots4_visual">
+				<pose>7.795 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.75 1.0 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_trspots5_link">
+			<collision name="obj_trspots5_collision">
+				<pose>9.4 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.3 1.0 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_trspots4_visual">
+				<pose>9.4 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>1.3 1.0 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_bar_link">
+			<collision name="obj_bar_collision">
+				<pose>5.050 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.05 0.1</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_bar_visual">
+				<pose>5.050 6.7 0.06 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.05 0.1</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_steeltube_blue_link">
+			<collision name="obj_steeltube_blue_collision">
+				<pose>5.050 6.205 0.015 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.01 0.01</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_steeltube_blue_visual">
+				<pose>5.050 6.205 0.015 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.01 0.01</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_steeltube_red_link">
+			<collision name="obj_steeltube_red_collision">
+				<pose>5.050 7.195 0.015 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.01 0.01</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name="obj_steeltube_red_visual">
+				<pose>5.050 7.195 0.015 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>10 0.01 0.01</size>
+					</box>
+				</geometry>
+				<material>
+					<diffuse>0.9922 0.8980 0.6 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<!-- count from rack side -->
+		<!-- if you want to rotate poll, you should change wing yaw -->
+		<link name="obj_obstacle_blue0_link">
+			<collision name="obj_obstacle_blue0_bottom_collision">
+				<pose>3.140 4.15 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue0_bottom_visual">
+				<pose>3.140 4.15 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_blue0_poll_collision">
+				<pose>3.140 4.15 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue0_poll_visual">
+				<pose>3.140 4.15 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_blue1_link">
+			<collision name="obj_obstacle_blue1_bottom_collision">
+				<pose>4.470 2.610 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue1_bottom_visual">
+				<pose>4.470 2.610 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_blue1_poll_collision">
+				<pose>4.470 2.610 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue1_poll_visual">
+				<pose>4.470 2.610 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_blue2_link">
+			<collision name="obj_obstacle_blue2_bottom_collision">
+				<pose>5.80 4.15 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue2_bottom_visual">
+				<pose>5.80 4.15 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_blue2_poll_collision">
+				<pose>5.80 4.15 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue2_poll_visual">
+				<pose>5.80 4.15 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_blue3_link">
+			<collision name="obj_obstacle_blue3_bottom_collision">
+				<pose>7.130 2.610 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue3_bottom_visual">
+				<pose>7.130 2.610 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_blue3_poll_collision">
+				<pose>7.130 2.610 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue3_poll_visual">
+				<pose>7.130 2.610 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_blue4_link">
+			<collision name="obj_obstacle_blue4_bottom_collision">
+				<pose>8.460 4.15 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue4_bottom_visual">
+				<pose>8.460 4.15 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_blue4_poll_collision">
+				<pose>8.460 4.15 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_blue4_poll_visual">
+				<pose>8.460 4.15 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0.6902 0.1922 0.2078 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_red0_link">
+			<collision name="obj_obstacle_red0_bottom_collision">
+				<pose>3.140 9.25 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red0_bottom_visual">
+				<pose>3.140 9.25 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_red0_poll_collision">
+				<pose>3.140 9.250 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red0_poll_visual">
+				<pose>3.140 9.250 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_red1_link">
+			<collision name="obj_obstacle_red1_bottom_collision">
+				<pose>4.470 10.790 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red1_bottom_visual">
+				<pose>4.470 10.790 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_red1_poll_collision">
+				<pose>4.470 10.790 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red1_poll_visual">
+				<pose>4.470 10.790 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_red2_link">
+			<collision name="obj_obstacle_red2_bottom_collision">
+				<pose>5.80 9.250 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red2_bottom_visual">
+				<pose>5.80 9.250 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_red2_poll_collision">
+				<pose>5.80 9.250 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red2_poll_visual">
+				<pose>5.80 9.250 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_red3_link">
+			<collision name="obj_obstacle_red3_bottom_collision">
+				<pose>7.130 10.790 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red3_bottom_visual">
+				<pose>7.130 10.790 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_red3_poll_collision">
+				<pose>7.130 10.790 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red3_poll_visual">
+				<pose>7.130 10.790 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+		<link name="obj_obstacle_red4_link">
+			<collision name="obj_obstacle_red4_bottom_collision">
+				<pose>8.460 9.250 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red4_bottom_visual">
+				<pose>8.460 9.250 0.013 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.107</radius>
+						<length>0.006</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+			<collision name="obj_obstacle_red4_poll_collision">
+				<pose>8.460 9.250 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+			</collision>
+			<visual name="obj_obstacle_red4_poll_visual">
+				<pose>8.460 9.250 0.61 0 0 0</pose>
+				<geometry>
+					<cylinder>
+						<radius>0.057</radius>
+						<length>1.2</length>
+					</cylinder>
+				</geometry>
+				<material>
+					<diffuse>0 0.4196 0.67450 1</diffuse>
+					<ambient>1 1 1 1</ambient>
+				</material>
+				<meta>
+					<layer>0</layer>
+				</meta>
+			</visual>
+		</link>
+	</model>
 </sdf>
+
