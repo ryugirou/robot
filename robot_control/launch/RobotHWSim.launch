@@ -18,7 +18,7 @@
     <rosparam file="$(find robot_control)/config/4omni_control.yaml" command="load"/>
 
     <!-- load the controllers -->
-    <node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen" args="wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller"/>
+    <node name="controller_spawner" pkg="controller_manager" type="controller_manager" output="screen" args="spawn wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller"/>
 
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
