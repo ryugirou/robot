@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="sim" default="false"/>
-  <arg name="robot_name" default="4omni"/>
+
+  <!-- robot configuration -->
+  <arg name="robot_name" value="4omni"/>
+  <arg name="x0" default="0.5"/>
+  <arg name="y0" default="0.5"/>
+  <arg name="yaw0" default="0"/>
 
   <!-- simulation mode-->
   <group if="$(arg sim)">
 	  <include file="$(find robot_control)/launch/RobotHWSim.launch">
 		    <arg name="robot_name" value="$(arg robot_name)"/>
+        <arg name="x0" value="$(arg x0)"/>
+        <arg name="y0" value="$(arg x0)"/>
+        <arg name="yaw0" value="$(arg yaw0)"/>
     </include>
   </group>
   
@@ -14,6 +22,9 @@
   <group unless="$(arg sim)">
 	  <include file="$(find robot_control)/launch/RobotHW.launch">
 		    <arg name="robot_name" value="$(arg robot_name)"/>
+        <arg name="x0" value="$(arg x0)"/>
+        <arg name="y0" value="$(arg x0)"/>
+        <arg name="yaw0" value="$(arg yaw0)"/>
     </include>
   </group>
 
@@ -35,9 +46,12 @@
 
     <node pkg="amcl" type="amcl" name="amcl" clear_params="true">
       <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
-      <param name="base_frame_id" value="$(arg robot_name)/base_link" />
+      <param name="base_frame_id" value="$(arg robot_name)/odom_link" />
       <param name="odom_frame_id" value="$(arg robot_name)/odom" />
       <param name="global_frame_id" value="$(arg robot_name)/map" />
+      <param name="initial_pose_x" value="$(arg x0)" />
+      <param name="initial_pose_y" value="$(arg y0)" />
+      <param name="initial_pose_a" value="$(arg yaw0)" />
     </node>
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">

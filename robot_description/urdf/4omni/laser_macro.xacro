@@ -8,22 +8,25 @@
      <origin xyz="${xyz}" rpy="0 0 0"/>
    </joint>
    <link name="${prefix}_link">
-     <visual>
-       <origin xyz="0 0 0" rpy="0 0 0" />
-       <geometry>
-         <cylinder radius="0.02" length="0.06" />
-       </geometry>
-       <material name="red" />
-     </visual>
-     <collision>
-       <origin xyz="0 0 0" rpy="0 0 0"/>
-       <geometry>
-         <cylinder radius="0.02" length="0.06" />
-       </geometry>
-     </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh filename="package://robot_description/stl/hokuyo.dae" />
+        </geometry>
+      </visual>
+      <collision name="collision-base">
+        <pose>0 0 -0.0145 0 0 0</pose>
+        <geometry>
+          <box size="0.05 0.05 0.041"/>
+        </geometry>
+      </collision>
+      <collision name="collision-top">
+        <pose>0 0 0.0205 0 0 0</pose>
+        <geometry>
+          <cylinder length="0.029" radius="0.021"/>
+        </geometry>
+      </collision>
    </link>
    <gazebo reference="${prefix}_link">
-     <material>Gazebo/Red</material>
      <sensor type="ray" name="${prefix}">
        <pose>0 0 0 0 0 0</pose>
        <visualize>true</visualize>

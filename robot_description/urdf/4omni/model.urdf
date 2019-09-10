@@ -78,9 +78,9 @@
      </collision>
   </link>    
   <joint name="odom_joint" type="fixed">
-     <parent link="base_link"/>
-     <child  link="odom_link"/>
-     <origin xyz="0 -0.331 0.044" rpy="0 0 0"/>
+     <parent link="odom_link"/>
+     <child  link="base_link"/>
+     <origin xyz="0 0.331 -0.044" rpy="0 0 0"/>
   </joint>
  
 

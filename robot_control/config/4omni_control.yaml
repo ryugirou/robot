@@ -3,7 +3,7 @@ joint_state_controller:
   type: joint_state_controller/JointStateController
   publish_rate: 50  
 
-# Position Controllers ---------------------------------------
+# Velocity Controllers ---------------------------------------
 wheel0_motor_shaft_joint_controller:
   type: effort_controllers/JointVelocityController
   joint: wheel0_motor_shaft_joint
