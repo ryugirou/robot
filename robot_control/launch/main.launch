@@ -6,19 +6,22 @@
   <!-- simulation mode-->
   <group if="$(arg sim)">
 	  <include file="$(find robot_control)/launch/RobotHWSim.launch">
-		    <arg name="robot_name" value="4omni"/>
+		    <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
   </group>
   
   <!-- real mode-->
   <group unless="$(arg sim)">
 	  <include file="$(find robot_control)/launch/RobotHW.launch">
-		    <arg name="robothttps://www.youtube.com/watch?v=ZDQDAbxR3A0_name" value="4omni"/>
+		    <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
   </group>
 
   <!-- main nodes -->
   <group ns="$(arg robot_name)">
+    <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
+	  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
+
     <!-- convert joint states to TF transforms for rviz, etc -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
       <param name="tf_prefix" value="$(arg robot_name)"/>

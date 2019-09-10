@@ -4,7 +4,8 @@ transform_publish_period : 0.05 #tf(map->odom)をpublishする頻度[s]
 
 
 #LiDAR
-maxUrange : 16.0 #mappingを行なうのに使われるscanの最大検出距離
+maxUrange : 30.0 #mappingを行なうのに使われるscanの最大検出距離
+maxRange : 30.0 #実際のscanの最大検出距離
 sigma : 0.05
 kernelSize : 1
 lstep : 0.05
@@ -13,7 +14,7 @@ iterations : 5
 lsigma : 0.075
 ogain : 3.0
 lskip : 0 #Number of beams to skip in each scan. Take only every (n+1)th laser ray for computing a match (0 = take all rays)
-
+minimumScore : 50.0 #Minimum score for considering the outcome of the scan matching good.
 
 #Odometry
 srr : 0.1 #オドメトリの誤差．平行移動に起因する平行移動の誤差．
@@ -31,7 +32,7 @@ temporalUpdate : 3.0
 #上記のlinearUpdate，angularUpdate分ロボットが動いていなくとも，この時間経過したら観測を行なう．
 #マイナスにセットすると，時間基準での観測は行わない．
 resampleThreshold : 0.5 #パーティクルフィルタのリサンプリングの閾値．Neff
-particles : 30 #パーティクルの数．amclはパーティクル数が分散に応じて可変であったが，gmappingでは固定．
+particles : 100 #パーティクルの数．amclはパーティクル数が分散に応じて可変であったが，gmappingでは固定．
 
 
 #map

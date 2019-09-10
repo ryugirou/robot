@@ -2,21 +2,21 @@
 <launch>
   <arg name="robot_name"/>
   <group ns="$(arg robot_name)">
-    <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/real.urdf"/>   
-	  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
-
     <!-- CAN -->
     <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
     		<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:4:1.0-port0"/>
-		<remap from="/can_tx" to="can_tx"/>
-		<remap from="/can_rx" to="can_rx"/>
-		<remap from="/can_rx" to="can_rx"/>
+    		<remap from="/can_tx" to="can_tx"/>
+	    	<remap from="/can_rx" to="can_rx"/>
+		    <remap from="/can_rx" to="can_rx"/>
 	    	<remap from="/can_rx" to="can_rx"/>
 	    	<remap from="/can_rx" to="can_rx"/>
     </node>
 
     <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">
-      <rosparam command="load" file="$(find robot_control)/config/tr_can.yaml" />
+    	<param name="beta0" value="$(eval 0x4e0)"/>
+    	<param name="beta1" value="$(eval 0x4d0)"/>
+    	<param name="beta2" value="$(eval 0x4d4)"/>
+    	<param name="beta3" value="$(eval 0x4b8)"/>
 		  <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
 		  <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
 		  <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>

@@ -11,8 +11,8 @@ min_particles : 500 #パーティクルの数の範囲　パーティクルの�
 max_particles : 5000
 kld_err : 0.05
 kld_z : 0.99
-initial_pose_x : 0.0
-initial_pose_y : 0.0
+initial_pose_x : 0.5
+initial_pose_y : 0.5
 initial_pose_a : 0.0
 initial_cov_xx : 0.1 
 initial_cov_yy : 0.1

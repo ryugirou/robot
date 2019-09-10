@@ -10,6 +10,6 @@
     <include>
       <uri>model://NHK2020</uri>
       <pose>0 0 0 0 0 0</pose>
-    </include>
+    </include>   
   </world>
 </sdf>

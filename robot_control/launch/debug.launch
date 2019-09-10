@@ -17,7 +17,10 @@
     </node>
 
     <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">
-      <rosparam command="load" file="$(find robot_control)/config/tr_can.yaml" />
+      <param name="beta0" value="$(eval 0x4e0)"/>
+    	<param name="beta1" value="$(eval 0x4d0)"/>
+    	<param name="beta2" value="$(eval 0x4d4)"/>
+    	<param name="beta3" value="$(eval 0x4b8)"/>
 		  <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
 		  <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
 		  <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
