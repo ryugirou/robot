@@ -60,7 +60,7 @@
  	</joint>
  	<link name="wheel3_attach_link" />
 	<xacro:omni_wheel_set prefix="wheel3" parent="wheel3_attach_link" />
-  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.331 0 0.044" robot_name="4omni"/>
+  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.350 0 0.044" robot_name="4omni"/>
 
   <link name="odom_link">
      <visual>
@@ -80,14 +80,13 @@
   <joint name="odom_joint" type="fixed">
      <parent link="odom_link"/>
      <child  link="base_link"/>
-     <origin xyz="0 0.331 -0.044" rpy="0 0 0"/>
+     <origin xyz="0 -0.176848 -0.044" rpy="0 0 0"/>
   </joint>
  
-
 	<gazebo>
     		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       			<robotNamespace>/4omni</robotNamespace>
 			      <legacyModeNS>true</legacyModeNS>
     		</plugin>
-  </gazebo>
+  	</gazebo>
 </robot>

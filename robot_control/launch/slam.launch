@@ -10,8 +10,8 @@
 
   <!-- simulation mode-->
   <group if="$(arg sim)">
-	  <include file="$(find robot_control)/launch/RobotHWSim.launch">
-		    <arg name="robot_name" value="$(arg robot_name)"/>
+    <include file="$(find robot_control)/launch/RobotHWSim.launch">
+	<arg name="robot_name" value="$(arg robot_name)"/>
         <arg name="x0" value="$(arg x0)"/>
         <arg name="y0" value="$(arg x0)"/>
         <arg name="yaw0" value="$(arg yaw0)"/>
@@ -20,8 +20,8 @@
   
   <!-- real mode-->
   <group unless="$(arg sim)">
-	  <include file="$(find robot_control)/launch/RobotHW.launch">
-		    <arg name="robot_name" value="(arg robot_name)"/>
+    <include file="$(find robot_control)/launch/RobotHW.launch">
+	<arg name="robot_name" value="$(arg robot_name)"/>
         <arg name="x0" value="$(arg x0)"/>
         <arg name="y0" value="$(arg x0)"/>
         <arg name="yaw0" value="$(arg yaw0)"/>
