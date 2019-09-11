@@ -33,12 +33,12 @@ laser_likelihood_max_dist : 2.0
 
 #Odometry model parameters
 # alpha1: Specifies the expected noise in odometry's rotation estimate from the rotational component of the robot's motion.
-odom_alpha1 : 0.005
+odom_alpha1 : 0.2
 # alpha2: Specifies the expected noise in odometry's rotation estimate from translational component of the robot's motion.
-odom_alpha2 : 0.005
+odom_alpha2 : 0.2
 # alpha3: Specifies the expected noise in odometry's translation estimate from the translational component of the robot's motion.
-odom_alpha3 : 0.010
+odom_alpha3 : 0.2
 # alpha4: Specifies the expected noise in odometry's translation estimate from the rotational component of the robot's motion.
-odom_alpha4 : 0.005
+odom_alpha4 : 0.2
 # alpha5: Translation-related noise parameter (only used if model is "omni").
-odom_alpha5 : 0.003
+odom_alpha5 : 0.2
