@@ -13,7 +13,7 @@
     <include file="$(find robot_control)/launch/RobotHWSim.launch">
 	<arg name="robot_name" value="$(arg robot_name)"/>
         <arg name="x0" value="$(arg x0)"/>
-        <arg name="y0" value="$(arg x0)"/>
+        <arg name="y0" value="$(arg y0)"/>
         <arg name="yaw0" value="$(arg yaw0)"/>
     </include>
   </group>
@@ -23,7 +23,7 @@
     <include file="$(find robot_control)/launch/RobotHW.launch">
 	<arg name="robot_name" value="$(arg robot_name)"/>
         <arg name="x0" value="$(arg x0)"/>
-        <arg name="y0" value="$(arg x0)"/>
+        <arg name="y0" value="$(arg y0)"/>
         <arg name="yaw0" value="$(arg yaw0)"/>
     </include>
   </group>
