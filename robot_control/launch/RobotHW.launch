@@ -10,20 +10,20 @@
     		<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:4:1.0-port0"/>
     		<remap from="/can_tx" to="can_tx"/>
 	    	<remap from="/can_rx" to="can_rx"/>
-		    <remap from="/can_rx" to="can_rx"/>
+		<remap from="/can_rx" to="can_rx"/>
 	    	<remap from="/can_rx" to="can_rx"/>
 	    	<remap from="/can_rx" to="can_rx"/>
     </node>
 
     <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">
     	<param name="beta0" value="$(eval 0x4e0)"/>
-    	<param name="beta1" value="$(eval 0x4b8)"/>
+    	<param name="beta1" value="$(eval 0x4d0)"/>
     	<param name="beta2" value="$(eval 0x4d4)"/>
-    	<param name="beta3" value="$(eval 0x4d0)"/>
-	<remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
-	<remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
-	<remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
-	<remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
+    	<param name="beta3" value="$(eval 0x4b8)"/>
+		  <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
+		  <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
+		  <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
+		  <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
     </node>
 
     <!-- LRF -->
@@ -49,8 +49,8 @@
     <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
         <param name="motor_max_acc" value="50.0" />
         <param name="motor_max_vel" value="80.0" />
-        <param name="invert_x" value="false" />
-        <param name="invert_y" value="true" />
+        <param name="invert_x" value="true" />
+        <param name="invert_y" value="false" />
         <param name="invert_z" value="false" />
         <param name="robot_radius" value="0.1" />
         <param name="wheel_radius" value="0.038" />

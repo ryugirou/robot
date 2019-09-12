@@ -4,20 +4,28 @@
 
   <!-- robot configuration -->
   <arg name="robot_name" value="4omni"/>
-  <arg name="wheel_radius" value="0.038"/>
-  <arg name="motor_acc" value="1"/>
+  <arg name="wheel_radius" value="0.038"/>	<!-- m -->
+  <arg name="robot_radius" value="0.1" />	<!-- m -->
+  <arg name="mass" value="10"/>	<!-- kg -->
+  <arg name="reduction_ratio" value="17"/>
+  <arg name="motor_torque" value="8.0"/>	<!-- N*m -->
+  <arg name="motor_acc" value="$(eval motor_torque * reduction_ratio * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
+  <arg name="motor_vel" value="100"/>	<!-- rad/s -->
   <arg name="x0" default="0.5"/>
   <arg name="y0" default="0.5"/>
   <arg name="yaw0" default="0"/>
 
-  <arg name="x_acc" value="$(eval motor_acc if robot_name=='3omni' else motor_acc * 2 if robot_name=='4omni' else 0)"/>
-  <arg name="y_acc" value="1"/>
-  <arg name="theta_acc" value="1"/>
+  <arg name="x_acc" value="$(eval motor_acc * wheel_radius / 1.41421)"/>
+  <arg name="y_acc" value="$(eval motor_acc * wheel_radius / 1.41421)"/>
+  <arg name="theta_acc" value="$(eval motor_acc * wheel_radius / robot_radius)"/>
+  <arg name="x_vel" value="$(eval motor_vel * wheel_radius / 1.41421)"/>
+  <arg name="y_vel" value="$(eval motor_vel * wheel_radius / 1.41421)"/>
+  <arg name="theta_vel" value="$(eval motor_acc * wheel_radius / robot_radius)"/>
 
   <!-- simulation mode-->
   <group if="$(arg sim)">
-	  <include file="$(find robot_control)/launch/RobotHWSim.launch">
-		    <arg name="robot_name" value="$(arg robot_name)"/>
+    <include file="$(find robot_control)/launch/RobotHWSim.launch">
+	<arg name="robot_name" value="$(arg robot_name)"/>
         <arg name="x0" value="$(arg x0)"/>
         <arg name="y0" value="$(arg y0)"/>
         <arg name="yaw0" value="$(arg yaw0)"/>
@@ -26,8 +34,8 @@
   
   <!-- real mode-->
   <group unless="$(arg sim)">
-	  <include file="$(find robot_control)/launch/RobotHW.launch">
-		    <arg name="robot_name" value="$(arg robot_name)"/>
+	<include file="$(find robot_control)/launch/RobotHW.launch">
+	<arg name="robot_name" value="$(arg robot_name)"/>
         <arg name="x0" value="$(arg x0)"/>
         <arg name="y0" value="$(arg y0)"/>
         <arg name="yaw0" value="$(arg yaw0)"/>
