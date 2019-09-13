@@ -4,6 +4,7 @@ robot
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/ryugirou/robot.git
+cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src
 ```
 ## Usage
