@@ -6,6 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Odometry1/Shape1
+        - /GlobalPlan1
+        - /LocalPlan1
         - /CostMap1/Position1
         - /base_link1
         - /odom1
@@ -133,7 +135,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /4omni/move_base/TrajectoryPlannerROS/global_plan
+      Topic: /4omni/move_base/DWAPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -156,7 +158,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: /move_base/TrajectoryPlannerROS/local_plan
+      Topic: /4omni/move_base/DWAPlannerROS/local_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -701,25 +703,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.72770309
+      Distance: 4.63535881
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.135569021
-        Y: 0.961110055
-        Z: 1.24956179
+        X: 2.28128386
+        Y: 0.589635849
+        Z: 2.55686569
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.894796908
+      Pitch: 1.24479675
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.30857539
+      Yaw: 3.22357416
     Saved:
       - Class: rviz/Orbit
         Distance: 10

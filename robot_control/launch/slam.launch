@@ -4,20 +4,43 @@
 
   <!-- robot configuration -->
   <arg name="robot_name" value="4omni"/>
-  <arg name="x0" default="0.5"/>
-  <arg name="y0" default="0.5"/>
-  <arg name="yaw0" default="1"/>
+  <arg name="wheel_radius" value="0.038"/>	<!-- m -->
+  <arg name="robot_radius" value="0.1" />	<!-- m -->
+  <arg name="mass" value="10"/>	<!-- kg -->
+  <arg name="motor_torque" value="8.0"/>	<!-- N*m -->
+  <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
+  <arg name="motor_vel" value="100"/>	<!-- rad/s -->
+  <arg name="x0" value="0.5"/>
+  <arg name="y0" value="0.5"/>
+  <arg name="yaw0" value="0"/>
+  <arg name="R_lin" value="0.7"/>
+  <arg name="R_ang" value="$(eval 1 - R_lin)"/>
+  
 
+  <arg name="lin_acc" value="$(eval wheel_radius * motor_acc * R_lin)"/>
+  <arg name="ang_acc" value="$(eval wheel_radius * motor_acc * R_ang / robot_radius)"/>
+  <arg name="lin_vel" value="$(eval wheel_radius * motor_vel * R_lin)"/>
+  <arg name="ang_vel" value="$(eval wheel_radius * motor_vel * R_ang / robot_radius)"/>
+
+  <!-- launch RobotHW or RobotHWSim depending on argument sim -->
   <include file="$(eval find('robot_control') + '/launch/RobotHWSim.launch' if sim==1 else find('robot_control') + '/launch/RobotHW.launch' )">
     <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="wheel_radius" value="$(arg wheel_radius)"/>
+    <arg name="robot_radius" value="$(arg robot_radius)"/>
+    <arg name="motor_acc" value="$(arg motor_acc)"/>
+    <arg name="motor_vel" value="$(arg motor_vel)"/>
     <arg name="x0" value="$(arg x0)"/>
     <arg name="y0" value="$(arg y0)"/>
     <arg name="yaw0" value="$(arg yaw0)"/>
   </include>
+
+
   
   <group ns="$(arg robot_name)">
     <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
-	  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
+	  <param name="robot_description" command="$(find xacro)/xacro $(arg model) 
+      mass:=$(arg mass)
+    --inorder"/>
 
     <!-- convert joint states to TF transforms for rviz, etc -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">

@@ -6,20 +6,21 @@
   <arg name="robot_name" value="4omni"/>
   <arg name="wheel_radius" value="0.038"/>	<!-- m -->
   <arg name="robot_radius" value="0.1" />	<!-- m -->
-  <arg name="mass" value="10"/>	<!-- kg -->
+  <arg name="mass" value="6"/>	<!-- kg -->
   <arg name="motor_torque" value="8.0"/>	<!-- N*m -->
   <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
   <arg name="motor_vel" value="100"/>	<!-- rad/s -->
   <arg name="x0" value="0.5"/>
   <arg name="y0" value="0.5"/>
   <arg name="yaw0" value="0"/>
+  <arg name="R_lin" value="0.9"/>
+  <arg name="R_ang" value="$(eval 1 - R_lin)"/>
+  
 
-  <arg name="x_acc" value="$(eval motor_acc * wheel_radius / 1.41421)"/>
-  <arg name="y_acc" value="$(eval motor_acc * wheel_radius / 1.41421)"/>
-  <arg name="theta_acc" value="$(eval motor_acc * wheel_radius / robot_radius)"/>
-  <arg name="x_vel" value="$(eval motor_vel * wheel_radius / 1.41421)"/>
-  <arg name="y_vel" value="$(eval motor_vel * wheel_radius / 1.41421)"/>
-  <arg name="theta_vel" value="$(eval motor_acc * wheel_radius / robot_radius)"/>
+  <arg name="lin_acc" value="$(eval wheel_radius * motor_acc * R_lin)"/>
+  <arg name="ang_acc" value="$(eval wheel_radius * motor_acc * R_ang / robot_radius)"/>
+  <arg name="lin_vel" value="$(eval wheel_radius * motor_vel * R_lin)"/>
+  <arg name="ang_vel" value="$(eval wheel_radius * motor_vel * R_ang / robot_radius)"/>
 
   <!-- launch RobotHW or RobotHWSim depending on argument sim -->
   <include file="$(eval find('robot_control') + '/launch/RobotHWSim.launch' if sim==1 else find('robot_control') + '/launch/RobotHW.launch' )">
@@ -36,7 +37,9 @@
   <!-- main nodes -->
   <group ns="$(arg robot_name)">
     <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
-	  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
+	  <param name="robot_description" command="$(find xacro)/xacro $(arg model) 
+      mass:=$(arg mass)
+    --inorder"/>
 
     <!-- convert joint states to TF transforms for rviz, etc -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
@@ -60,11 +63,11 @@
     </node>
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
       <rosparam file="$(find robot_control)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
       <rosparam file="$(find robot_control)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
       <rosparam file="$(find robot_control)/config/move_base/local_costmap_params.yaml" command="load" />
       <rosparam file="$(find robot_control)/config/move_base/global_costmap_params.yaml" command="load" />
-      <rosparam file="$(find robot_control)/config/move_base/base_local_planner_params.yaml" command="load" />
 
       <param name="global_costmap/laser_scan_sensor/sensor_frame" value="$(arg robot_name)/laser_link" />
       <param name="global_costmap/laser_scan_sensor/topic" value="scan" />
@@ -76,6 +79,16 @@
       <param name="local_costmap/global_frame" value="$(arg robot_name)/odom" />
       <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/base_link" />
 
+      <param name="base_local_planner" value="eband_local_planner/EBandPlannerROS" />
+      <rosparam file="$(find robot_control)/config/move_base/eband_local_planner_params.yaml" command="load" ns="EBandPlannerROS" />
+      <param name="EBandPlannerROS/max_translational_acceleration" value="$(arg lin_acc)" />
+      <param name="EBandPlannerROS/max_rotational_acceleration" value="$(arg ang_acc)" />
+      <param name="EBandPlannerROS/max_acceleration" value="$(arg lin_acc)" />
+      <param name="EBandPlannerROS/max_vel_lin" value="$(arg lin_vel)" />
+      <param name="EBandPlannerROS/max_vel_th" value="$(arg ang_vel)" />
+
+<!--
+      <rosparam file="$(find robot_control)/config/move_base/base_local_planner_params.yaml" command="load" />
       <param name="TrajectoryPlannerROS/max_vel_x" value="$(arg x_vel)" />
       <param name="TrajectoryPlannerROS/max_vel_theta" value="$(arg theta_vel)" />
       <param name="TrajectoryPlannerROS/min_vel_theta" value="$(eval -1*theta_vel)" />
@@ -83,7 +96,7 @@
       <param name="TrajectoryPlannerROS/acc_lim_y" value="$(arg y_acc)" />
       <param name="TrajectoryPlannerROS/acc_lim_theta" value="$(arg theta_acc)" />
       <param name="TrajectoryPlannerROS/max_vel_theta" value="$(arg theta_acc)" />
-
+-->
     </node>
  
   </group>

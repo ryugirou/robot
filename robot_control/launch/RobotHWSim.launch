@@ -36,6 +36,7 @@
         <param name="invert_z" value="false" />
         <param name="robot_radius" value="$(arg robot_radius)" />
         <param name="wheel_radius" value="$(arg wheel_radius)" />
+        <param name="ctrl_freq" value="20" />
         <remap from="motor0_cmd_vel" to="wheel0_motor_shaft_joint_controller/command" />
         <remap from="motor1_cmd_vel" to="wheel1_motor_shaft_joint_controller/command" />
         <remap from="motor2_cmd_vel" to="wheel2_motor_shaft_joint_controller/command" />

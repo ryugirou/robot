@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot name="4omni" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:property name="robot_name" value="4omni" />
+
+  <xacro:arg name="mass" default="2.0"/>
+
 	<xacro:include filename="$(find robot_description)/urdf/4omni/odm_omni_wheel_set1.xacro"/>	
   <xacro:include filename="$(find robot_description)/urdf/4omni/laser_macro.xacro" />
   <xacro:include filename="$(find robot_description)/urdf/4omni/imu_macro.xacro" />
@@ -24,7 +27,7 @@
  	    </geometry>
  	  </collision>
  	  <inertial>
- 	    <mass value="2.0"/>
+ 	    <mass value="$(arg mass)"/>
  	    <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
  	  </inertial>  
  	</link>
