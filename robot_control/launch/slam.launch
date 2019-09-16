@@ -4,18 +4,17 @@
 
   <!-- robot configuration -->
   <arg name="robot_name" value="4omni"/>
-  <arg name="wheel_radius" value="0.038"/>	<!-- m -->
-  <arg name="robot_radius" value="0.1" />	<!-- m -->
-  <arg name="mass" value="10"/>	<!-- kg -->
-  <arg name="motor_torque" value="8.0"/>	<!-- N*m -->
+  <arg name="wheel_radius" value="0.1"/>	<!-- m -->
+  <arg name="robot_radius" value="0.25" />	<!-- m  center to wheel-->
+  <arg name="mass" value="5"/>	<!-- kg -->
+  <arg name="motor_torque" value="8.0"/>	<!-- N*m MTQ-->
   <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
   <arg name="motor_vel" value="100"/>	<!-- rad/s -->
   <arg name="x0" value="0.5"/>
   <arg name="y0" value="0.5"/>
   <arg name="yaw0" value="0"/>
-  <arg name="R_lin" value="0.7"/>
-  <arg name="R_ang" value="$(eval 1 - R_lin)"/>
-  
+  <arg name="R_lin" value="0.9"/>
+  <arg name="R_ang" value="0.08"/>
 
   <arg name="lin_acc" value="$(eval wheel_radius * motor_acc * R_lin)"/>
   <arg name="ang_acc" value="$(eval wheel_radius * motor_acc * R_ang / robot_radius)"/>
@@ -33,8 +32,6 @@
     <arg name="y0" value="$(arg y0)"/>
     <arg name="yaw0" value="$(arg yaw0)"/>
   </include>
-
-
   
   <group ns="$(arg robot_name)">
     <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
@@ -55,8 +52,9 @@
     <!-- joy teleop -->
     <node pkg="base_controller" type="base_teleop_joy" name="base_teleop_joy" output="screen">
       <rosparam file="$(find base_controller)/config/ds4.yaml" command="load" />
-      <param name="max_lin" value="1.0" />
-      <param name="max_ang" value="3.14" />
+      <param name="max_lin" value="$(arg lin_vel)" />
+      <param name="max_ang" value="$(arg ang_vel)" />
+      <param name="publish_vel" value="true" />
       <remap from="cmd" to="beta/cmd" />
     </node>
 

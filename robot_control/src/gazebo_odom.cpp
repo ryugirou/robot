@@ -57,16 +57,15 @@ void models_callback(const gazebo_msgs::ModelStates& model_msg){
       0, 0, 0, 0, 0.1, 0,  // large covariance on rot y
       0, 0, 0, 0, 0, 0.1}; // large covariance on rot z
 
-/*
       last_odom.twist.twist=model_msg.twist[i];
       last_odom.twist.covariance = {
-      1000, 0, 0, 0, 0, 0,  // covariance on gps_x
-      0, 1000, 0, 0, 0, 0,  // covariance on gps_y
-      0, 0, 1000, 0, 0, 0,  // covariance on gps_z
-      0, 0, 0, 1000, 0, 0,  // large covariance on rot x
-      0, 0, 0, 0, 1000, 0,  // large covariance on rot y
-      0, 0, 0, 0, 0, 1000}; // large covariance on rot z
-*/
+      0.5, 0, 0, 0, 0, 0,  // covariance on gps_x
+      0, 0.5, 0, 0, 0, 0,  // covariance on gps_y
+      0, 0, 0.5, 0, 0, 0,  // covariance on gps_z
+      0, 0, 0, 0.1, 0, 0,  // large covariance on rot x
+      0, 0, 0, 0, 0.1, 0,  // large covariance on rot y
+      0, 0, 0, 0, 0, 0.1}; // large covariance on rot z
+
       enable_odom=true;
     }
   }

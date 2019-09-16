@@ -22,9 +22,9 @@
 
     <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">
     	<param name="beta0" value="$(eval 0x4e0)"/>
-    	<param name="beta1" value="$(eval 0x4d0)"/>
+    	<param name="beta1" value="$(eval 0x4b8)"/>
     	<param name="beta2" value="$(eval 0x4d4)"/>
-    	<param name="beta3" value="$(eval 0x4b8)"/>
+    	<param name="beta3" value="$(eval 0x4d0)"/>
 		  <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
 		  <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
 		  <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
@@ -54,9 +54,9 @@
     <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
         <param name="motor_max_acc" value="$(arg motor_acc)" />
         <param name="motor_max_vel" value="$(arg motor_vel)" />
-        <param name="invert_x" value="true" />
-        <param name="invert_y" value="false" />
-        <param name="invert_z" value="false" />
+        <param name="invert_x" value="false" />
+        <param name="invert_y" value="true" />
+        <param name="invert_z" value="true" />
         <param name="robot_radius" value="$(arg robot_radius)" />
         <param name="wheel_radius" value="$(arg wheel_radius)" />
         <remap from="motor0_cmd_vel" to="base/motor0_cmd_vel" />

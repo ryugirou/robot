@@ -47,6 +47,8 @@ private:
     int AxisRightThumbY;
     int AxisLeftTrigger;
     int AxisRightTrigger;
+
+    bool publish_vel;
 };
 
 BaseTeleop::BaseTeleop():private_nh_("~")
@@ -76,6 +78,8 @@ BaseTeleop::BaseTeleop():private_nh_("~")
     private_nh_.getParam("max_lin",max_lin);ROS_INFO("max_lin: %lf", max_lin);
     private_nh_.getParam("max_ang",max_ang);ROS_INFO("max_ang: %lf", max_ang);
     
+    private_nh_.getParam("publish_vel",publish_vel);ROS_INFO("publish_vel: %d", publish_vel);
+    
     vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
     cmd_pub_ = nh_.advertise<std_msgs::UInt8>("cmd", 1);
     joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &BaseTeleop::joyCallback, this);
@@ -84,6 +88,7 @@ BaseTeleop::BaseTeleop():private_nh_("~")
 
 void BaseTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
+  if(publish_vel){
     geometry_msgs::Twist twist;
 
     double vel_x = joy->axes[AxisLeftThumbY];
@@ -106,6 +111,7 @@ void BaseTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     twist.angular.z = vel_z;
 
     vel_pub_.publish(twist);
+  }
 
 
     std_msgs::UInt8 msg;

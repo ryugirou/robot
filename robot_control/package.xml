@@ -80,6 +80,10 @@
   <exec_depend>map_server</exec_depend>
   <exec_depend>gazebo_ros_control</exec_depend>
   <exec_depend>eband_local_planner</exec_depend>
+  <exec_depend>dwa_local_planner</exec_depend>
+  <exec_depend>dwa_local_planner</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>dynamic_reconfigure</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

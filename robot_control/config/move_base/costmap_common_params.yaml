@@ -1,8 +1,8 @@
-obstacle_range: 3.5
-raytrace_range: 4.0
-footprint: [[-0.2, -0.12], [-0.2, 0.12], [0.05, 0.12], [0.05, -0.12]]
-#robot_radius: ir_of_robot
-inflation_radius: 0.55  #障害物までの距離がinflation_radius以下の場所をロボットの中心が絶対に通らないようにします。　
+obstacle_range: 3.5 #the maximum range sensor reading that will result in an obstacle being put into the costmap
+raytrace_range: 4.0 #the range to which we will raytrace freespace given a sensor reading
+#footprint: [[-0.2, -0.12], [-0.2, 0.12], [0.05, 0.12], [0.05, -0.12]]
+robot_radius: 0.25
+inflation_radius: 0.40  #障害物までの距離がinflation_radius以下の場所をロボットの中心が絶対に通らないようにします。　
  
 observation_sources: laser_scan_sensor
  
@@ -10,3 +10,4 @@ laser_scan_sensor:
   data_type: LaserScan
   marking: true
   clearing: true
+

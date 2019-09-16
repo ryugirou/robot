@@ -41,13 +41,14 @@ private:
 	ros::Publisher motor0CmdVel_pub;
 	ros::Publisher motor1CmdVel_pub;
 	ros::Publisher motor2CmdVel_pub;
-  	ros::Publisher motor3CmdVel_pub;
+	ros::Publisher motor3CmdVel_pub;
 
 	double targetVelX;
 	double targetVelY;
 	double targetRotZ;
 
-	ros::Time targetTime;
+	double current_time = 0.0;
+	double last_time = 0.0;
 
 	double lastTarget[4];
 	std_msgs::Float64 motorCmdVelmsg[4];
@@ -80,17 +81,12 @@ BaseController::BaseController(void)
 	_nh.param("invert_y", this->InvertY, false);
 	_nh.param("invert_z", this->InvertZ, false);
 
-	int ctrl_freq;
-	_nh.param("ctrl_freq", ctrl_freq, 20);
-
 	cmdVel_sub = nh.subscribe<geometry_msgs::Twist>("cmd_vel", 10, &BaseController::CmdVelCallback, this);
 
 	motor0CmdVel_pub = nh.advertise<std_msgs::Float64>("motor0_cmd_vel", 1);
 	motor1CmdVel_pub = nh.advertise<std_msgs::Float64>("motor1_cmd_vel", 1);
 	motor2CmdVel_pub = nh.advertise<std_msgs::Float64>("motor2_cmd_vel", 1);
 	motor3CmdVel_pub = nh.advertise<std_msgs::Float64>("motor3_cmd_vel", 1);
-
-	control_tim = nh.createTimer(ros::Duration(1.0 / ctrl_freq), &BaseController::TimerCallback, this);
 
 	targetVelX = targetVelY = targetRotZ = 0.0;
 
@@ -110,7 +106,6 @@ void BaseController::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
 	this->targetVelX = static_cast<double>(msg->linear.x);
 	this->targetVelY = static_cast<double>(msg->linear.y);
 	this->targetRotZ = static_cast<double>(msg->angular.z);
-	this->targetTime = ros::Time::now();
 
 	if(this->InvertX)
 	{
@@ -124,15 +119,15 @@ void BaseController::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
 	{
 		this->targetRotZ *= -1;
 	}
-}
 
-void BaseController::TimerCallback(const ros::TimerEvent& event)
-{
-	CalcWheelSpeed(event.current_real.toSec() - event.last_real.toSec());
+	current_time = ros::Time::now().toSec();
+	CalcWheelSpeed(current_time - last_time);
 	motor0CmdVel_pub.publish(motorCmdVelmsg[0]);
 	motor1CmdVel_pub.publish(motorCmdVelmsg[1]);
 	motor2CmdVel_pub.publish(motorCmdVelmsg[2]);
-  motor3CmdVel_pub.publish(motorCmdVelmsg[3]);
+	motor3CmdVel_pub.publish(motorCmdVelmsg[3]);
+
+	last_time = current_time;
 }
 
 void BaseController::CalcWheelSpeed(double actualDt){
