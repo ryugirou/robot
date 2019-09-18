@@ -7,6 +7,7 @@
 
 #include <ros/ros.h>
 #include <geometry_msgs/TwistStamped.h>
+#include <nav_msgs/Odometry.h>
 #include <std_msgs/Int16MultiArray.h>
 #include <std_msgs/Float64.h>
 #include <math.h>
@@ -52,6 +53,9 @@ private:
 
 	double lastTarget[4];
 	std_msgs::Float64 motorCmdVelmsg[4];
+
+  nav_msgs::Odometry odom_twist;
+	ros::Publisher odom_twist_pub;
 };
 
 BaseController::BaseController(void)
@@ -99,6 +103,9 @@ BaseController::BaseController(void)
 	motorCmdVelmsg[1].data = 0.0;
 	motorCmdVelmsg[2].data = 0.0;
   motorCmdVelmsg[3].data = 0.0;
+
+  odom_twist = nav_msgs::Odometry();
+  odom_twist_pub = nh.advertise<nav_msgs::Odometry>("odom_twist", 10);
 }
 
 void BaseController::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
@@ -128,6 +135,19 @@ void BaseController::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
 	motor3CmdVel_pub.publish(motorCmdVelmsg[3]);
 
 	last_time = current_time;
+
+ odom_twist.header.frame_id = "/4omni/odom";
+ odom_twist.header.stamp = ros::Time::now();
+ odom_twist.child_frame_id = "/4omni/odom_link";
+ odom_twist.twist.covariance = {
+ 0.5, 0, 0, 0, 0, 0,  // covariance on gps_x
+ 0, 0.5, 0, 0, 0, 0,  // covariance on gps_y
+ 0, 0, 0.5, 0, 0, 0,  // covariance on gps_z
+ 0, 0, 0, 0.1, 0, 0,  // large covariance on rot x
+ 0, 0, 0, 0, 0.1, 0,  // large covariance on rot y
+ 0, 0, 0, 0, 0, 0.1}; // large covariance on rot z
+ odom_twist.twist.twist = *msg;
+ odom_twist_pub.publish(odom_twist);
 }
 
 void BaseController::CalcWheelSpeed(double actualDt){
