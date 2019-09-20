@@ -10,8 +10,8 @@
   <arg name="motor_torque" value="8.0"/>	<!-- N*m MTQ-->
   <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
   <arg name="motor_vel" value="100"/>	<!-- rad/s -->
-  <arg name="x0" value="1.0"/>
-  <arg name="y0" value="1.0"/>
+  <arg name="x0" value="0.0"/>
+  <arg name="y0" value="0.0"/>
   <arg name="yaw0" value="0"/>
   <arg name="R_lin" value="1.0"/>
   <arg name="R_ang" value="1.0"/>
@@ -60,18 +60,67 @@
       <remap from="cmd" to="beta/cmd" />
     </node>
 
+
     <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/map/map.yaml">
       <param name="frame_id" value="$(arg robot_name)/map"/>
     </node>
 
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
-      <rosparam command="load" file="$(find rosparam_manager)/param/4omni/amcl.yaml" />
+      <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
+      <param name="base_frame_id" value="$(arg robot_name)/odom_link" />
+      <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+      <param name="global_frame_id" value="$(arg robot_name)/map" />
+      <param name="initial_pose_x" value="$(arg x0)" />
+      <param name="initial_pose_y" value="$(arg y0)" />
+      <param name="initial_pose_a" value="$(arg yaw0)" />
     </node>
 
+    <node name="dynamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" 
+          args="load move_base/DWAPlannerROS $(find robot_control)/config/move_base/dwa_local_planner_params.yaml" />
+
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-      <rosparam file="$(find rosparam_manager)/param/4omni/move_base.yaml" command="load"/>
+
+      <rosparam file="$(find robot_control)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find robot_control)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find robot_control)/config/move_base/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find robot_control)/config/move_base/global_costmap_params.yaml" command="load" />
+
+      <param name="global_costmap/laser_scan_sensor/sensor_frame" value="$(arg robot_name)/laser_link" />
+      <param name="global_costmap/laser_scan_sensor/topic" value="scan" />
+      <param name="global_costmap/global_frame" value="$(arg robot_name)/map" />
+      <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/base_link" />
+
+      <param name="local_costmap/laser_scan_sensor/sensor_frame" value="$(arg robot_name)/laser_link" />
+      <param name="local_costmap/laser_scan_sensor/topic" value="scan" />
+      <param name="local_costmap/global_frame" value="$(arg robot_name)/odom" />
+      <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/base_link" />
+
       <remap from="odom" to="odom_twist" />
-    </node>
+
+      <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+
+<!--
+      <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+-->
+
+<!--
+      <param name="base_local_planner" value="eband_local_planner/EBandPlannerROS" />
+      <rosparam file="$(find robot_control)/config/move_base/eband_local_planner_params.yaml" command="load" ns="EBandPlannerROS" />
+      <param name="EBandPlannerROS/max_translational_acceleration" value="$(arg lin_acc)" />
+      <param name="EBandPlannerROS/max_rotational_acceleration" value="$(arg ang_acc)" />
+      <param name="EBandPlannerROS/max_acceleration" value="$(arg lin_acc)" />
+      <param name="EBandPlannerROS/max_vel_lin" value="$(arg lin_vel)" />
+      <param name="EBandPlannerROS/max_vel_th" value="$(arg ang_vel)" />
+      <param name="EBandPlannerROS/virtual_mass" value="$(arg mass)" />
+-->
+
+   </node>
+ 
+<!--
+    <node name="dynamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" 
+          args="load move_base/TebLocalPlannerROS $(find robot_control)/config/move_base/teb_local_planner_params.yaml" />
+-->
+
   </group>
 
 </launch>
