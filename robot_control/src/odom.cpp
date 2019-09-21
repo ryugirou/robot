@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/Float64.h"
+#include "std_msgs/Float32.h"
 #include "nav_msgs/Odometry.h"
 #include "geometry_msgs/PoseStamped.h"
 
@@ -29,9 +30,9 @@ private:
     double _x;
     double _y;
 
-    void odomYawCallback(const std_msgs::Float64::ConstPtr& yaw);
-    void odomXCallback(const std_msgs::Float64::ConstPtr& x);
-    void odomYCallback(const std_msgs::Float64::ConstPtr& y);
+    void odomYawCallback(const std_msgs::Float32::ConstPtr& yaw);
+    void odomXCallback(const std_msgs::Float32::ConstPtr& x);
+    void odomYCallback(const std_msgs::Float32::ConstPtr& y);
 
     void tf_publish(geometry_msgs::Pose);
 
@@ -47,9 +48,9 @@ OdomBroadcaster::OdomBroadcaster(void)
 
     _yaw = _x = _y = 0.0;
 
-    odom_yaw_sub = nh.subscribe<std_msgs::Float64>("odom/yaw", 10, &OdomBroadcaster::odomYawCallback, this);
-    odom_x_sub = nh.subscribe<std_msgs::Float64>("odom/x", 10, &OdomBroadcaster::odomXCallback, this);
-    odom_y_sub = nh.subscribe<std_msgs::Float64>("odom/y", 10, &OdomBroadcaster::odomYCallback, this);
+    odom_yaw_sub = nh.subscribe<std_msgs::Float32>("odom/yaw", 10, &OdomBroadcaster::odomYawCallback, this);
+    odom_x_sub = nh.subscribe<std_msgs::Float32>("odom/x", 10, &OdomBroadcaster::odomXCallback, this);
+    odom_y_sub = nh.subscribe<std_msgs::Float32>("odom/y", 10, &OdomBroadcaster::odomYCallback, this);
 
     odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 1);
 
@@ -62,19 +63,19 @@ OdomBroadcaster::OdomBroadcaster(void)
     control_tim = nh.createTimer(ros::Duration(1.0 / ctrl_freq), &OdomBroadcaster::TimerCallback, this);
 }
 
-void OdomBroadcaster::odomYawCallback(const std_msgs::Float64::ConstPtr& yaw)
+void OdomBroadcaster::odomYawCallback(const std_msgs::Float32::ConstPtr& yaw)
 {
-    _yaw = yaw->data;
+    _yaw = (double)yaw->data;
 }
 
-void OdomBroadcaster::odomXCallback(const std_msgs::Float64::ConstPtr& x)
+void OdomBroadcaster::odomXCallback(const std_msgs::Float32::ConstPtr& x)
 {
-    _x = x->data;
+    _x = (double)x->data;
 }
 
-void OdomBroadcaster::odomYCallback(const std_msgs::Float64::ConstPtr& y)
+void OdomBroadcaster::odomYCallback(const std_msgs::Float32::ConstPtr& y)
 {
-    _y = y->data;
+    _y = (double)y->data;
 }
 
 void OdomBroadcaster::tf_publish(geometry_msgs::Pose pose0){

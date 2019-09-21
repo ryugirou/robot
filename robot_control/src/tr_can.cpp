@@ -136,9 +136,9 @@ TrCan::TrCan(void)
     _can_tx_pub				    = _nh.advertise<can_msgs::CanFrame>("can_tx", 10);
     _can_rx_sub				    = _nh.subscribe<can_msgs::CanFrame>("can_rx", 10, &TrCan::canRxCallback, this);
 
-    _base_odom_x_pub		    = _nh.advertise<std_msgs::Float64>("base/odom/x", 10);
-    _base_odom_y_pub		    = _nh.advertise<std_msgs::Float64>("base/odom/y", 10);
-    _base_odom_yaw_pub		    = _nh.advertise<std_msgs::Float64>("base/odom/yaw", 10);
+    _base_odom_x_pub		    = _nh.advertise<std_msgs::Float32>("base/odom/x", 10);
+    _base_odom_y_pub		    = _nh.advertise<std_msgs::Float32>("base/odom/y", 10);
+    _base_odom_yaw_pub		    = _nh.advertise<std_msgs::Float32>("base/odom/yaw", 10);
 	
     _alpha_cmd_sub			    = _nh.subscribe<std_msgs::UInt16>("alpha/cmd", 10 , &TrCan::alphaCmdCallback, this);
     _alpha_motor0_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("alpha/motor0_cmd_vel", 10, &TrCan::alphamotor0CmdVelCallback, this);
@@ -289,9 +289,9 @@ void TrCan::betamotor9CmdVelCallback(const std_msgs::Float64::ConstPtr& msg)
 
 void TrCan::canRxCallback(const can_msgs::CanFrame::ConstPtr &msg)
 {
-    std_msgs::Float64 _base_odom_x_msg;
-    std_msgs::Float64 _base_odom_y_msg;
-    std_msgs::Float64 _base_odom_yaw_msg;
+    std_msgs::Float32 _base_odom_x_msg;
+    std_msgs::Float32 _base_odom_y_msg;
+    std_msgs::Float32 _base_odom_yaw_msg;
 
     switch(msg->id)
     {
