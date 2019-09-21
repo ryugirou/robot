@@ -16,7 +16,7 @@ roslaunch robot_control slam.launch sim:=true
 #### 地図を保存
 ```
 cd ~/catkin_ws/src/robot/robot_control/resources/map
-rosrun map_server map_saver map:=/4omni/map
+rosrun map_server map_saver map:=/omni4/map
 ``` 
 ### move_baseで動かす
 ```

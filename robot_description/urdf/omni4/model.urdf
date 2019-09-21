@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot name="4omni" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:property name="robot_name" value="4omni" />
-
+<robot name="omni4" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="mass" default="2.0"/>
+  <xacro:arg name="robot_name" default="omni4"/>
 
-	<xacro:include filename="$(find robot_description)/urdf/4omni/odm_omni_wheel_set1.xacro"/>	
-  <xacro:include filename="$(find robot_description)/urdf/4omni/laser_macro.xacro" />
-  <xacro:include filename="$(find robot_description)/urdf/4omni/imu_macro.xacro" />
+	<xacro:include filename="$(find robot_description)/urdf/$(arg robot_name)/odm_omni_wheel_set1.xacro"/>	
+  <xacro:include filename="$(find robot_description)/urdf/$(arg robot_name)/laser_macro.xacro" />
  	<link name="base_link"/>
 
  	<joint name="body_joint" type="fixed">
@@ -63,7 +61,7 @@
  	</joint>
  	<link name="wheel3_attach_link" />
 	<xacro:omni_wheel_set prefix="wheel3" parent="wheel3_attach_link" />
-  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.350 0 0.044" robot_name="4omni"/>
+  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.350 0 0.044" robot_name="$(arg robot_name)"/>
 
   <link name="odom_link">
      <visual>

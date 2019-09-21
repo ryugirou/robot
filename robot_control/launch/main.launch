@@ -3,7 +3,7 @@
   <arg name="sim" default="false"/>
 
   <!-- robot configuration -->
-  <arg name="robot_name" value="4omni"/>
+  <arg name="robot_name" value="omni4"/>
   <arg name="wheel_radius" value="0.1"/>	<!-- m -->
   <arg name="robot_radius" value="0.25" />	<!-- m  center to wheel-->
   <arg name="mass" value="10"/>	<!-- kg -->
@@ -36,9 +36,8 @@
 
   <!-- main nodes -->
   <group ns="$(arg robot_name)">
-    <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
-	  <param name="robot_description" command="$(find xacro)/xacro $(arg model) 
-      mass:=$(arg mass)
+	  <param name="robot_description" command="$(find xacro)/xacro '$(find robot_description)/urdf/$(arg robot_name)/model.urdf' 
+      mass:=$(arg mass) robot_name:=$(arg robot_name)
     --inorder"/>
 
     <!-- convert joint states to TF transforms for rviz, etc -->
