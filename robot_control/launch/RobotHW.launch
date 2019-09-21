@@ -44,7 +44,7 @@
     <node name="odom" pkg="robot_control" type="odom"  output="screen">
       <param name="odom_frame" value="$(arg robot_name)/odom" />
       <param name="base_frame"  value="$(arg robot_name)/odom_link" />
-      <param name="publish_rate"  value="200" />
+      <param name="publish_rate"  value="100" />
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>

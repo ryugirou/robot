@@ -98,29 +98,7 @@
       <remap from="odom" to="odom_twist" />
 
       <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-
-<!--
-      <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
--->
-
-<!--
-      <param name="base_local_planner" value="eband_local_planner/EBandPlannerROS" />
-      <rosparam file="$(find robot_control)/config/move_base/eband_local_planner_params.yaml" command="load" ns="EBandPlannerROS" />
-      <param name="EBandPlannerROS/max_translational_acceleration" value="$(arg lin_acc)" />
-      <param name="EBandPlannerROS/max_rotational_acceleration" value="$(arg ang_acc)" />
-      <param name="EBandPlannerROS/max_acceleration" value="$(arg lin_acc)" />
-      <param name="EBandPlannerROS/max_vel_lin" value="$(arg lin_vel)" />
-      <param name="EBandPlannerROS/max_vel_th" value="$(arg ang_vel)" />
-      <param name="EBandPlannerROS/virtual_mass" value="$(arg mass)" />
--->
-
-   </node>
- 
-<!--
-    <node name="dynamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" 
-          args="load move_base/TebLocalPlannerROS $(find robot_control)/config/move_base/teb_local_planner_params.yaml" />
--->
-
+  </node>
   </group>
 
 </launch>
