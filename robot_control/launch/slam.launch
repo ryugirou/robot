@@ -3,10 +3,10 @@
   <arg name="sim" default="false"/>
 
   <!-- robot configuration -->
-  <arg name="robot_name" value="4omni"/>
+  <arg name="robot_name" value="omni4"/>
   <arg name="wheel_radius" value="0.1"/>	<!-- m -->
   <arg name="robot_radius" value="0.25" />	<!-- m  center to wheel-->
-  <arg name="mass" value="5"/>	<!-- kg -->
+  <arg name="mass" value="10"/>	<!-- kg -->
   <arg name="motor_torque" value="8.0"/>	<!-- N*m MTQ-->
   <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
   <arg name="motor_vel" value="100"/>	<!-- rad/s -->
