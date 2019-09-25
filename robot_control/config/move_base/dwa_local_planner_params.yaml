@@ -1,85 +1,40 @@
-!!python/object/new:dynamic_reconfigure.encoding.Config
-dictitems:
-  acc_lim_theta: 3.2
-  acc_lim_x: 2.5
-  acc_lim_y: 2.5
-  acc_limit_trans: 0.1
-  angular_sim_granularity: 0.1
-  forward_point_distance: 0.36002215309575664
-  goal_distance_bias: 24.0
-  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
-    dictitems:
-      acc_lim_theta: 3.2
-      acc_lim_x: 2.5
-      acc_lim_y: 2.5
-      acc_limit_trans: 0.1
-      angular_sim_granularity: 0.1
-      forward_point_distance: 0.36002215309575664
-      goal_distance_bias: 24.0
-      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
-        state: []
-      id: 0
-      max_rot_vel: 1.0
-      max_scaling_factor: 0.2
-      max_trans_vel: 10.0
-      max_vel_x: 10.0
-      max_vel_y: 10.0
-      min_rot_vel: 0.4
-      min_trans_vel: 0.1
-      min_vel_x: -10.0
-      min_vel_y: -10.0
-      name: Default
-      occdist_scale: 0.01
-      oscillation_reset_angle: 0.2070900444279387
-      oscillation_reset_dist: 0.05
-      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
-        state: []
-      parent: 0
-      path_distance_bias: 32.0
-      prune_plan: true
-      restore_defaults: false
-      rot_stopped_vel: 0.1
-      scaling_speed: 0.25
-      sim_granularity: 0.025
-      sim_time: 1.7
-      state: true
-      stop_time_buffer: 0.1745279388943651
-      trans_stopped_vel: 0.1
-      twirling_scale: 0.0
-      type: ''
-      use_dwa: true
-      vth_samples: 20
-      vx_samples: 10
-      vy_samples: 10
-      xy_goal_tolerance: 0.1
-      yaw_goal_tolerance: 0.1
-    state: []
-  max_rot_vel: 1.0
-  max_scaling_factor: 0.2
-  max_trans_vel: 10.0
-  max_vel_x: 10.0
-  max_vel_y: 10.0
-  min_rot_vel: 0.4
-  min_trans_vel: 0.1
-  min_vel_x: -10.0
-  min_vel_y: -10.0
-  occdist_scale: 0.01
-  oscillation_reset_angle: 0.2070900444279387
-  oscillation_reset_dist: 0.05
-  path_distance_bias: 32.0
-  prune_plan: true
-  restore_defaults: false
-  rot_stopped_vel: 0.1
-  scaling_speed: 0.25
-  sim_granularity: 0.025
-  sim_time: 1.7
-  stop_time_buffer: 0.1745279388943651
-  trans_stopped_vel: 0.1
-  twirling_scale: 0.0
-  use_dwa: true
-  vth_samples: 20
-  vx_samples: 10
-  vy_samples: 10
-  xy_goal_tolerance: 0.1
-  yaw_goal_tolerance: 0.1
-state: []
+
+acc_lim_x: 2.5 
+acc_lim_y: 2.5 
+acc_lim_th: 3.2 
+
+
+max_trans_vel: 10.0 
+min_trans_vel: 0.1 
+
+max_vel_x: 10.0
+min_vel_x: -10.0
+
+max_vel_y: 10.0
+min_vel_y: -10.0 
+
+max_rot_vel: 1.0 
+min_rot_vel: 0.4
+ 
+yaw_goal_tolerance: 0.01
+xy_goal_tolerance: 0.2 
+latch_xy_goal_tolerance: true
+
+sim_time: 1.7 
+sim_granularity: 0.2 
+vx_samples: 10 
+vy_samples: 10 
+vth_samples: 20 
+
+goal_distance_bias: 32.0 
+path_distance_bias: 24.0 
+occdist_scale: 0.03
+forward_point_distance: 0.325 
+stop_time_buffer: 0.2 
+scaling_speed: 0.25 
+max_scaling_factor: 0.2 
+publish_cost_grid : false
+
+oscillation_reset_dist: 0.05 
+
+prune_plan : true

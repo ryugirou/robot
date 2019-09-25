@@ -4,10 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
         - /Odometry1/Shape1
-        - /CostMap1
         - /CostMap1/Position1
+        - /OverlayDiagnostic1
       Splitter Ratio: 0.507204592
     Tree Height: 435
   - Class: rviz/Selection
@@ -28,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -92,7 +91,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /4omni/map
+      Topic: /omni4/map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -672,8 +671,8 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
       Name: RobotModel
-      Robot Description: /4omni/robot_description
-      TF Prefix: 4omni
+      Robot Description: /omni4/robot_description
+      TF Prefix: omni4
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -682,20 +681,32 @@ Visualization Manager:
       Length: 1
       Name: base_link
       Radius: 0.100000001
-      Reference Frame: 4omni/base_link
+      Reference Frame: omni4/base_link
       Value: true
     - Class: rviz/Axes
       Enabled: true
       Length: 1
       Name: odom
       Radius: 0.100000001
-      Reference Frame: 4omni/odom
+      Reference Frame: omni4/odom
       Value: true
+    - Class: jsk_rviz_plugin/OverlayDiagnostic
+      Enabled: true
+      Name: OverlayDiagnostic
+      Topic: /diagnostics
+      Value: true
+      alpha: 0.800000012
+      diagnostics namespace: "omni4/joy_node: Joystick Driver Status"
+      left: 5
+      size: 128
+      stall duration: 5
+      top: 5
+      type: SAC
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: 4omni/map
+    Fixed Frame: omni4/map
     Frame Rate: 30
   Name: root
   Tools:
@@ -716,16 +727,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.21008682
+      Distance: 16.2696419
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 4.74876499
-        Y: 0.219041288
-        Z: 3.37796402
+        X: 1.06557345
+        Y: 2.3661449
+        Z: 2.19644046
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
@@ -832,5 +843,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1301
-  X: 78
-  Y: 64
+  X: 65
+  Y: 24

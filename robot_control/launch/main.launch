@@ -7,11 +7,11 @@
   <arg name="wheel_radius" value="0.1"/>	<!-- m -->
   <arg name="robot_radius" value="0.25" />	<!-- m  center to wheel-->
   <arg name="mass" value="10"/>	<!-- kg -->
-  <arg name="motor_torque" value="8.0"/>	<!-- N*m MTQ-->
+  <arg name="motor_torque" value="13.8"/>	<!-- N*m MTQ-->
   <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
   <arg name="motor_vel" value="100"/>	<!-- rad/s -->
-  <arg name="x0" value="0.0"/>
-  <arg name="y0" value="0.0"/>
+  <arg name="x0" value="1.0"/>
+  <arg name="y0" value="1.0"/>
   <arg name="yaw0" value="0"/>
   <arg name="R_lin" value="1.0"/>
   <arg name="R_ang" value="1.0"/>
@@ -79,6 +79,7 @@
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 
+      <rosparam file="$(find robot_control)/config/move_base/dwa_local_planner_params.yaml" command="load" ns="DWAPlannerROS" />
       <rosparam file="$(find robot_control)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
       <rosparam file="$(find robot_control)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
       <rosparam file="$(find robot_control)/config/move_base/local_costmap_params.yaml" command="load" />
