@@ -1,0 +1,9 @@
+<library path="lib/libcan_plugins">
+  <class name="can_plugins/UsbCanNode" type="can_plugins::UsbCanNode" base_class_type="nodelet::Nodelet">
+    <description>usb_can_node</description>
+  </class>
+
+  <class name="can_plugins/CanHandler" type="can_plugins::CanHandler" base_class_type="nodelet::Nodelet">
+    <description>can_handler</description>
+  </class>
+</library>

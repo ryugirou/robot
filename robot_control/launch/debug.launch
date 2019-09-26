@@ -1,47 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <launch>
-  <arg name="robot_name" default="4omni"/>
-  <group ns="$(arg robot_name)">
-
-    <!-- CAN -->
-    <node name="usb_can_node" pkg="robot_control" type="usb_can_node" output="screen">
-	<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:8:1.0-port0"/>
-    	<!--
-      	<param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:8:1.0"/>
-	-->
-	<remap from="/can_tx" to="can_tx"/>
-	<remap from="/can_rx" to="can_rx"/>
-	<remap from="/can_rx" to="can_rx"/>
-	<remap from="/can_rx" to="can_rx"/>
-	<remap from="/can_rx" to="can_rx"/>
-    </node>
-
-    <node name="tr_can" pkg="robot_control" type="tr_can" output="screen">
-      <param name="beta0" value="$(eval 0x4e0)"/>
-    	<param name="beta1" value="$(eval 0x4d0)"/>
-    	<param name="beta2" value="$(eval 0x4d4)"/>
-    	<param name="beta3" value="$(eval 0x4b8)"/>
-		  <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
-		  <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
-		  <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
-		  <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
-    </node>
-
-    <!-- convert x-y velocity to each motor velocity 
-    <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
-        <param name="motor_max_acc" value="50.0" />
-        <param name="motor_max_vel" value="80.0" />
-        <param name="invert_x" value="true" />
-        <param name="invert_y" value="false" />
-        <param name="invert_z" value="false" />
-        <param name="robot_radius" value="0.1" />
-        <param name="wheel_radius" value="0.038" />
-        <remap from="motor0_cmd_vel" to="base/motor0_cmd_vel" />
-        <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
-        <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
-        <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
-    </node>
--->
-
+  <arg name="manager_name" default="nodelet_manager" />
+  <arg name="nodelet_mode" default="load" /><!-- set to standalone if you want to use as node-->
+   
+  <group if="$(eval nodelet_mode=='load')">
+    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen"/>
   </group>
+
+  <!-- CAN -->
+  <node pkg="nodelet" type="nodelet" name="usb_can_node" args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" output="screen">
+    <param name="port" value="/dev/ttyUSB0"/>
+  </node>    
+
+  <node pkg="nodelet" type="nodelet" name="can_handler" args="load can_plugins/CanHandler $(arg manager_name)" output="screen">
+    <param name="beta0" value="$(eval 0x4e0)"/>
+    <param name="beta1" value="$(eval 0x4b8)"/>
+    <param name="beta2" value="$(eval 0x4d4)"/>
+    <param name="beta3" value="$(eval 0x4d0)"/>
+    <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
+    <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
+    <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
+    <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
+  </node>
+
+  <!-- publish odom to TF -->
+  <node pkg="nodelet" type="nodelet" name="odom_broadcaster" 
+  args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
+    <param name="odom_frame" value="/odom" />
+    <param name="base_frame"  value="/odom_link" />
+    <param name="publish_rate"  value="100" />
+    <remap from="odom/x" to="base/odom/x"/>
+    <remap from="odom/y" to="base/odom/y"/>
+    <remap from="odom/yaw" to="base/odom/yaw"/>
+  </node>    
+
+  <!-- convert x-y velocity to each motor velocity -->
+  <node pkg="nodelet" type="nodelet" name="base_controller" args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" output="screen">
+    <param name="motor_max_acc" value="1" />
+    <param name="motor_max_vel" value="1" />
+    <param name="invert_x" value="false" />
+    <param name="invert_y" value="true" />
+    <param name="invert_z" value="true" />
+    <param name="robot_radius" value="1" />
+    <param name="wheel_radius" value="1" />
+    <remap from="motor0_cmd_vel" to="base/motor0_cmd_vel" />
+    <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
+    <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
+    <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
+  </node>    
+
+
 </launch>
