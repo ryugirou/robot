@@ -23,7 +23,7 @@
       <param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:4:1.0-port0"/>
     </node>    
 
-    <node pkg="nodelet" type="nodelet" name="can_handler" args="load can_plugins/CanHandler $(arg manager_name)" output="screen">
+    <node pkg="nodelet" type="nodelet" name="can_handler" args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" output="screen">
       <param name="beta0" value="$(eval 0x4e0)"/>
       <param name="beta1" value="$(eval 0x4b8)"/>
       <param name="beta2" value="$(eval 0x4d4)"/>
