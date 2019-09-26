@@ -39,7 +39,6 @@ install:
   - cd ~/catkin_ws/src
   - ln -s $CI_SOURCE_PATH .
   # additional src package for build
-  - git clone https://github.com:ryugirou/robot.git
   - cd ..
   - cd rosdep install --from-paths src --ignore-src
 
