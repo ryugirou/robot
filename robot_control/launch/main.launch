@@ -51,8 +51,8 @@
 	  <node name="joy_node" pkg="joy" type="joy_node" />    
 
     <!-- joy teleop -->
-    <node pkg="base_controller" type="base_teleop_joy" name="base_teleop_joy" output="screen">
-      <rosparam file="$(find base_controller)/config/ds4.yaml" command="load" />
+    <node pkg="robot_control" type="base_teleop_joy" name="base_teleop_joy" output="screen">
+      <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
       <param name="max_lin" value="$(arg lin_vel)" />
       <param name="max_ang" value="$(arg ang_vel)" />
       <param name="publish_vel" value="false" />
