@@ -40,7 +40,7 @@ install:
   - ln -s $CI_SOURCE_PATH .
   # additional src package for build
   - cd ..
-  - cd rosdep install --from-paths src --ignore-src
+  - rosdep install --from-paths src --ignore-src
 
 script:
   # build

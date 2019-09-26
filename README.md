@@ -1,4 +1,4 @@
-robot
+robot [![Build Status](https://travis-ci.org/ryugirou/robot.svg?branch=master)](https://travis-ci.org/ryugirou/robot)
 ====
 ## Install
 ```
