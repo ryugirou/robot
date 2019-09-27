@@ -9,8 +9,8 @@ matrix:
   - name: "Xenial kinetic"
     dist: xenial
     env: ROS_DISTRO=kinetic
-  - name: "stretch melodic"
-    dist: stretch 
+  - name: "Bionic melodic"
+    dist: bionic
     env: ROS_DISTRO=melodic
 
 # env
