@@ -23,7 +23,7 @@
     <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
   </node>
 
-  <!-- publish odom to TF -->
+  <!-- publish odom to TF 
   <node pkg="nodelet" type="nodelet" name="odom_broadcaster" 
   args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
     <param name="odom_frame" value="/odom" />
@@ -33,21 +33,32 @@
     <remap from="odom/y" to="base/odom/y"/>
     <remap from="odom/yaw" to="base/odom/yaw"/>
   </node>    
+  -->
 
   <!-- convert x-y velocity to each motor velocity -->
   <node pkg="nodelet" type="nodelet" name="base_controller" args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" output="screen">
-    <param name="motor_max_acc" value="1" />
-    <param name="motor_max_vel" value="1" />
+    <param name="motor_max_acc" value="50" />
+    <param name="motor_max_vel" value="80" />
     <param name="invert_x" value="false" />
     <param name="invert_y" value="true" />
     <param name="invert_z" value="true" />
-    <param name="robot_radius" value="1" />
-    <param name="wheel_radius" value="1" />
+    <param name="robot_radius" value="0.25" />
+    <param name="wheel_radius" value="0.1" />
     <remap from="motor0_cmd_vel" to="base/motor0_cmd_vel" />
     <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
     <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
     <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
   </node>    
 
+	<node name="joy_node" pkg="joy" type="joy_node" />    
+
+  <!-- joy teleop -->
+  <node pkg="robot_control" type="base_teleop_joy" name="base_teleop_joy" output="screen">
+    <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
+    <param name="max_lin" value="10" />
+    <param name="max_ang" value="3" />
+    <param name="publish_vel" value="true" />
+    <remap from="cmd" to="beta/cmd" />
+  </node>
 
 </launch>
