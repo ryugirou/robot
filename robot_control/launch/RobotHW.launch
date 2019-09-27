@@ -15,7 +15,8 @@
   <group ns="$(arg robot_name)">
 
     <group if="$(eval nodelet_mode=='load')">
-      <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen"/>
+      <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen">
+      </node>
     </group>
 
     <!-- CAN -->
