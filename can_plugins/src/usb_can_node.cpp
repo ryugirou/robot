@@ -626,12 +626,13 @@ namespace can_plugins{
     this->_read_strand = new boost::asio::strand(*_io);
     this->_write_strand = new boost::asio::strand(*_io);
   
+    this->can_rx_pub = _nh.advertise<can_msgs::CanFrame>("can_rx", 1);
+
     // 2 threads for read/write
     this->_service_threads.create_thread(boost::bind((std::size_t (boost::asio::io_service::*)())&boost::asio::io_service::run, _io));
     this->_service_threads.create_thread(boost::bind((std::size_t (boost::asio::io_service::*)())&boost::asio::io_service::run, _io));
   
     this->can_tx_sub = _nh.subscribe<can_msgs::CanFrame>("can_tx", 10, &UsbCanNode::canTxCallback, this);
-    this->can_rx_pub = _nh.advertise<can_msgs::CanFrame>("can_rx", 1);
   
     //this->can_rx_thread = new std::thread(&UsbCanNode::canRxTask, this);
   
