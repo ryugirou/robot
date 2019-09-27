@@ -141,11 +141,12 @@ void CanHandler::onInit(){
   pnh = getPrivateNodeHandle();
   //constructor
   _can_tx_pub				    = _nh.advertise<can_msgs::CanFrame>("can_tx", 10);
-  _can_rx_sub				    = _nh.subscribe<can_msgs::CanFrame>("can_rx", 10, &CanHandler::canRxCallback, this);
 
   _base_odom_x_pub		    = _nh.advertise<std_msgs::Float32>("base/odom/x", 10);
   _base_odom_y_pub		    = _nh.advertise<std_msgs::Float32>("base/odom/y", 10);
   _base_odom_yaw_pub		    = _nh.advertise<std_msgs::Float32>("base/odom/yaw", 10);
+
+  _can_rx_sub				    = _nh.subscribe<can_msgs::CanFrame>("can_rx", 10, &CanHandler::canRxCallback, this);
 	
   _alpha_cmd_sub			    = _nh.subscribe<std_msgs::UInt16>("alpha/cmd", 10 , &CanHandler::alphaCmdCallback, this);
   _alpha_motor0_cmd_vel_sub	= _nh.subscribe<std_msgs::Float64>("alpha/motor0_cmd_vel", 10, &CanHandler::alphamotor0CmdVelCallback, this);
