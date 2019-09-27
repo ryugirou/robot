@@ -1,0 +1,12 @@
+[submodule "can_msgs"]
+	path = can_msgs
+	url = https://github.com/yskhara/can_msgs.git
+[submodule "can_plugins"]
+	path = can_plugins
+	url = https://github.com/ryugirou/can_plugins.git
+[submodule "base_controller_plugins"]
+	path = base_controller_plugins
+	url = https://github.com/ryugirou/base_controller_plugins.git
+[submodule "odometry_source_plugins"]
+	path = odometry_source_plugins
+	url = https://github.com/ryugirou/odometry_source_plugins.git
