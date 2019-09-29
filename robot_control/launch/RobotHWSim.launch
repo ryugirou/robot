@@ -9,6 +9,9 @@
   <arg name="y0"/>
   <arg name="yaw0"/>
 
+  <arg name="manager_name" default="nodelet_manager" />
+  <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
+
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		    <arg name="world_name" value="nhk2020.world"/>
     		<arg name="debug" value="false" />
@@ -40,20 +43,21 @@
      </node>
 
     <!-- convert x-y velocity to each motor velocity -->
-    <node pkg="base_controller" type="4omni" name="base_controller" output="screen">
-        <param name="motor_max_acc" value="$(arg motor_acc)" />
-        <param name="motor_max_vel" value="$(arg motor_vel)" />
-        <param name="invert_x" value="true" />
-        <param name="invert_y" value="false" />
-        <param name="invert_z" value="false" />
-        <param name="robot_radius" value="$(arg robot_radius)" />
-        <param name="wheel_radius" value="$(arg wheel_radius)" />
-        <remap from="motor0_cmd_vel" to="wheel0_motor_shaft_joint_controller/command" />
-        <remap from="motor1_cmd_vel" to="wheel1_motor_shaft_joint_controller/command" />
-        <remap from="motor2_cmd_vel" to="wheel2_motor_shaft_joint_controller/command" />
-        <remap from="motor3_cmd_vel" to="wheel3_motor_shaft_joint_controller/command" />
-    </node>
+    <node pkg="nodelet" type="nodelet" name="base_controller" args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" output="screen">
+      <param name="motor_max_acc" value="$(arg motor_acc)" />
+      <param name="motor_max_vel" value="$(arg motor_vel)" />
+      <param name="invert_x" value="true" />
+      <param name="invert_y" value="false" />
+      <param name="invert_z" value="false" />
+      <param name="robot_radius" value="$(arg robot_radius)" />
+      <param name="wheel_radius" value="$(arg wheel_radius)" />
+      <remap from="motor0_cmd_vel" to="wheel0_motor_shaft_joint_controller/command" />
+      <remap from="motor1_cmd_vel" to="wheel1_motor_shaft_joint_controller/command" />
+      <remap from="motor2_cmd_vel" to="wheel2_motor_shaft_joint_controller/command" />
+      <remap from="motor3_cmd_vel" to="wheel3_motor_shaft_joint_controller/command" />
+    </node>    
 
+ 
     <!-- publish odom -->
     <node name="gazebo_odom" pkg="robot_control" type="gazebo_odom"  output="screen">
       <param name="model_name"  value="$(arg robot_name)" />
