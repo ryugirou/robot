@@ -7,16 +7,16 @@ joint_state_controller:
 wheel0_motor_shaft_joint_controller:
   type: effort_controllers/JointVelocityController
   joint: wheel0_motor_shaft_joint
-  pid: {p: 0.05,i: 0.0,d: 0.0, i_clamp: 1.0, antiwindup: true}
+  pid: {p: 0.5,i: 20.0,d: 0.0, i_clamp_min: -1000.0,i_clamp_max: 1000.0, antiwindup: false}
 wheel1_motor_shaft_joint_controller:
   type: effort_controllers/JointVelocityController
   joint: wheel1_motor_shaft_joint
-  pid: {p: 0.05,i: 0.0,d: 0.0, i_clamp: 1.0, antiwindup: true}
+  pid: {p: 0.5,i: 20.0,d: 0.0, i_clamp_min: -1000.0,i_clamp_max: 1000.0, antiwindup: false}
 wheel2_motor_shaft_joint_controller:
   type: effort_controllers/JointVelocityController
   joint: wheel2_motor_shaft_joint
-  pid: {p: 0.05,i: 0.0,d: 0.0, i_clamp: 1.0, antiwindup: true}
+  pid: {p: 0.5,i: 20.0,d: 0.0, i_clamp_min: -1000.0,i_clamp_max: 1000.0, antiwindup: false}
 wheel3_motor_shaft_joint_controller:
   type: effort_controllers/JointVelocityController
   joint: wheel3_motor_shaft_joint
-  pid: {p: 0.05,i: 0.0,d: 0.0, i_clamp: 1.0, antiwindup: true}
+  pid: {p: 0.5,i: 20.0,d: 0.0, i_clamp_min: -1000.0,i_clamp_max: 1000.0, antiwindup: false}
