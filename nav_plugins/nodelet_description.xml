@@ -1,0 +1,5 @@
+<library path="lib/libnav_plugins">
+  <class name="nav_plugins/Follower" type="nav_plugins::Follower" base_class_type="nodelet::Nodelet">
+    <description>follower</description>
+  </class>
+</library>

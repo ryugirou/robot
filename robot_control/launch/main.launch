@@ -2,6 +2,9 @@
 <launch>
   <arg name="sim" default="false"/>
 
+  <arg name="manager_name" default="nodelet_manager" />
+  <arg name="nodelet_mode" default="load" /><!-- set to standalone if you want to use as node-->
+
   <!-- robot configuration -->
   <arg name="robot_name" value="omni4"/>
   <arg name="wheel_radius" value="0.1"/>	<!-- m -->
@@ -23,6 +26,8 @@
 
   <!-- launch RobotHW or RobotHWSim depending on argument sim -->
   <include file="$(eval find('robot_control') + '/launch/RobotHWSim.launch' if sim==1 else find('robot_control') + '/launch/RobotHW.launch' )">
+    <arg name="manager_name" value="$(arg manager_name)" />
+    <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="wheel_radius" value="$(arg wheel_radius)"/>
     <arg name="robot_radius" value="$(arg robot_radius)"/>
@@ -36,6 +41,12 @@
 
   <!-- main nodes -->
   <group ns="$(arg robot_name)">
+
+    <group if="$(eval nodelet_mode=='load')">
+      <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen">
+      </node>
+    </group>
+
 	  <param name="robot_description" command="$(find xacro)/xacro '$(find robot_description)/urdf/$(arg robot_name)/model.urdf' 
       mass:=$(arg mass) robot_name:=$(arg robot_name)
     --inorder"/>
@@ -73,9 +84,6 @@
       <param name="initial_pose_y" value="$(arg y0)" />
       <param name="initial_pose_a" value="$(arg yaw0)" />
     </node>
-
-    <node name="dynamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" 
-          args="load move_base/DWAPlannerROS $(find robot_control)/config/move_base/dwa_local_planner_params.yaml" />
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
       <rosparam file="$(find robot_control)/config/move_base/dwa_local_planner_params.yaml" command="load" ns="DWAPlannerROS" />
