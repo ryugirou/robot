@@ -3,7 +3,7 @@
 #include <nav_msgs/Odometry.h>
 #include <std_msgs/UInt8.h>
 #include <math.h>
-#include <tf/tf.h>
+#include <tf2/utils.h>
 
 #include <nodelet/nodelet.h>
 #include <pluginlib/class_list_macros.h>
@@ -417,7 +417,38 @@ static constexpr double traj_y[] = {
 2.56
 };
 
+class Pid{
+  private:
+    double Kp;
+    double Ki;
+    double Kd;
+    double integral;
+    double diff[2]={0,0};
+    double Rate;
+  public:
+    Pid(double _p,double _i,double _d);
+    inline double update(double sensor_val,double target_val);
+};
+
+Pid::Pid(double _p,double _i,double _d){
+        Kp = _p;
+        Ki = _i;
+        Kd = _d;
+        Rate = 7.0;
+        integral = 0;
+}
+
+inline double Pid::update(double sensor_val,double target_val){
+        diff[0] = diff[1];
+        diff[1] = target_val - sensor_val; 
+        integral += (diff[0] + diff[1]) / 2.0 * Rate;
+        return Kp * diff[1] + Ki * integral + Kd * (diff[1]- diff[0]) / Rate;
+}
+
 namespace nav_plugins {
+
+  Pid controller_x(2.0,0.0,0.0);
+  Pid controller_y(2.0,0.0,0.0);
 
   class Follower : public nodelet::Nodelet
   {
@@ -437,6 +468,7 @@ namespace nav_plugins {
 
     double ctrl_freq; 
 
+
     ros::NodeHandle nh_;
     ros::Publisher vel_pub_;
     ros::Subscriber odom_sub_;
@@ -448,12 +480,6 @@ namespace nav_plugins {
     void TimerCallback(const ros::TimerEvent& event);
     void OdomCallback(const nav_msgs::Odometry::ConstPtr& odom);
     void CmdCallback(const std_msgs::UInt8::ConstPtr& cmd);
-  
-    inline double getYawFromQuat(const geometry_msgs::Quaternion& quat)
-    {
-        tf::Quaternion q(quat.x, quat.y, quat.z, quat.w);
-        return tf::getYaw(q);
-    }
   };
   
   void Follower::onInit(){
@@ -482,7 +508,8 @@ namespace nav_plugins {
   void Follower::OdomCallback(const nav_msgs::Odometry::ConstPtr& odom){
     x = odom->pose.pose.position.x;
     y = odom->pose.pose.position.y;
-    yaw = getYawFromQuat(odom->pose.pose.orientation);
+    yaw = tf2::getYaw(odom->pose.pose.orientation);
+
   }
   
   void Follower::TimerCallback(const ros::TimerEvent& event){
@@ -497,8 +524,8 @@ namespace nav_plugins {
       yaw_target = yaw;
     }
     double vel_x,vel_y,vel_yaw;
-    vel_x = 2*(x_target - x);
-    vel_y = 2*(y_target - y);
+    vel_x = controller_x.update(x,x_target);
+    vel_y = controller_y.update(y,y_target);
     vel_yaw = yaw_target - yaw;
     twist.linear.x = vel_x * cos(yaw) + vel_y * -sin(yaw);
     twist.linear.y = vel_x * sin(yaw) + vel_y * cos(yaw);
