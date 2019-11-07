@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="manager_name" default="nodelet_manager" />
-  <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
+  <arg name="nodelet_mode" default="load" /><!-- set to standalone if you want to use as node-->
+
+  <include file="$(find robot_control)/config/machine/real.machine"/>
+
+  <group if="$(eval nodelet_mode=='load')">
+    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" machine="robot"/>
+  </group>
+
+  <node pkg="rqt_console" type="rqt_console" name="rqt_console" machine="laptop">
+    <remap from="/rosout_agg" to="/rosout"/>
+  </node>
 
   <!-- CAN -->
-  <node pkg="nodelet" type="nodelet" name="usb_can_node" args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" output="screen">
+  <node pkg="nodelet" type="nodelet" name="usb_can_node" 
+  args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
     <param name="port" value="/dev/ttyACM0"/>
   </node>    
 
-  <node pkg="nodelet" type="nodelet" name="can_handler" args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" output="screen">
+  <node pkg="nodelet" type="nodelet" name="can_handler" 
+  args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
     <param name="beta0" value="$(eval 0x4b0)"/>
     <param name="beta1" value="$(eval 0x5b4)"/>
     <param name="beta2" value="$(eval 0x4c8)"/>

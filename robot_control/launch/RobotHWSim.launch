@@ -12,6 +12,8 @@
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
 
+  <include file="$(find robot_control)/config/machine/sim.machine"/>
+  
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		    <arg name="world_name" value="nhk2020.world"/>
     		<arg name="debug" value="false" />

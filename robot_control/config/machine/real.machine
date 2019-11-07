@@ -1,0 +1,13 @@
+<launch>
+  <machine name="robot" address="ryu-Diginnos-PC.local" env-loader="/home/ryu/env.bash"/>
+  <machine name="laptop" address="localhost"/>
+</launch>
+<!-- /home/crs002/env.bash
+#!/bin/bash
+u="$USER"
+CATKIN_SHELL="bash"
+export ROS_MASTER_URI="http://crs002.local:11311"
+export ROS_IP="crs002.local"
+source /home/$u/catkin_ws/devel/setup.bash
+exec "$@"
+-->

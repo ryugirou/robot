@@ -12,15 +12,19 @@
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
 
+  <include file="$(find robot_control)/config/machine/real.machine"/>
+
   <group ns="$(arg robot_name)">
 
 
     <!-- CAN -->
-    <node pkg="nodelet" type="nodelet" name="usb_can_node" args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" output="screen">
+    <node pkg="nodelet" type="nodelet" name="usb_can_node" 
+    args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
       <param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:4:1.0-port0"/>
     </node>    
 
-    <node pkg="nodelet" type="nodelet" name="can_handler" args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" output="screen">
+    <node pkg="nodelet" type="nodelet" name="can_handler" 
+    args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
       <param name="beta0" value="$(eval 0x4e0)"/>
       <param name="beta1" value="$(eval 0x4b8)"/>
       <param name="beta2" value="$(eval 0x4d4)"/>
@@ -33,7 +37,7 @@
 
     <!-- publish odom to TF -->
     <node pkg="nodelet" type="nodelet" name="odom_broadcaster" 
-    args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
+    args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" machine="robot">
       <param name="odom_frame" value="$(arg robot_name)/odom" />
       <param name="base_frame"  value="$(arg robot_name)/odom_link" />
       <param name="publish_rate"  value="100" />
@@ -43,7 +47,8 @@
     </node>    
 
     <!-- convert x-y velocity to each motor velocity -->
-    <node pkg="nodelet" type="nodelet" name="base_controller" args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" output="screen">
+    <node pkg="nodelet" type="nodelet" name="base_controller" 
+    args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
       <param name="motor_max_acc" value="$(arg motor_acc)" />
       <param name="motor_max_vel" value="$(arg motor_vel)" />
       <param name="invert_x" value="false" />
@@ -58,7 +63,7 @@
     </node>    
 
     <!-- LRF -->
-    <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
+    <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
       <param name="ip_address" value="192.168.0.10"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>
       <param name="angle_min" value="-1.57"/>

@@ -43,7 +43,7 @@
   <group ns="$(arg robot_name)">
 
     <group if="$(eval nodelet_mode=='load')">
-      <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen"/>
+      <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" machine="robot"/>
     </group>
 
 	  <param name="robot_description" command="$(find xacro)/xacro '$(find robot_description)/urdf/$(arg robot_name)/model.urdf' 
@@ -51,17 +51,17 @@
     --inorder"/>
 
     <!-- convert joint states to TF transforms for rviz, etc -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" machine="robot">
       <param name="tf_prefix" value="$(arg robot_name)"/>
       <remap from="/joint_states" to="joint_states" />
     </node>
 
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" machine="robot"/>
 
-	  <node name="joy_node" pkg="joy" type="joy_node" />    
+	  <node name="joy_node" pkg="joy" type="joy_node" machine="robot"/>    
 
     <!-- joy teleop -->
-    <node pkg="robot_control" type="base_teleop_joy" name="base_teleop_joy" output="screen">
+    <node pkg="robot_control" type="base_teleop_joy" name="base_teleop_joy" machine="robot">
       <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
       <param name="max_lin" value="$(arg lin_vel)" />
       <param name="max_ang" value="$(arg ang_vel)" />
@@ -70,11 +70,11 @@
     </node>
 
 
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/map/map.yaml">
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/map/map.yaml" machine="robot">
       <param name="frame_id" value="$(arg robot_name)/map"/>
     </node>
 
-    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <node pkg="amcl" type="amcl" name="amcl" machine="robot">
       <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
       <param name="base_frame_id" value="$(arg robot_name)/odom_link" />
       <param name="odom_frame_id" value="$(arg robot_name)/odom" />
@@ -84,12 +84,13 @@
       <param name="initial_pose_a" value="$(arg yaw0)" />
     </node>
 
-    <node pkg="nodelet" type="nodelet" name="follower" args="$(arg nodelet_mode) nav_plugins/Follower $(arg manager_name)" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="follower" args="$(arg nodelet_mode) nav_plugins/Follower $(arg manager_name)" machine="robot"/>
 <!--
-     <node pkg="robot_control" type="state_machine.py" name="state_machine.py" output="screen"/>
+     <node pkg="robot_control" type="state_machine.py" name="state_machine.py" machine="robot"/>
 -->
   </group>
 
-  <node pkg="rosbag" type="record" name="rosbag_record" args="record -O $(find robot_control)/bag/traj.bag -a"/>
+  <node pkg="rosbag" type="record" name="rosbag_record" machine="laptop"
+  args="record -O $(find robot_control)/bag/traj.bag -a" />
 
 </launch>
