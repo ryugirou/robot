@@ -30,9 +30,9 @@ class Move(smach.State):
     self.goal.target_pose.pose.orientation.w = pose[1][3]
     # サーバーにgoalを送信                                              
     self.ac.send_goal(self.goal);
-    # 結果が返ってくるまで30.0[s] 待つ。ここでブロックされる。          
+    # 結果が返ってくるまで30.0[s] 待つ.ここでブロックされる.          
     succeeded = self.ac.wait_for_result(rospy.Duration(30));
-    # 結果を見て、成功ならSucceeded、失敗ならFailedと表示               
+    # 結果を見て,成功ならSucceeded,失敗ならFailedと表示               
     state = self.ac.get_state();
     if succeeded:
       rospy.loginfo("Succeeded:"+str(state))

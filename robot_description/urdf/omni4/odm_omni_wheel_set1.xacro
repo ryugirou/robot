@@ -38,7 +38,7 @@
     <gazebo reference="${prefix}_link">
       <mu1 value="2.5" />
       <mu2 value="2.5" />
-      <kp value="5000" />
+      <kp value="10000" />
       <kd value="10" />
       <material>Gazebo/Black</material>
     </gazebo>

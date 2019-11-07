@@ -11,6 +11,7 @@
 #include <sensor_msgs/Joy.h>
 #include <std_msgs/UInt8.h>
 
+#include <std_msgs/Float64.h>
 class BaseTeleop
 {
 public:
@@ -50,6 +51,8 @@ private:
     int AxisRightTrigger;
 
     bool publish_vel;
+
+    ros::Publisher RotateVel_pub;
 };
 
 BaseTeleop::BaseTeleop():private_nh_("~")
@@ -84,6 +87,8 @@ BaseTeleop::BaseTeleop():private_nh_("~")
     vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
     cmd_pub_ = nh_.advertise<std_msgs::UInt8>("cmd", 1);
     joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &BaseTeleop::joyCallback, this);
+
+    RotateVel_pub = nh_.advertise<std_msgs::Float64>("base/motor3_cmd_vel", 1);
     
 }
 
@@ -128,6 +133,10 @@ void BaseTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
       cmd_pub_.publish(msg);
       ROS_WARN("enable");
     }
+    //
+    std_msgs::Float64 vel;
+    vel.data = double(joy->axes[AxisLeftTrigger])*1.5;
+    RotateVel_pub.publish(vel);
 }
 
 int main(int argc, char** argv)

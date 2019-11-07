@@ -90,4 +90,6 @@
 -->
   </group>
 
+  <node pkg="rosbag" type="record" name="rosbag_record" args="record -O $(find robot_control)/bag/traj.bag -a"/>
+
 </launch>

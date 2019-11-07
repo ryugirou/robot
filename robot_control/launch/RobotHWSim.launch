@@ -22,18 +22,11 @@
 	</include>
 
   <group ns="$(arg robot_name)">
-	  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z 0.5 -Y $(arg yaw0)" />
 
     <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find robot_control)/config/4omni_control.yaml" command="load"/>
     <rosparam file="$(find robot_control)/config/sus_controller.yaml" command="load"/>  
     <rosparam file="$(find robot_control)/config/joint_state_controller.yaml" command="load"/>  
-
-    <!-- load the controllers -->
-    <node name="controller_spawner" pkg="controller_manager" type="controller_manager" output="screen" args="spawn
-     wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller
-     sus_controller0 sus_controller1 sus_controller2 sus_controller3 joint_state_controller"
-     />
 
     <node name="liftup_sus" pkg="robot_description" type="liftup_sus.py" respawn="false" output="screen">
        <remap from="sus0" to="sus_controller0/command" />
@@ -41,6 +34,14 @@
        <remap from="sus2" to="sus_controller2/command" />
        <remap from="sus3" to="sus_controller3/command" />
      </node>
+
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="controller_manager" output="screen" args="spawn
+     wheel0_motor_shaft_joint_controller wheel1_motor_shaft_joint_controller wheel2_motor_shaft_joint_controller wheel3_motor_shaft_joint_controller
+     sus_controller0 sus_controller1 sus_controller2 sus_controller3 joint_state_controller"
+     />
+
+	  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z 0.5 -Y $(arg yaw0)" />
 
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" output="screen">

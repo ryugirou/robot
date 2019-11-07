@@ -1,7 +1,7 @@
 obstacle_range: 20.0 #the maximum range sensor reading that will result in an obstacle being put into the costmap
 raytrace_range: 20.0 #the range to which we will raytrace freespace given a sensor reading
 robot_radius: 0.45
-inflation_radius: 0.45  #障害物までの距離がinflation_radius以下の場所をロボットの中心が絶対に通らないようにします。　
+inflation_radius: 0.45  #障害物までの距離がinflation_radius以下の場所をロボットの中心が絶対に通らないようにします.　
  
 observation_sources: laser_scan_sensor
  
