@@ -17,11 +17,10 @@ static constexpr double traj[][2] = {
 
 
 namespace nav_plugins {
-  //Pid controller_x(202.1,28.38,472.4);
-  //Pid controller_y(202.1,28.38,472.4);
+  Pid controller_x(5,0.1,0);
+  Pid controller_y(5,0.1,0);
+  Pid controller_yaw(3,0,0);
 
-  Pid controller_x(465,10,3396);
-  Pid controller_y(465,10,3396);
 
   class Follower : public nodelet::Nodelet
   {
@@ -62,8 +61,6 @@ namespace nav_plugins {
     x=0;
     y=0;
     yaw=0;
-    x_target=3;
-    y_target=3;
     yaw_target=0;
 
     vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
@@ -96,7 +93,7 @@ namespace nav_plugins {
     double vel_x,vel_y,vel_yaw;
     vel_x = controller_x.update(x_target - x,1/ctrl_freq);
     vel_y = controller_y.update(y_target - y,1/ctrl_freq);
-    vel_yaw = yaw_target - yaw;
+    vel_yaw = controller_yaw.update(yaw_target - yaw,1/ctrl_freq);
     twist.linear.x = vel_x * cos(yaw) + vel_y * -sin(yaw);
     twist.linear.y = vel_x * sin(yaw) + vel_y * cos(yaw);
     twist.angular.z = vel_yaw;
