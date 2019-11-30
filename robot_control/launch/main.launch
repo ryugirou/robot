@@ -71,7 +71,7 @@
     </node>
 
 
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/map/map.yaml">
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
       <param name="frame_id" value="$(arg robot_name)/map"/>
     </node>
 
