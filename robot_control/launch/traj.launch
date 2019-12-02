@@ -83,8 +83,10 @@
       <param name="initial_pose_y" value="$(arg y0)" />
       <param name="initial_pose_a" value="$(arg yaw0)" />
     </node>
-
+<!--
     <node pkg="nodelet" type="nodelet" name="follower" args="$(arg nodelet_mode) nav_plugins/Follower $(arg manager_name)" machine="robot"/>
+-->
+    <node pkg="nodelet" type="nodelet" name="position" args="$(arg nodelet_mode) nav_plugins/Position $(arg manager_name)" machine="robot"/>
 <!--
      <node pkg="robot_control" type="state_machine.py" name="state_machine.py" machine="robot"/>
 -->

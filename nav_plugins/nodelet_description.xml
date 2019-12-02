@@ -2,4 +2,8 @@
   <class name="nav_plugins/Follower" type="nav_plugins::Follower" base_class_type="nodelet::Nodelet">
     <description>follower</description>
   </class>
+
+  <class name="nav_plugins/Position" type="nav_plugins::Position" base_class_type="nodelet::Nodelet">
+    <description>position</description>
+  </class>
 </library>

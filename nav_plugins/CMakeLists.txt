@@ -127,6 +127,8 @@ include_directories(
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
   src/follower.cpp
+  src/position.cpp
+  src/pid.cpp
 )
 
 ## Add cmake target dependencies of the library
