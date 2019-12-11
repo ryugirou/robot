@@ -3,7 +3,7 @@
   <arg name="manager_name" default="nodelet_manager" />
   <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
 
-  <include file="$(find robot_control)/config/machine/sim.machine"/>
+  <include file="$(find robot_control)/config/machine/real.machine"/>
 
   <group if="$(eval nodelet_mode=='load')">
     <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" machine="robot"/>
@@ -20,7 +20,8 @@
     <param name="upper_limit" value="3.14"/>
     <remap from="pos" to="base/motor0_cmd_vel"/>
     <remap from="vel" to="motor0_vel"/>
-  </node> -->
+  </node> 
+  -->
 
   <!-- CAN -->
   <node pkg="nodelet" type="nodelet" name="usb_can_node" 
@@ -30,10 +31,10 @@
 
   <node pkg="nodelet" type="nodelet" name="can_handler" 
   args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
-    <param name="beta0" value="$(eval 0x5b0)"/>
+    <param name="beta0" value="$(eval 0x4f0)"/>
     <param name="beta1" value="$(eval 0x5b4)"/>
-    <param name="beta2" value="$(eval 0x4c8)"/>
-    <param name="beta3" value="$(eval 0x4c4)"/>
+    <param name="beta2" value="$(eval 0x5b8)"/>
+    <param name="beta3" value="$(eval 0x4b0)"/>
     <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
     <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
     <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>

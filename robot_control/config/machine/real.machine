@@ -1,8 +1,8 @@
 <launch>
-  <machine name="robot" address="ryu-Diginnos-PC.local" env-loader="/home/ryu/env.bash"/>
+  <machine name="robot" user="nhk" address="crs002.local" env-loader="/home/nhk/env.bash"/>
   <machine name="laptop" address="localhost"/>
 </launch>
-<!-- /home/crs002/env.bash
+<!-- /home/nhk/env.bash
 #!/bin/bash
 u="$USER"
 CATKIN_SHELL="bash"

@@ -16,19 +16,23 @@
 
   <group ns="$(arg robot_name)">
 
+  <!-- Nodelet Manager -->
+    <group if="$(eval nodelet_mode=='load')">
+      <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" machine="robot"/>
+    </group>
 
     <!-- CAN -->
     <node pkg="nodelet" type="nodelet" name="usb_can_node" 
     args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
-      <param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:4:1.0-port0"/>
+      <param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:1:1.0"/>
     </node>    
 
     <node pkg="nodelet" type="nodelet" name="can_handler" 
     args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
-      <param name="beta0" value="$(eval 0x4e0)"/>
-      <param name="beta1" value="$(eval 0x4b8)"/>
-      <param name="beta2" value="$(eval 0x4d4)"/>
-      <param name="beta3" value="$(eval 0x4d0)"/>
+      <param name="beta0" value="$(eval 0x5b8)"/>
+      <param name="beta1" value="$(eval 0x4e0)"/>
+      <param name="beta2" value="$(eval 0x5b4)"/>
+      <param name="beta3" value="$(eval 0x4f0)"/>
       <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
       <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
       <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
@@ -49,7 +53,8 @@
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
-      <param name="motor_max_acc" value="$(arg motor_acc)" />
+    <!--  <param name="motor_max_acc" value="$(arg motor_acc)" /> -->
+      <param name="motor_max_acc" value="500" />
       <param name="motor_max_vel" value="$(arg motor_vel)" />
       <param name="invert_x" value="false" />
       <param name="invert_y" value="true" />
@@ -70,6 +75,5 @@
       <param name="angle_max" value="1.57"/>
       <remap from="scan" to="scan"/>
     </node>
-
   </group>
 </launch>
