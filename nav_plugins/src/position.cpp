@@ -17,28 +17,36 @@ namespace nav_plugins {
   {
   public:
     virtual void onInit();
-    ~Position(){
-      delete controller_x;
-      delete controller_y;
-      delete controller_yaw;
-    };
   private:
     int t;
-    static constexpr double ctrl_freq = 1000; 
+    double ctrl_freq; 
 
+    //pid gain for xy
+    double Kp_xy;
+    double Ki_xy;
+    double Kd_xy;
+
+    //pid gain for yaw
+    double Kp_yaw;
+    double Ki_yaw;
+    double Kd_yaw;
+
+    //current pose
     double x;
     double y;
     double yaw;
   
+    //target pose
     double x_target;
     double y_target;
     double yaw_target;
 
-    Pid* controller_x;
-    Pid* controller_y;
-    Pid* controller_yaw;
+    double epsilon_xy;
+    double epsilon_yaw;
 
     ros::NodeHandle nh_;
+    ros::NodeHandle nh_priv;
+
     ros::Publisher vel_pub_;
     ros::Subscriber odom_sub_;
     ros::Subscriber cmd_sub_;
@@ -46,15 +54,67 @@ namespace nav_plugins {
     geometry_msgs::Twist twist;
     nav_msgs::Odometry odom;
   
+    std::unique_ptr<Pid> controller_x_ptr;
+    std::unique_ptr<Pid> controller_y_ptr;
+    std::unique_ptr<Pid> controller_yaw_ptr;
+
     void TimerCallback(const ros::TimerEvent& event);
     void OdomCallback(const nav_msgs::Odometry::ConstPtr& odom);
   };
   
-  void Position::onInit(){
-    controller_x=new Pid(1,1,1);
-    controller_y=new Pid(1,1,1);
-    controller_yaw=new Pid(1,1,1);
+  void Position::onInit(){    
     nh_ = getNodeHandle();
+    nh_priv = getPrivateNodeHandle();
+
+    if(!nh_priv.getParam("ctrl_freq", ctrl_freq))
+    {
+        ctrl_freq = 1000;
+    }
+
+    if(!nh_priv.getParam("Kp_xy", Kp_xy))
+    {
+        Kp_xy = 1;
+    }
+
+    if(!nh_priv.getParam("Ki_xy", Ki_xy))
+    {
+        Ki_xy = 1;
+    }
+
+    if(!nh_priv.getParam("Kd_xy", Kd_xy))
+    {
+        Kd_xy = 1;
+    }
+
+    if(!nh_priv.getParam("Kp_yaw", Kp_yaw))
+    {
+        Kp_yaw = 1;
+    }
+
+    if(!nh_priv.getParam("Ki_yaw", Ki_yaw))
+    {
+        Ki_yaw = 1;
+    }
+
+    if(!nh_priv.getParam("Kd_yaw", Kd_yaw))
+    {
+        Kd_yaw = 1;
+    }
+
+    if(!nh_priv.getParam("epsilon_xy", epsilon_xy))
+    {
+        epsilon_xy = 0.01;
+    }
+
+    if(!nh_priv.getParam("epsilon_yaw", epsilon_yaw))
+    {
+        epsilon_yaw = 0.01;
+    }
+
+    std::unique_ptr<Pid> controller_x_ptr(new Pid(Kp_xy,Ki_xy,Kd_xy));
+    std::unique_ptr<Pid> controller_y_ptr(new Pid(Kp_xy,Ki_xy,Kd_xy));
+    std::unique_ptr<Pid> controller_yaw_ptr(new Pid(Kp_yaw,Ki_xy,Kd_yaw));
+
     t=0;
     x=0;
     y=0;
@@ -74,9 +134,9 @@ namespace nav_plugins {
   
   void Position::TimerCallback(const ros::TimerEvent& event){
     double vel_x,vel_y,vel_yaw;
-    vel_x = controller_x->update(x_target - x,1/ctrl_freq);
-    vel_y = controller_y->update(y_target - y,1/ctrl_freq);
-    vel_yaw = controller_yaw->update(yaw_target - yaw,1/ctrl_freq);
+    vel_x = controller_x_ptr->update(x_target - x,1/ctrl_freq);
+    vel_y = controller_y_ptr->update(y_target - y,1/ctrl_freq);
+    vel_yaw = controller_yaw_ptr->update(yaw_target - yaw,1/ctrl_freq);
     twist.linear.x = vel_x * cos(yaw) + vel_y * -sin(yaw);
     twist.linear.y = vel_x * sin(yaw) + vel_y * cos(yaw);
     twist.angular.z = vel_yaw;
