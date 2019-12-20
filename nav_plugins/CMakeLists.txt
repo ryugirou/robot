@@ -15,6 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
   nodelet
   pluginlib
   roscpp
+  tf2
+  tf2_geometry_msgs
+  tf2_msgs
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,7 +111,7 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+ # INCLUDE_DIRS include
   LIBRARIES nav_plugins
   CATKIN_DEPENDS actionlib actionlib_msgs geometry_msgs nav_msgs nodelet pluginlib roscpp
 #  DEPENDS system_lib
@@ -126,8 +130,8 @@ include_directories(
 
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
-  src/follower.cpp
-  src/position.cpp
+  #src/follower.cpp
+  #src/position.cpp
   src/pid.cpp
 )
 
@@ -214,3 +218,9 @@ target_link_libraries(${PROJECT_NAME}
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+
+
+add_executable(PoseFollower src/PoseFollower.cpp)
+target_link_libraries(PoseFollower ${PROJECT_NAME} ${catkin_LIBRARIES})
+add_dependencies(PoseFollower ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

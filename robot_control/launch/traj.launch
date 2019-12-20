@@ -15,7 +15,7 @@
   <arg name="motor_vel" value="100"/>	<!-- rad/s -->
   <arg name="x0" value="1.0"/>
   <arg name="y0" value="1.0"/>
-  <arg name="yaw0" value="0"/>
+  <arg name="yaw0" value="1.7"/>
   <arg name="R_lin" value="1.0"/>
   <arg name="R_ang" value="1.0"/>
 
@@ -70,7 +70,7 @@
     </node>
 
 
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml" machine="robot">
+    <!-- <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml" machine="robot">
       <param name="frame_id" value="$(arg robot_name)/map"/>
     </node>
 
@@ -82,14 +82,24 @@
       <param name="initial_pose_x" value="$(arg x0)" />
       <param name="initial_pose_y" value="$(arg y0)" />
       <param name="initial_pose_a" value="$(arg yaw0)" />
+    </node> -->
+    <!-- <node pkg="nodelet" type="nodelet" name="follower" args="$(arg nodelet_mode) nav_plugins/Follower $(arg manager_name)" machine="robot"/> -->
+
+    <!-- <node pkg="nodelet" type="nodelet" name="position" args="$(arg nodelet_mode) nav_plugins/Position $(arg manager_name)" machine="robot"/> -->
+    
+    <!-- <node pkg="robot_control" type="state_machine.py" name="state_machine.py" machine="robot"/> -->
+
+    <node pkg="nav_plugins" type="PoseFollower" name="PoseFollower" machine="robot" output="screen">
+      <param name="Kp_xy" value="8"/>
+      <param name="Ki_xy" value="0"/>
+      <param name="Kd_xy" value="0"/>
+      <param name="Kp_yaw" value="3" />
+      <param name="Ki_yaw" value="0" />
+      <param name="Kd_yaw" value="0" />
     </node>
-    <node pkg="nodelet" type="nodelet" name="follower" args="$(arg nodelet_mode) nav_plugins/Follower $(arg manager_name)" machine="robot"/>
-<!--
-     <node pkg="robot_control" type="state_machine.py" name="state_machine.py" machine="robot"/>
--->
+
   </group>
 
-  <node pkg="rosbag" type="record" name="rosbag_record" machine="laptop"
-  args="record -O $(find robot_control)/bag/traj.bag -a" />
+  <!-- <node pkg="rosbag" type="record" name="rosbag_record" machine="laptop" args="record -O $(find robot_control)/bag/traj.bag -a" /> -->
 
 </launch>

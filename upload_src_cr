@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#rsync -avz ~/catkin_ws/build/ nhk@crs002.local:~/catkin_ws/build/
+#rsync -avz ~/catkin_ws/devel/ nhk@crs002.local:~/catkin_ws/devel/
 rsync -avz ~/catkin_ws/src/ nhk@crs002.local:~/catkin_ws/src/
 #rsync -avz ~/catkin_ws/src/ yusaku@crs001.local:~/catkin_ws/src/
 #rsync -avz ~/catkin_ws/src/ ubuntu@pi.local:~/catkin_ws/src/
