@@ -1,44 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="manager_name" default="nodelet_manager" />
-  <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
+  <!-- <arg name="nodelet_mode" default="load" /> -->
+  <arg name="nodelet_mode" default="standalone" />
 
   <include file="$(find robot_control)/config/machine/sim.machine"/>
 
   <group if="$(eval nodelet_mode=='load')">
-    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" machine="robot"/>
+    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager"/>
   </group>
 
-  <node pkg="rqt_console" type="rqt_console" name="rqt_console" machine="laptop">
+  <node pkg="rqt_console" type="rqt_console" name="rqt_console">
     <remap from="/rosout_agg" to="/rosout"/>
   </node>
 
    
-  <node pkg="nodelet" type="nodelet" name="vel_control" 
+  <!-- <node pkg="nodelet" type="nodelet" name="vel_control" 
   args="$(arg nodelet_mode) base_controller_plugins/Vel_control $(arg manager_name)" machine="robot">
     <param name="lower_limit" value="-13.0"/>
     <param name="upper_limit" value="0.0"/>
     <remap from="pos" to="base/motor0_cmd_vel"/>
     <remap from="vel" to="motor0_vel"/>
-  </node> 
+  </node>  -->
 
 
   <!-- CAN -->
-  <node pkg="nodelet" type="nodelet" name="usb_can_node"
-  args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
-    <param name="port" value="/dev/ttyUSB0"/>
-  </node>
+
+  <!-- <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge_node">
+    <param name="can_device" value="slcan0"/>
+    <remap from="received_messages" to="can_rx"/>
+    <remap from="sent_messages" to="can_tx"/>
+  </node> -->
+
+  <node pkg="nodelet" type="nodelet" name="usb_can_node" 
+    args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" output="screen">
+      <param name="port" value="/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_205033544334-if00"/>
+      <!-- <param name="port" value="/dev/ttyUSB0"/> -->
+      <param name="baud" value="1000000"/>
+  </node>    
 
   <node pkg="nodelet" type="nodelet" name="can_handler" 
-  args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
-    <param name="beta0" value="$(eval 0x4d4)"/>
-    <param name="beta1" value="$(eval 0x4dc)"/>
-    <param name="beta2" value="$(eval 0x5b4)"/>
-    <param name="beta3" value="$(eval 0x4b0)"/>
+  args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" >
+    <param name="beta0" value="$(eval 0x4f4)"/>
+    <param name="beta1" value="$(eval 0x4f8)"/>
+    <param name="beta2" value="$(eval 0x4b0)"/>
+    <param name="beta3" value="$(eval 0x4c4)"/>
+    <param name="beta4" value="$(eval 0x5bc)"/>
     <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
     <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
     <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
-    <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
+    <remap from="beta/motor4_cmd_vel" to="base/motor3_cmd_vel"/>
+
   </node>
+
+  <!-- <node name="joy_node" pkg="joy" type="joy_node"/>     -->
+
+  <!-- <node pkg="robot_control" type="state.py" name="state">
+      <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
+      <param name="max_lin" value="0.5" />
+      <param name="max_ang" value="1" />
+      <param name="publish_vel" value="true" />
+      <remap from="cmd" to="beta/cmd" />
+
+      <remap from="slide" to="base/motor4_cmd_vel"/>
+      <remap from="arm" to="base/motor5_cmd_vel"/>
+      <remap from="launcher" to="base/motor6_cmd_vel"/>
+  </node> -->
+
+  <!-- <node pkg="can_plugins" type="ping" name="ping" output="screen">
+    <param name="ctrl_freq" value="1000"/>
+    <remap from="rx" to="test_rx"/>
+    <remap from="tx" to="test_tx"/>
+  </node> -->
+
 
 </launch>

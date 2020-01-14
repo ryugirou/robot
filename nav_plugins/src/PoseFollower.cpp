@@ -5,6 +5,8 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/TransformStamped.h>
 #include "geometry_msgs/PoseStamped.h"
+//#include <actionlib/server/simple_action_server.h>
+//#include <nav_plugins/PosesAction.h>
 #include <pid.hpp>
 
 class PoseFollower
@@ -49,6 +51,7 @@ private:
   ros::NodeHandle nh_;
   ros::NodeHandle private_nh_;
 
+  // actionlib::SimpleActionServer<nav_plugins::PosesAction> as_;
   ros::Publisher vel_pub_;
 
   geometry_msgs::PoseStamped odom_pose;

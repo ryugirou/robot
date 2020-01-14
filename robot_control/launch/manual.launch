@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="sim" default="false"/>
+  <arg name="tr"  default="false"/>
+  <arg name="pr"  default="false"/>
 
   <arg name="manager_name" default="nodelet_manager" />
   <arg name="nodelet_mode" default="load" /><!-- set to standalone if you want to use as node-->
@@ -25,18 +27,37 @@
   <arg name="ang_vel" value="$(eval wheel_radius * motor_vel * R_ang / robot_radius)"/>
 
   <!-- launch RobotHW or RobotHWSim depending on argument sim -->
-  <include file="$(eval find('robot_control') + '/launch/RobotHWSim.launch' if sim==1 else find('robot_control') + '/launch/TR.launch' )">
-    <arg name="manager_name" value="$(arg manager_name)" />
-    <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
-    <arg name="robot_name" value="$(arg robot_name)"/>
-    <arg name="wheel_radius" value="$(arg wheel_radius)"/>
-    <arg name="robot_radius" value="$(arg robot_radius)"/>
-    <arg name="motor_acc" value="$(arg motor_acc)"/>
-    <arg name="motor_vel" value="$(arg motor_vel)"/>
-    <arg name="x0" value="$(arg x0)"/>
-    <arg name="y0" value="$(arg y0)"/>
-    <arg name="yaw0" value="$(arg yaw0)"/>
-  </include>
+  <group if="$(arg tr)">
+    <include file="$(eval find('robot_control') + '/launch/TR.launch' )">
+      <arg name="manager_name" value="$(arg manager_name)" />
+      <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
+      <arg name="robot_name" value="$(arg robot_name)"/>
+      <arg name="wheel_radius" value="$(arg wheel_radius)"/>
+      <arg name="robot_radius" value="$(arg robot_radius)"/>
+      <arg name="motor_acc" value="$(arg motor_acc)"/>
+      <arg name="motor_vel" value="$(arg motor_vel)"/>
+      <arg name="x0" value="$(arg x0)"/>
+      <arg name="y0" value="$(arg y0)"/>
+      <arg name="yaw0" value="$(arg yaw0)"/>
+    </include>
+  </group>
+
+  <group if="$(arg pr)">
+    <include file="$(eval find('robot_control') + '/launch/PR.launch' )">
+      <arg name="manager_name" value="$(arg manager_name)" />
+      <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
+      <arg name="robot_name" value="$(arg robot_name)"/>
+      <arg name="wheel_radius" value="$(arg wheel_radius)"/>
+      <arg name="robot_radius" value="$(arg robot_radius)"/>
+      <arg name="motor_acc" value="$(arg motor_acc)"/>
+      <arg name="motor_vel" value="$(arg motor_vel)"/>
+      <arg name="x0" value="$(arg x0)"/>
+      <arg name="y0" value="$(arg y0)"/>
+      <arg name="yaw0" value="$(arg yaw0)"/>
+    </include>
+  </group>
+    
+
   
   <group ns="$(arg robot_name)">
     <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
@@ -75,14 +96,31 @@
       <remap from="launcher" to="base/motor6_cmd_vel"/>
     </node> -->
 
-    <node pkg="robot_control" type="state_tr.py" name="state" machine="robot">
-      <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
-      <param name="max_lin" value="0.5" />
-      <param name="max_ang" value="$(arg ang_vel)" />
-      <param name="publish_vel" value="true" />
-      <remap from="cmd" to="beta/cmd" />
-      <remap from="slide" to="base/motor4_cmd_vel"/>
-    </node>
+    <group if="$(arg tr)">
+      <node pkg="robot_control" type="state_tr.py" name="state" machine="robot">
+        <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
+        <param name="max_lin" value="0.5" />
+        <param name="max_ang" value="$(arg ang_vel)" />
+        <param name="publish_vel" value="true" />
+        <remap from="cmd" to="beta/cmd" />
+        <remap from="slide" to="base/motor4_cmd_vel"/>
+        <remap from="kick" to="base/motor5_cmd_vel"/>
+      </node>
+    </group>
+
+    <group if="$(arg pr)">
+      <node pkg="robot_control" type="state_pr.py" name="state" machine="robot" output="screen">
+        <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
+        <param name="max_lin" value="0.5" />
+        <param name="max_ang" value="$(arg ang_vel)" />
+        <param name="publish_vel" value="true" />
+        <remap from="cmd" to="beta/cmd" />
+        <remap from="arm" to="base/motor4_cmd_vel"/>
+        <remap from="launcher" to="base/motor5_cmd_vel"/>
+        <remap from="slide" to="base/motor6_cmd_vel"/>
+      </node>
+    </group>
+
 
   </group>
 

@@ -1,0 +1,4 @@
+<launch>
+  <machine name="robot" user="yusaku" address="crs001.local" env-loader="/home/yusaku/env.bash"/>
+  <machine name="laptop" address="localhost"/>
+</launch>

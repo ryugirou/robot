@@ -12,7 +12,7 @@
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
 
-  <include file="$(find robot_control)/config/machine/real.machine"/>
+  <include file="$(find robot_control)/config/machine/pr.machine"/>
 
   <group ns="$(arg robot_name)">
 
@@ -23,20 +23,34 @@
 
     <!-- CAN -->
     <node pkg="nodelet" type="nodelet" name="usb_can_node" 
-    args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
-      <param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:1:1.0"/>
+    args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot" output="screen">
+      <param name="port" value="/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_206432685434-if00"/>
+      <param name="baud" value="1000000"/>
+      <!-- <param name="port" value="/dev/ttyUSB0"/> -->
     </node>    
+
+    <!-- <node pkg="can_plugins" type="usb_can_node_" name="usb_can_node_" machine="robot">
+      <param name="port" value="/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_206432685434-if00"/>
+    </node> -->
 
     <node pkg="nodelet" type="nodelet" name="can_handler" 
     args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
-      <param name="beta0" value="$(eval 0x5b8)"/>
-      <param name="beta1" value="$(eval 0x4e0)"/>
-      <param name="beta2" value="$(eval 0x5b4)"/>
-      <param name="beta3" value="$(eval 0x4f0)"/>
+      <param name="beta0" value="$(eval 0x4f0)"/> <!-- 5b8 -->
+      <param name="beta1" value="$(eval 0x5b8)"/> <!-- 4e0 -->
+      <param name="beta2" value="$(eval 0x4e0)"/> <!-- 4dc -->
+      <param name="beta3" value="$(eval 0x4dc)"/> <!-- 4f0 -->
+
+      <param name="beta4" value="$(eval 0x4b8)"/>
+      <param name="beta5" value="$(eval 0x4d0)"/>
+      <param name="beta6" value="$(eval 0x5b4)"/>
+
       <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
       <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
       <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
       <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
+      <remap from="beta/motor4_cmd_vel" to="base/motor4_cmd_vel"/>
+      <remap from="beta/motor5_cmd_vel" to="base/motor5_cmd_vel"/>
+      <remap from="beta/motor6_cmd_vel" to="base/motor6_cmd_vel"/>
     </node>
 
     <!-- publish odom to TF -->
@@ -54,9 +68,9 @@
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
     <!--  <param name="motor_max_acc" value="$(arg motor_acc)" /> -->
-      <param name="motor_max_acc" value="100" />
+      <param name="motor_max_acc" value="50" />
       <param name="motor_max_vel" value="$(arg motor_vel)" />
-      <param name="invert_x" value="true" />
+      <param name="invert_x" value="false" />
       <param name="invert_y" value="true" />
       <param name="invert_z" value="true" />
       <param name="robot_radius" value="$(arg robot_radius)" />
@@ -68,12 +82,12 @@
     </node>    
 
     <!-- LRF -->
-    <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+    <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
       <param name="ip_address" value="192.168.0.10"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>
       <param name="angle_min" value="-1.57"/>
       <param name="angle_max" value="1.57"/>
       <remap from="scan" to="scan"/>
-    </node>
+    </node> -->
   </group>
 </launch>
