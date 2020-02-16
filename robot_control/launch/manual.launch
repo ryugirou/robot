@@ -1,139 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <arg name="sim" default="false"/>
-  <arg name="tr"  default="false"/>
-  <arg name="pr"  default="false"/>
-
   <arg name="manager_name" default="nodelet_manager" />
-  <arg name="nodelet_mode" default="load" /><!-- set to standalone if you want to use as node-->
+  <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
+  <arg name="debug" default="true"/>
+  <arg name="robot_name" default="omni4"/>
+  <arg name="sim" default="false"/>
 
-  <!-- robot configuration -->
-  <arg name="robot_name" value="omni4"/>
-  <arg name="wheel_radius" value="0.1"/>	<!-- m -->
-  <arg name="robot_radius" value="0.25" />	<!-- m  center to wheel-->
-  <arg name="mass" value="10"/>	<!-- kg -->
-  <arg name="motor_torque" value="8.0"/>	<!-- N*m MTQ-->
-  <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
-  <arg name="motor_vel" value="100"/>	<!-- rad/s -->
-  <arg name="x0" value="0.5"/>
-  <arg name="y0" value="0.5"/>
-  <arg name="yaw0" value="0"/>
-  <arg name="R_lin" value="0.9"/>
-  <arg name="R_ang" value="0.08"/>
+  <include file="$(eval find(robot_name) + '/launch/RobotHW.launch' )">
+    <arg name="manager_name" value="$(arg manager_name)" />
+    <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
 
-  <arg name="lin_acc" value="$(eval wheel_radius * motor_acc * R_lin)"/>
-  <arg name="ang_acc" value="$(eval wheel_radius * motor_acc * R_ang / robot_radius)"/>
-  <arg name="lin_vel" value="$(eval wheel_radius * motor_vel * R_lin)"/>
-  <arg name="ang_vel" value="$(eval wheel_radius * motor_vel * R_ang / robot_radius)"/>
-
-  <!-- launch RobotHW or RobotHWSim depending on argument sim -->
-  <group if="$(arg tr)">
-    <include file="$(eval find('robot_control') + '/launch/TR.launch' )">
-      <arg name="manager_name" value="$(arg manager_name)" />
-      <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
-      <arg name="robot_name" value="$(arg robot_name)"/>
-      <arg name="wheel_radius" value="$(arg wheel_radius)"/>
-      <arg name="robot_radius" value="$(arg robot_radius)"/>
-      <arg name="motor_acc" value="$(arg motor_acc)"/>
-      <arg name="motor_vel" value="$(arg motor_vel)"/>
-      <arg name="x0" value="$(arg x0)"/>
-      <arg name="y0" value="$(arg y0)"/>
-      <arg name="yaw0" value="$(arg yaw0)"/>
-    </include>
-  </group>
-
-  <group if="$(arg pr)">
-    <include file="$(eval find('robot_control') + '/launch/PR.launch' )">
-      <arg name="manager_name" value="$(arg manager_name)" />
-      <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
-      <arg name="robot_name" value="$(arg robot_name)"/>
-      <arg name="wheel_radius" value="$(arg wheel_radius)"/>
-      <arg name="robot_radius" value="$(arg robot_radius)"/>
-      <arg name="motor_acc" value="$(arg motor_acc)"/>
-      <arg name="motor_vel" value="$(arg motor_vel)"/>
-      <arg name="x0" value="$(arg x0)"/>
-      <arg name="y0" value="$(arg y0)"/>
-      <arg name="yaw0" value="$(arg yaw0)"/>
-    </include>
-  </group>
-    
-
-  
   <group ns="$(arg robot_name)">
-    <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
+    <!-- <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
 	  <param name="robot_description" command="$(find xacro)/xacro $(arg model) 
-      mass:=$(arg mass)
-    --inorder"/>
+      mass:=$(arg mass)"/> -->
 
     <!-- convert joint states to TF transforms for rviz, etc -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" machine="robot">
+    <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" machine="robot">
       <param name="tf_prefix" value="$(arg robot_name)"/>
       <remap from="/joint_states" to="joint_states" />
     </node>
 
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" machine="robot"/>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" machine="robot"/> -->
 
-	  <node name="joy_node" pkg="joy" type="joy_node" machine="robot"/>    
+	  <!-- <node name="joy_node" pkg="joy" type="joy_node" machine="robot"/>  -->
 
-    <!-- joy teleop -->
-    <!-- <node pkg="robot_control" type="base_teleop_joy" name="base_teleop_joy" output="screen" machine="robot">
-      <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
-      <param name="max_lin" value="$(arg lin_vel)" />
-      <param name="max_ang" value="$(arg ang_vel)" />
-      <param name="publish_vel" value="true" />
-      <remap from="cmd" to="beta/cmd" />
-    </node> -->
-
-    <!-- <node pkg="robot_control" type="state.py" name="state" machine="robot">
-      <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
-      <param name="max_lin" value="0.5" />
-      <param name="max_ang" value="$(arg ang_vel)" />
-      <param name="publish_vel" value="true" />
-      <remap from="cmd" to="beta/cmd" />
-
-      <remap from="slide" to="base/motor4_cmd_vel"/>
-      <remap from="arm" to="base/motor5_cmd_vel"/>
-      <remap from="launcher" to="base/motor6_cmd_vel"/>
-    </node> -->
-
-    <group if="$(arg tr)">
-      <node pkg="robot_control" type="state_tr.py" name="state" machine="robot">
-        <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
-        <param name="max_lin" value="0.5" />
-        <param name="max_ang" value="$(arg ang_vel)" />
-        <param name="publish_vel" value="true" />
-        <remap from="cmd" to="beta/cmd" />
-        <remap from="slide" to="base/motor4_cmd_vel"/>
-        <remap from="kick" to="base/motor5_cmd_vel"/>
-      </node>
-    </group>
-
-    <group if="$(arg pr)">
-      <node pkg="robot_control" type="state_pr.py" name="state" machine="robot" output="screen">
-        <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
-        <param name="max_lin" value="0.5" />
-        <param name="max_ang" value="$(arg ang_vel)" />
-        <param name="publish_vel" value="true" />
-        <remap from="cmd" to="beta/cmd" />
-        <remap from="arm" to="base/motor4_cmd_vel"/>
-        <remap from="launcher" to="base/motor5_cmd_vel"/>
-        <remap from="slide" to="base/motor6_cmd_vel"/>
-      </node>
-    </group>
-
-
+    <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen" machine="robot">
+      <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
+      <param name="device_addr" value="" />
+      <param name="use_standard_msgs" value="true" />
+    </node>   
   </group>
 
 
   <!-- Debug -->
-  <node pkg="rqt_console" type="rqt_console" name="rqt_console" machine="laptop">
-    <remap from="/rosout_agg" to="/rosout"/>
-  </node>
-
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/config/SETTING.rviz" machine="laptop">
-    <remap from="/move_base_simple/goal" to="/$(arg robot_name)/move_base_simple/goal"/>
-  </node>
-
-   <!-- <node pkg="rosbag" type="record" name="rosbag_record" machine="laptop"
-    args="record -O $(find robot_control)/bag/slam.bag -a" /> -->
+  <group if="$(arg debug)">
+    <include file="$(find robot_control)/launch/debug.launch">
+      <arg name="robot_name" value="$(arg robot_name)"/>
+    </include>
+  </group>
+ 
 </launch>

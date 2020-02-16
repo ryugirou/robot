@@ -1,0 +1,4 @@
+<launch>
+  <machine name="robot" address="localhost"/>   
+  <machine name="laptop" address="localhost"/>   
+</launch>

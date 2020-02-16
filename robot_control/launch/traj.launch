@@ -1,119 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <arg name="sim" default="false"/>
-
   <arg name="manager_name" default="nodelet_manager" />
-  <arg name="nodelet_mode" default="load" /><!-- set to standalone if you want to use as node-->
+  <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
+  <arg name="debug" default="true"/>
+  <arg name="robot_name" default="omni4"/>
 
-  <!-- robot configuration -->
-  <arg name="robot_name" value="omni4"/>
-  <arg name="wheel_radius" value="0.1"/>	<!-- m -->
-  <arg name="robot_radius" value="0.25" />	<!-- m  center to wheel-->
-  <arg name="mass" value="10"/>	<!-- kg -->
-  <arg name="motor_torque" value="13.8"/>	<!-- N*m MTQ-->
-  <arg name="motor_acc" value="$(eval motor_torque * 2 / (mass * wheel_radius))"/>	<!-- rad/s^2 -->
-  <arg name="motor_vel" value="100"/>	<!-- rad/s -->
-  <arg name="x0" value="1.0"/>
-  <arg name="y0" value="1.0"/>
-  <arg name="yaw0" value="1.7"/>
-  <arg name="R_lin" value="1.0"/>
-  <arg name="R_ang" value="1.0"/>
-
-  <arg name="lin_acc" value="$(eval wheel_radius * motor_acc * R_lin)"/>
-  <arg name="ang_acc" value="$(eval wheel_radius * motor_acc * R_ang / robot_radius)"/>
-  <arg name="lin_vel" value="$(eval wheel_radius * motor_vel * R_lin)"/>
-  <arg name="ang_vel" value="$(eval wheel_radius * motor_vel * R_ang / robot_radius)"/>
-
-  <!-- launch RobotHW or RobotHWSim depending on argument sim -->
-  <include file="$(eval find('robot_control') + '/launch/RobotHWSim.launch' if sim==1 else find('robot_control') + '/launch/RobotHW.launch' )">
+  <include file="$(eval find(robot_name) + '/launch/RobotHW.launch' )">
     <arg name="manager_name" value="$(arg manager_name)" />
     <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
     <arg name="robot_name" value="$(arg robot_name)"/>
-    <arg name="wheel_radius" value="$(arg wheel_radius)"/>
-    <arg name="robot_radius" value="$(arg robot_radius)"/>
-    <arg name="motor_acc" value="$(arg motor_acc)"/>
-    <arg name="motor_vel" value="$(arg motor_vel)"/>
-    <arg name="x0" value="$(arg x0)"/>
-    <arg name="y0" value="$(arg y0)"/>
-    <arg name="yaw0" value="$(arg yaw0)"/>
   </include>
+  
 
-
-  <!-- main nodes -->
   <group ns="$(arg robot_name)">
-
-    <group if="$(eval nodelet_mode=='load')">
-      <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" machine="robot"/>
-    </group>
-
-	  <param name="robot_description" command="$(find xacro)/xacro '$(find robot_description)/urdf/$(arg robot_name)/model.urdf' 
-      mass:=$(arg mass) robot_name:=$(arg robot_name)
-    --inorder"/>
-
-    <!-- convert joint states to TF transforms for rviz, etc -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" machine="robot">
-      <param name="tf_prefix" value="$(arg robot_name)"/>
-      <remap from="/joint_states" to="joint_states" />
-    </node>
-
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" machine="robot"/>
-
-	  <node name="joy_node" pkg="joy" type="joy_node" machine="robot"/>    
-
-    <!-- joy teleop -->
-    <node pkg="robot_control" type="base_teleop_joy" name="base_teleop_joy" machine="robot">
-      <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
-      <param name="max_lin" value="$(arg lin_vel)" />
-      <param name="max_ang" value="$(arg ang_vel)" />
-      <param name="publish_vel" value="false" />
-      <remap from="cmd" to="beta/cmd" />
-    </node>
-
-
-    <!-- <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml" machine="robot">
-      <param name="frame_id" value="$(arg robot_name)/map"/>
-    </node>
-
-    <node pkg="amcl" type="amcl" name="amcl" machine="robot">
-      <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
-      <param name="base_frame_id" value="$(arg robot_name)/odom_link" />
-      <param name="odom_frame_id" value="$(arg robot_name)/odom" />
-      <param name="global_frame_id" value="$(arg robot_name)/map" />
-      <param name="initial_pose_x" value="$(arg x0)" />
-      <param name="initial_pose_y" value="$(arg y0)" />
-      <param name="initial_pose_a" value="$(arg yaw0)" />
-    </node> -->
-
-    <!-- gmapping -->
-    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" machine="robot">
-      <rosparam command="load" file="$(find robot_control)/config/gmapping.yaml" />
-      <param name="base_frame" value="$(arg robot_name)/odom_link" />
+    <!-- publish odom to TF -->
+    <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot"
+    args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
       <param name="odom_frame" value="$(arg robot_name)/odom" />
-      <param name="map_frame"  value="$(arg robot_name)/map" />
+      <param name="base_frame"  value="$(arg robot_name)/base_link" />
+      <param name="publish_rate"  value="1000" />
+      <param name="invert_x" value="true"/>
+      <param name="x0" value="0.55"/>
+      <param name="y0" value="9.55"/>
+      <remap from="odom/x" to="base/odom/x"/>
+      <remap from="odom/y" to="base/odom/y"/>
+      <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
-    <!-- <node pkg="robot_control" type="state_machine.py" name="state_machine.py" machine="robot"/> -->
+
+	  <!-- <node name="joy_node" pkg="joy" type="joy_node" machine="robot"/> -->
+
+    <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen" machine="robot">
+      <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
+      <param name="device_addr" value="" />
+      <param name="use_standard_msgs" value="true" />
+    </node>
 
     <node pkg="nav_plugins" type="PoseFollower" name="PoseFollower" machine="robot" output="screen">
-      <param name="ctrl_freq" value="100"/>
-      <param name="Kp_xy" value="0.5"/>
-      <param name="Ki_xy" value="0"/>
+      <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+      <param name="base_frame_id"  value="$(arg robot_name)/base_link" />
+      <param name="ctrl_freq" value="800"/>
+      <!-- <param name="Kp_xy" value="-4.491"/>
+      <param name="Ki_xy" value="0.7419"/>
+      <param name="Kd_xy" value="-1.143"/> -->
+      <param name="Kp_xy" value="4"/>
+      <param name="Ki_xy" value="0.1345"/>
       <param name="Kd_xy" value="0"/>
-      <param name="Kp_yaw" value="3" />
-      <param name="Ki_yaw" value="0" />
+
+      <param name="Kp_yaw" value="1.5" />
+      <param name="Ki_yaw" value="0.0" />
       <param name="Kd_yaw" value="0" />
     </node>
 
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+      <param name="frame_id" value="$(arg robot_name)/map"/>
+    </node>
+
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
+      <param name="base_frame_id" value="$(arg robot_name)/base_link" />
+      <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+      <param name="global_frame_id" value="$(arg robot_name)/map" />
+      <param name="initial_pose_x" value="0.55" />
+      <param name="initial_pose_y" value="9.55" />
+      <param name="initial_pose_a" value="0" />
+    </node>
   </group>
 
-  
 
-    <!-- Debug -->
-  <node pkg="rqt_console" type="rqt_console" name="rqt_console" machine="laptop">
-    <remap from="/rosout_agg" to="/rosout"/>
-  </node>
-
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/config/SETTING.rviz" machine="laptop">
-    <remap from="/move_base_simple/goal" to="/$(arg robot_name)/move_base_simple/goal"/>
-  </node>
-<!-- <node pkg="rosbag" type="record" name="rosbag_record" machine="laptop" args="record -O $(find robot_control)/bag/traj.bag -a" /> -->
+  <!-- Debug -->
+  <group if="$(arg debug)">
+    <include file="$(find robot_control)/launch/debug.launch">
+      <arg name="robot_name" value="$(arg robot_name)"/>
+    </include>
+  </group>
+ 
 </launch>

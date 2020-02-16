@@ -4,16 +4,9 @@
   <!-- <arg name="nodelet_mode" default="load" /> -->
   <arg name="nodelet_mode" default="standalone" />
 
-  <include file="$(find robot_control)/config/machine/sim.machine"/>
-
   <group if="$(eval nodelet_mode=='load')">
     <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager"/>
   </group>
-
-  <node pkg="rqt_console" type="rqt_console" name="rqt_console">
-    <remap from="/rosout_agg" to="/rosout"/>
-  </node>
-
    
   <!-- <node pkg="nodelet" type="nodelet" name="vel_control" 
   args="$(arg nodelet_mode) base_controller_plugins/Vel_control $(arg manager_name)" machine="robot">
@@ -34,8 +27,7 @@
 
   <node pkg="nodelet" type="nodelet" name="usb_can_node" 
     args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" output="screen">
-      <param name="port" value="/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort_205033544334-if00"/>
-      <!-- <param name="port" value="/dev/ttyUSB0"/> -->
+      <param name="port" value="/dev/ttyACM0"/>
       <param name="baud" value="1000000"/>
   </node>    
 
@@ -45,7 +37,7 @@
     <param name="beta1" value="$(eval 0x4f8)"/>
     <param name="beta2" value="$(eval 0x4b0)"/>
     <param name="beta3" value="$(eval 0x4c4)"/>
-    <param name="beta4" value="$(eval 0x5bc)"/>
+    <param name="beta4" value="$(eval 0x4d8)"/>
     <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
     <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
     <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>

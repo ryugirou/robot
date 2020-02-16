@@ -6,7 +6,12 @@ Panels:
       Expanded:
         - /Global Options1
         - /Odometry1/Shape1
+        - /Map1
+        - /PoseArray1
         - /CostMap1/Position1
+        - /RobotModel1
+        - /map1
+        - /OverlayDiagnostic1
       Splitter Ratio: 0.50555557
     Tree Height: 435
   - Class: rviz/Selection
@@ -91,7 +96,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /omni4/map
+      Topic: /pr/map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -101,16 +106,16 @@ Visualization Manager:
       Axes Radius: 0.00999999978
       Class: rviz/PoseArray
       Color: 0; 0; 255
-      Enabled: true
+      Enabled: false
       Head Length: 0.0700000003
       Head Radius: 0.0299999993
       Name: PoseArray
       Shaft Length: 0.230000004
       Shaft Radius: 0.00999999978
       Shape: Arrow (Flat)
-      Topic: /omni4/particlecloud
+      Topic: /pr/particlecloud
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -172,9 +177,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 5.18480432e-44
+      Max Intensity: 8572
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 40
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -182,7 +187,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.00999999978
       Style: Flat Squares
-      Topic: /omni4/scan
+      Topic: /pr/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -225,7 +230,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         wheel0_attach_link:
           Alpha: 1
           Show Axes: false
@@ -333,10 +337,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel0_sus_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         wheel1_attach_link:
           Alpha: 1
           Show Axes: false
@@ -444,10 +444,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel1_sus_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         wheel2_attach_link:
           Alpha: 1
           Show Axes: false
@@ -555,10 +551,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel2_sus_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         wheel3_attach_link:
           Alpha: 1
           Show Axes: false
@@ -666,47 +658,43 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel3_sus_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
       Name: RobotModel
-      Robot Description: /omni4/robot_description
-      TF Prefix: omni4
+      Robot Description: /pr/robot_description
+      TF Prefix: pr
       Update Interval: 0
       Value: true
       Visual Enabled: true
     - Class: rviz/Axes
-      Enabled: true
+      Enabled: false
       Length: 1
       Name: base_link
       Radius: 0.100000001
-      Reference Frame: omni4/map
-      Value: true
+      Reference Frame: pr/base_link
+      Value: false
     - Class: rviz/Axes
       Enabled: true
       Length: 1
-      Name: odom
+      Name: map
       Radius: 0.100000001
-      Reference Frame: omni4/odom
+      Reference Frame: pr/map
       Value: true
     - Class: jsk_rviz_plugin/OverlayDiagnostic
-      Enabled: true
+      Enabled: false
       Name: OverlayDiagnostic
-      Topic: /diagnostics
-      Value: true
+      Topic: /diagnostics_agg
+      Value: false
       alpha: 0.800000012
-      diagnostics namespace: "omni4/joy_node: Joystick Driver Status"
-      left: 5
+      diagnostics namespace: /
+      left: 128
       size: 128
       stall duration: 5
-      top: 5
+      top: 128
       type: SAC
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: omni4/map
+    Fixed Frame: pr/map
     Frame Rate: 30
   Name: root
   Tools:
@@ -727,25 +715,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.9207325
+      Distance: 6.1908803
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.810503006
-        Y: 0.560662389
-        Z: 1.75610936
+        X: 0.284564555
+        Y: 9.30113316
+        Z: 1.81306875
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.56979632
+      Pitch: 1.52479637
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.8785758
+      Yaw: 3.07858133
     Saved:
       - Class: rviz/Orbit
         Distance: 10

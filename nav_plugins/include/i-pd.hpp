@@ -6,24 +6,18 @@ class Pid{
     double Kp;
     double Ki;
     double Kd;
-    double e[3]={0,0,0};
-    double u[2]={0,0};
-
-    double du;
+    double integral;
+    double sensor[2]={0,0};
   public:
     Pid(double _p,double _i,double _d);
     inline double update(double sensor_val,double target_val,double dt);
 };
 
 inline double Pid::update(double sensor_val,double target_val,double dt){
-  e[0] = e[1];
-  e[1] = e[2];
-  e[2] = target_val - sensor_val; 
-
-  du = Kp*(e[2]- e[1]) + Ki*e[2]*dt + Kd*(e[2]-2*e[1]+e[0])/dt;
-
-  u[0] = u[1];
-  u[1] = u[0] + du;
-  return u[1];  
+        sensor[0] = sensor[1];
+        sensor[1] = sensor_val;
+        integral += (target_val - sensor_val) * dt;
+        return Kp * sensor_val  + Ki * integral + Kd * (sensor[1]- sensor[0]) / dt;
 }
+
 #endif // PID

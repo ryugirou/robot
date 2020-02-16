@@ -1,0 +1,15 @@
+motor_max_acc : 13.5
+motor_max_vel : 80
+invert_x : false
+invert_y : true
+invert_z : true
+robot_radius : 0.412579
+wheel_radius : 0.0508
+
+# motor_max_vel = MVL(1600) / KRF(20) = 80
+#
+#
+#motor_max_acc = motor_torque * 2 / (mass * wheel_radius)
+#
+#MTQ(0.172)*20*4/(10*0.0508)
+#

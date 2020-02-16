@@ -3,7 +3,7 @@
   <xacro:arg name="mass" default="2.0"/>
   <xacro:arg name="robot_name" default="omni4"/>
 
-	<xacro:include filename="$(find robot_description)/urdf/$(arg robot_name)/odm_omni_wheel_set1.xacro"/>	
+	<xacro:include filename="$(find robot_description)/urdf/$(arg robot_name)/odm_omni_wheel_set.xacro"/>	
   <xacro:include filename="$(find robot_description)/urdf/$(arg robot_name)/laser_macro.xacro" />
  	<link name="base_link"/>
 
@@ -61,27 +61,14 @@
  	</joint>
  	<link name="wheel3_attach_link" />
 	<xacro:omni_wheel_set prefix="wheel3" parent="wheel3_attach_link" />
-  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.350 0 0.044" robot_name="$(arg robot_name)"/>
+  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.0 -0.335 0.15" robot_name="$(arg robot_name)"/>
 
-  <link name="odom_link">
-     <visual>
-       <origin xyz="0 0 0" rpy="0 0 0" />
-       <geometry>
-         <cylinder radius="0.02" length="0.06" />
-       </geometry>
-       <material name="blue" />
-     </visual>
-     <collision>
-       <origin xyz="0 0 0" rpy="0 0 0"/>
-       <geometry>
-         <cylinder radius="0.02" length="0.06" />
-       </geometry>
-     </collision>
-  </link>    
+  <link name="odom_link"/>
+  
   <joint name="odom_joint" type="fixed">
      <parent link="odom_link"/>
      <child  link="base_link"/>
-     <origin xyz="0.3095 0.3095 -0.044" rpy="0 0 0"/>
+     <origin xyz="0.0 0.0 -0.0" rpy="0 0 0"/>
   </joint>
  
 	<gazebo>

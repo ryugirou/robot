@@ -3,6 +3,7 @@
 #include "nav_msgs/Odometry.h"
 #include "gazebo_msgs/ModelStates.h"
 #include "tf/transform_broadcaster.h"
+#include <tf2/utils.h>
 
 #include "math.h"
 #include <string>
@@ -57,7 +58,10 @@ void models_callback(const gazebo_msgs::ModelStates& model_msg){
       0, 0, 0, 0, 0.1, 0,  // large covariance on rot y
       0, 0, 0, 0, 0, 0.1}; // large covariance on rot z
 
-      last_odom.twist.twist=model_msg.twist[i];
+      // last_odom.twist.twist=model_msg.twist[i];
+      double yaw = tf2::getYaw(model_msg.pose[i].orientation);
+      last_odom.twist.twist.linear.x = model_msg.twist[i].linear.x*cos(yaw) + model_msg.twist[i].linear.y*sin(yaw);
+      last_odom.twist.twist.linear.y = -model_msg.twist[i].linear.x*sin(yaw) + model_msg.twist[i].linear.y*cos(yaw);
       last_odom.twist.covariance = {
       0.5, 0, 0, 0, 0, 0,  // covariance on gps_x
       0, 0.5, 0, 0, 0, 0,  // covariance on gps_y
