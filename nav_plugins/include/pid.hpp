@@ -1,5 +1,4 @@
-#ifndef   PID
-#define   PID
+#pragma once
 
 class Pid{
   private:
@@ -11,11 +10,11 @@ class Pid{
 
     double du;
   public:
-    Pid(double _p,double _i,double _d);
-    inline double update(double sensor_val,double target_val,double dt);
+    Pid(double _p,double _i,double _d):Kp(_p),Ki(_i),Kd(_d){};
+    double update(const double& sensor_val,const double& target_val,const double& dt);
 };
 
-inline double Pid::update(double sensor_val,double target_val,double dt){
+double Pid::update(const double& sensor_val,const double& target_val,const double& dt){
   e[0] = e[1];
   e[1] = e[2];
   e[2] = target_val - sensor_val; 
@@ -26,4 +25,3 @@ inline double Pid::update(double sensor_val,double target_val,double dt){
   u[1] = u[0] + du;
   return u[1];  
 }
-#endif // PID

@@ -17,21 +17,17 @@
     <!-- CAN -->
     <node pkg="nodelet" type="nodelet" name="usb_can_node" 
     args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
-      <param name="port" value="/dev/serial/by-path/pci-0000:00:14.0-usb-0:2:1.0"/>
+      <param name="port" value="/dev/usbcan0"/>
       <param name="baud" value="1000000"/>
     </node>    
 
     <node pkg="nodelet" type="nodelet" name="can_handler" 
     args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
-      <param name="beta0" value="$(eval 0x4f0)"/> 
-      <param name="beta1" value="$(eval 0x4dc)"/>
-      <param name="beta2" value="$(eval 0x4e0)"/>
-      <param name="beta3" value="$(eval 0x5b8)"/>
 
-      <!-- <param name="beta0" value="$(eval 0x4f0)"/> 
+      <param name="beta0" value="$(eval 0x4f0)"/> 
       <param name="beta1" value="$(eval 0x5b8)"/>
-      <param name="beta2" value="$(eval 0x4e0)"/>
-      <param name="beta3" value="$(eval 0x4dc)"/> -->
+      <param name="beta2" value="$(eval 0x4dc)"/>
+      <param name="beta3" value="$(eval 0x4e0)"/>
 
       <param name="beta4" value="$(eval 0x4b8)"/>
       <param name="beta5" value="$(eval 0x4d0)"/>
@@ -46,16 +42,18 @@
       <remap from="beta/motor6_cmd_vel" to="base/motor6_cmd_vel"/>
     </node>
 
-    <!-- publish odom to TF -->
-    <!-- <node pkg="nodelet" type="nodelet" name="odom_broadcaster" 
-    args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" machine="robot">
+    <!-- publish odom to TF (later)-->
+    <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot"
+    args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
       <param name="odom_frame" value="$(arg robot_name)/odom" />
-      <param name="base_frame"  value="$(arg robot_name)/odom_link" />
-      <param name="publish_rate"  value="100" />
+      <param name="base_frame"  value="$(arg robot_name)/base_link" />
+      <param name="publish_rate"  value="1000" />
+      <param name="x0" value="0.55"/>
+      <param name="y0" value="9.55"/>
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
-    </node>     -->
+    </node>
 
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
@@ -67,29 +65,16 @@
       <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
     </node>
 
-    <node pkg="tr" type="state.py" name="state" machine="robot" output="screen"> <!-- later !!!!!!!!!!!!!!!-->
+    <node pkg="state" type="state.py" name="state" machine="robot" output="screen">
       <rosparam file="$(find robot_control)/config/joy/ds4_usb.yaml" command="load" />
       <param name="max_lin" value="0.5" />
       <param name="max_ang" value="1" />
-      <param name="publish_vel" value="true" />
       <remap from="cmd" to="beta/cmd" />
-      <remap from="slide" to="base/motor4_cmd_vel"/>
-      <remap from="kick" to="base/motor5_cmd_vel"/>
-
-      <remap from="status" to="goal"/>
     </node>
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0.335 0 0 1 0 0 0 /pr/base_link pr/laser_link" /> 
+    <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.355905 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" /> 
 
     <!-- LRF -->
-    <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
-      <param name="ip_address" value="192.168.0.10"/>
-      <param name="frame_id" value="$(arg robot_name)/laser_link"/>
-      <param name="angle_min" value="-1.57"/>
-      <param name="angle_max" value="1.57"/>
-      <remap from="scan" to="scan"/>
-    </node> -->
-
     <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
       <param name="serial_port" value="/dev/sensors/hokuyo_H1323516"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>

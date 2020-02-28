@@ -27,22 +27,27 @@
 
   <node pkg="nodelet" type="nodelet" name="usb_can_node" 
     args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" output="screen">
-      <param name="port" value="/dev/ttyACM0"/>
+      <param name="port" value="/dev/usbcan0"/>
       <param name="baud" value="1000000"/>
-  </node>    
+  </node>
 
   <node pkg="nodelet" type="nodelet" name="can_handler" 
   args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" >
-    <param name="beta0" value="$(eval 0x4f4)"/>
-    <param name="beta1" value="$(eval 0x4f8)"/>
-    <param name="beta2" value="$(eval 0x4b0)"/>
-    <param name="beta3" value="$(eval 0x4c4)"/>
+    <param name="beta0" value="$(eval 0x5b4)"/> 
+    <param name="beta1" value="$(eval 0x604)"/>
+    <param name="beta2" value="$(eval 0x4e0)"/>
+    <param name="beta3" value="$(eval 0x5b8)"/>
     <param name="beta4" value="$(eval 0x4d8)"/>
     <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
     <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
     <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
     <remap from="beta/motor4_cmd_vel" to="base/motor3_cmd_vel"/>
+  </node>
 
+  <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen">
+    <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
+    <param name="device_addr" value="" />
+    <param name="use_standard_msgs" value="true" />
   </node>
 
   <!-- <node name="joy_node" pkg="joy" type="joy_node"/>     -->
@@ -61,8 +66,6 @@
 
   <!-- <node pkg="can_plugins" type="ping" name="ping" output="screen">
     <param name="ctrl_freq" value="1000"/>
-    <remap from="rx" to="test_rx"/>
-    <remap from="tx" to="test_tx"/>
   </node> -->
 
 

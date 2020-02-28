@@ -14,19 +14,17 @@
   
 
   <group ns="$(arg robot_name)">
-    <!-- <arg name="model" default="$(find robot_description)/urdf/$(arg robot_name)/model.urdf"/>   
-	  <param name="robot_description" command="$(find xacro)/xacro $(arg model) 
-      mass:=$(arg mass)"/> -->
-
-    <!-- convert joint states to TF transforms for rviz, etc -->
-    <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" machine="robot">
-      <param name="tf_prefix" value="$(arg robot_name)"/>
-      <remap from="/joint_states" to="joint_states" />
+        <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot"
+    args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
+      <param name="odom_frame" value="$(arg robot_name)/odom" />
+      <param name="base_frame"  value="$(arg robot_name)/base_link" />
+      <param name="publish_rate"  value="1000" />
+      <param name="x0" value="0.55"/>
+      <param name="y0" value="9.55"/>
+      <remap from="odom/x" to="base/odom/x"/>
+      <remap from="odom/y" to="base/odom/y"/>
+      <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
-
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" machine="robot"/> -->
-
-	  <!-- <node name="joy_node" pkg="joy" type="joy_node" machine="robot"/>  -->
 
     <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen" machine="robot">
       <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
@@ -34,20 +32,20 @@
       <param name="use_standard_msgs" value="true" />
     </node>
 
-
     <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
       <param name="frame_id" value="$(arg robot_name)/map"/>
     </node>
 
-    <node pkg="amcl" type="amcl" name="amcl" output="screen">
-      <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
-      <param name="base_frame_id" value="$(arg robot_name)/odom_link" />
-      <param name="odom_frame_id" value="$(arg robot_name)/odom" />
-      <param name="global_frame_id" value="$(arg robot_name)/map" />
-      <param name="initial_pose_x" value="1.0" />
-      <param name="initial_pose_y" value="1.0" />
-      <param name="initial_pose_a" value="0" />
-    </node>
+      <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
+        <param name="base_frame_id" value="$(arg robot_name)/base_link" />
+        <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+        <param name="global_frame_id" value="$(arg robot_name)/map" />
+        <param name="initial_pose_x" value="0.55" />
+        <param name="initial_pose_y" value="9.55" />
+        <param name="initial_pose_a" value="0" />
+      </node>
+
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
       <rosparam file="$(find robot_control)/config/move_base/dwa_local_planner_params.yaml" command="load" ns="DWAPlannerROS" />

@@ -125,6 +125,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
+  qpOASES
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -224,3 +225,7 @@ target_link_libraries(${PROJECT_NAME}
 add_executable(PoseFollower src/PoseFollower.cpp)
 target_link_libraries(PoseFollower ${PROJECT_NAME} ${catkin_LIBRARIES})
 add_dependencies(PoseFollower ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(trajectory_tracking src/trajectory_tracking.cpp)
+target_link_libraries(trajectory_tracking ${PROJECT_NAME} ${catkin_LIBRARIES})
+add_dependencies(trajectory_tracking ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

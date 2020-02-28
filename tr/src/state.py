@@ -157,9 +157,9 @@ class joy:
         vel_y = self.vel_y
       vel_z = self.vel_z
 
-      vel_x *= self.max_lin;
-      vel_y *= self.max_lin;
-      vel_z *= self.max_ang;
+      vel_x *= self.max_lin
+      vel_y *= self.max_lin
+      vel_z *= self.max_ang
 
       vel_msg = Twist()
       vel_msg.linear.x = vel_x
