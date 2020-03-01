@@ -47,7 +47,7 @@
     args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
       <param name="odom_frame" value="$(arg robot_name)/odom" />
       <param name="base_frame"  value="$(arg robot_name)/base_link" />
-      <param name="publish_rate"  value="1000" />
+      <param name="publish_rate"  value="500" />
       <param name="x0" value="0.55"/>
       <param name="y0" value="9.55"/>
       <remap from="odom/x" to="base/odom/x"/>
@@ -78,8 +78,8 @@
     <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
       <param name="serial_port" value="/dev/sensors/hokuyo_H1323516"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>
-      <param name="angle_min" value="-1.57"/>
-      <param name="angle_max" value="1.57"/>
+      <param name="angle_min" value="-1.5"/>
+      <param name="angle_max" value="1.5"/>
       <remap from="scan" to="scan"/>
     </node>
 

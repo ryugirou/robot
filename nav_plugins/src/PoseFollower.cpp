@@ -10,7 +10,7 @@
 //#include <actionlib/server/simple_action_server.h>
 //#include <nav_plugins/PosesAction.h>
 #include <std_msgs/UInt8.h>
-#include <pid_velocity.hpp>
+#include <pid_position.hpp>
 
 #include "tf/tf.h"
 #include "tf/transform_broadcaster.h"

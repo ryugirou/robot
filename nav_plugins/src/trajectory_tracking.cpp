@@ -8,7 +8,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <math.h>
 #include <std_msgs/UInt8.h>
-#include "pid.hpp"
+#include "pid_position.hpp"
 #include "trajectory_tracking.hpp"
 
 #include <nav_msgs/Odometry.h>
@@ -26,6 +26,7 @@ class TrajectoryTracking
     TrajectoryTracking(ros::NodeHandle& nh_,ros::NodeHandle& private_nh_);
   private:
     Vector3 current_pose_;
+    Vector3 diff_;
 
     double epsilon_xy_;
     double epsilon_yaw_;
@@ -35,6 +36,7 @@ class TrajectoryTracking
     void goalCallback(const std_msgs::UInt8::ConstPtr&);
     bool isReached(const Vector3& target_pose);
     bool getTransform();
+    void getDiff();
 
     std::string source_frame_id_;
     std::string target_frame_id_;
@@ -59,7 +61,8 @@ class TrajectoryTracking
     ros::Publisher dump_pub_;//debug
 };
 
-TrajectoryTracking::TrajectoryTracking(ros::NodeHandle& nh_,ros::NodeHandle& private_nh_) :current_pose_({0,0,0}),t_(0),status_(Status::manual),num_(0)
+TrajectoryTracking::TrajectoryTracking(ros::NodeHandle& nh_,ros::NodeHandle& private_nh_) 
+:current_pose_({0,0,0}),t_(0),status_(Status::manual),num_(0),diff_({0,0,0})
 {
   double Kp_xy,Ki_xy,Kd_xy,Kp_yaw,Ki_yaw,Kd_yaw;
   if (!private_nh_.getParam("ctrl_freq", ctrl_freq_)) ctrl_freq_ = 500;
@@ -103,9 +106,11 @@ bool TrajectoryTracking::getTransform()
     ROS_WARN("Failed to compute odom pose (%s)", e.what());
     return false;
   }
-  current_pose_.x = transformStamped.transform.translation.x;
-  current_pose_.y = transformStamped.transform.translation.y;
-  current_pose_.yaw = tf2::getYaw(transformStamped.transform.rotation);
+  current_pose_.x = transformStamped.transform.translation.x + diff_.x;
+  current_pose_.y = transformStamped.transform.translation.y + diff_.y;
+  current_pose_.yaw = tf2::getYaw(transformStamped.transform.rotation) + diff_.yaw;
+
+  ROS_WARN("diff_x:%f,odom_x:%f,current:%f", diff_.x,transformStamped.transform.translation.x,current_pose_.x);
 
   nav_msgs::Odometry odom;
   odom.header.frame_id = "pr/map";
@@ -114,8 +119,23 @@ bool TrajectoryTracking::getTransform()
   odom.pose.pose.position.z = 0;
   odom.pose.pose.orientation = tf::createQuaternionMsgFromYaw(current_pose_.yaw);
   dump_pub_.publish(odom);
-
   return true;
+}
+
+void TrajectoryTracking::getDiff()
+{
+    geometry_msgs::TransformStamped transformStamped;
+  try
+  {
+    transformStamped = tf_->lookupTransform("pr/map","pr/odom",ros::Time(0));
+  }
+  catch (tf2::TransformException e)
+  {
+    ROS_WARN("Failed to compute diff (%s)", e.what());
+  }
+  diff_.x = transformStamped.transform.translation.x;
+  diff_.y = transformStamped.transform.translation.y;
+  diff_.yaw = tf2::getYaw(transformStamped.transform.rotation);
 }
 
 bool TrajectoryTracking::isReached(const Vector3& target_pose)
@@ -123,20 +143,22 @@ bool TrajectoryTracking::isReached(const Vector3& target_pose)
   bool condition_x = sqrt(pow(target_pose.x - current_pose_.x,2)) < epsilon_xy_;
   bool condition_y = sqrt(pow(target_pose.y - current_pose_.y,2)) < epsilon_xy_;
   bool condition_yaw = sqrt(pow(target_pose.yaw - current_pose_.yaw,2)) < epsilon_yaw_;
+  // ROS_WARN("yaw:%f,yaw_condition:%d",current_pose_.yaw,condition_yaw) ;
   return condition_x && condition_y && condition_yaw;
 }
 
 
 void TrajectoryTracking::timerCallback(const ros::TimerEvent &)
 {
+  getDiff();
   if(!getTransform()) return;
   Vector3 target_pose;
   switch(status_){
     case Status::test:
-      target_pose = {1,9,0};
+      target_pose = {1,9,3.14};
       break;
     case Status::manual:
-      t_ = 0;
+      // getDiff();
       return;
     case Status::sz_to_rz :
       target_pose = sz_to_rz[t_];
@@ -181,15 +203,16 @@ void TrajectoryTracking::timerCallback(const ros::TimerEvent &)
       break;
   }
 
-  if(isReached(target_pose)){
+
+  if(t_ < num_-1){
+    t_++;
+  }
+  else if(isReached(target_pose)){
     status_ = Status::manual;
     std_msgs::UInt8 result_msg;
     result_msg.data = 1;
     result_pub_.publish(result_msg);
     return;
-  }
-  else if(t_ < num_-1){
-    t_++;
   } 
 
   Vector3 vel;
@@ -199,9 +222,20 @@ void TrajectoryTracking::timerCallback(const ros::TimerEvent &)
   vel.y = controller_y_->update(current_pose_.y,target_pose.y, 1 / ctrl_freq_);
   vel.yaw = controller_yaw_->update(current_pose_.yaw,target_pose.yaw, 1 / ctrl_freq_);
 
+  // 旋回方向最適化
+  if (vel.yaw > M_PI)
+  {
+    vel.yaw -= (2 * M_PI);
+  }
+  else if (vel.yaw < -M_PI)
+  {
+    vel.yaw += (2 * M_PI);
+  }
+
   twist.linear.x = vel.x * cos(current_pose_.yaw) + vel.y * sin(current_pose_.yaw);
   twist.linear.y = vel.x * -sin(current_pose_.yaw) + vel.y * cos(current_pose_.yaw);
   twist.angular.z = vel.yaw;
+
   vel_pub_.publish(twist);
 }
 
@@ -261,10 +295,13 @@ void TrajectoryTracking::goalCallback(const std_msgs::UInt8::ConstPtr& goal_ptr)
       break;
 
     default:
-      status_ = Status::test;      
+      status_ = Status::test;
+      num_ = 1;
       ROS_WARN("invalid goal");
       break;
   }
+  t_ = 0;
+  ROS_WARN("status:%d,t:%d\n",status_,t_);
 }
 
 int main(int argc, char **argv)
