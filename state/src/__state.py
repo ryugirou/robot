@@ -10,7 +10,6 @@ from enum import IntEnum
 index = 0
 
 class Trajectorys(IntEnum):
-    TEST = 0
     SZ_TO_RZ = 1
     RZ_TO_TS1 = 2
     TS1_TO_RZ = 3
@@ -32,7 +31,7 @@ class Manual(smach.State):
     def execute(self, userdata):
         rospy.loginfo("Manual")
         joy.Set_LEDColor(joy.LEDColor.BLUE)
-        actions.send_goal(100)
+        actions.send_goal(0)
         while not rospy.is_shutdown():
             rospy.sleep(0.1)
             actions.teleop(joy.axes[0],joy.axes[1],joy.axes[2])
@@ -86,7 +85,7 @@ def main():
     Trajectorys.TS5_TO_RZ\
     ]
 
-    #list = [Trajectorys.TEST] #test
+    # list = [100] #test
 
     # Create a SMACH state machine
     sm_top = smach.StateMachine(outcomes=['finished'])

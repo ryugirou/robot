@@ -8,13 +8,13 @@
     <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager"/>
   </group>
    
-  <!-- <node pkg="nodelet" type="nodelet" name="vel_control" 
-  args="$(arg nodelet_mode) base_controller_plugins/Vel_control $(arg manager_name)" machine="robot">
-    <param name="lower_limit" value="-13.0"/>
-    <param name="upper_limit" value="0.0"/>
+  <node pkg="nodelet" type="nodelet" name="vel_control" 
+  args="$(arg nodelet_mode) base_controller_plugins/Vel_control $(arg manager_name)">
+    <param name="lower_limit" value="0.0"/>
+    <param name="upper_limit" value="15.0"/>
     <remap from="pos" to="base/motor0_cmd_vel"/>
     <remap from="vel" to="motor0_vel"/>
-  </node>  -->
+  </node> 
 
 
   <!-- CAN -->
@@ -34,21 +34,14 @@
   <node pkg="nodelet" type="nodelet" name="can_handler" 
   args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" >
     <param name="beta0" value="$(eval 0x5b4)"/> 
-    <param name="beta1" value="$(eval 0x604)"/>
-    <param name="beta2" value="$(eval 0x4e0)"/>
-    <param name="beta3" value="$(eval 0x5b8)"/>
-    <param name="beta4" value="$(eval 0x4d8)"/>
     <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
-    <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
-    <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
-    <remap from="beta/motor4_cmd_vel" to="base/motor3_cmd_vel"/>
   </node>
 
-  <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen">
+  <!-- <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen">
     <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
     <param name="device_addr" value="" />
     <param name="use_standard_msgs" value="true" />
-  </node>
+  </node> -->
 
   <!-- <node name="joy_node" pkg="joy" type="joy_node"/>     -->
 

@@ -1,19 +1,19 @@
 #Overall filter parameters
-min_particles : 100 #パーティクルの数の範囲　パーティクルの数は分散に応じて可変
+min_particles : 500 #パーティクルの数の範囲　パーティクルの数は分散に応じて可変
 max_particles : 5000
 kld_err : 0.05
 kld_z : 0.99
 update_min_d : 0.05 #0.2 #Translational movement required before performing a filter update. [m]
 update_min_a : 0.1 #0.5 #Rotational movement required before performing a filter update. [rad]
-resample_interval : 2
-transform_tolerance : 0.01
-recovery_alpha_slow : 0
-recovery_alpha_fast : 0
+resample_interval : 1
+transform_tolerance : 2.0
+recovery_alpha_slow : 0.001
+recovery_alpha_fast : 0.1
 initial_cov_xx : 0.025 
 initial_cov_yy : 0.025
 initial_cov_aa : 0.068
 gui_publish_rate : -1.0
-save_pose_rate : -1.0
+save_pose_rate : 0.5
 use_map_topic : true
 first_map_only : true #When set to true, AMCL will only use the first map it subscribes to, rather than updating each time a new one is received.
 

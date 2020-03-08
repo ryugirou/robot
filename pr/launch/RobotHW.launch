@@ -26,7 +26,7 @@
 
       <param name="beta0" value="$(eval 0x4f0)"/> 
       <param name="beta1" value="$(eval 0x5b8)"/>
-      <param name="beta2" value="$(eval 0x4dc)"/>
+      <param name="beta2" value="$(eval 0x608)"/>
       <param name="beta3" value="$(eval 0x4e0)"/>
 
       <param name="beta4" value="$(eval 0x4b8)"/>
@@ -47,7 +47,7 @@
     args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
       <param name="odom_frame" value="$(arg robot_name)/odom" />
       <param name="base_frame"  value="$(arg robot_name)/base_link" />
-      <param name="publish_rate"  value="500" />
+      <param name="publish_rate"  value="1000" />
       <param name="x0" value="0.55"/>
       <param name="y0" value="9.55"/>
       <remap from="odom/x" to="base/odom/x"/>
@@ -75,8 +75,15 @@
     <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.355905 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" /> 
 
     <!-- LRF -->
-    <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+    <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
       <param name="serial_port" value="/dev/sensors/hokuyo_H1323516"/>
+      <param name="frame_id" value="$(arg robot_name)/laser_link"/>
+      <param name="angle_min" value="-1.5"/>
+      <param name="angle_max" value="1.5"/>
+      <remap from="scan" to="scan"/>
+    </node> -->
+    <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+      <param name="ip_address" value="192.168.0.10"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>
       <param name="angle_min" value="-1.5"/>
       <param name="angle_max" value="1.5"/>
