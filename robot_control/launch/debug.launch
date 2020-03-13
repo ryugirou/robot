@@ -10,7 +10,7 @@
   </node>
 
   <node pkg="rosbag" type="record" name="rosbag_record" machine="laptop"
-      args="record -O $(find robot_control)/bag/last.bag /$(arg robot_name)/odom /tf /$(arg robot_name)/dump"/>
+      args="record -O $(find robot_control)/bag/last.bag /$(arg robot_name)/odom /tf"/>
 
   <node pkg="smach_viewer" type="smach_viewer.py" name="smach_viewer" machine="laptop"/>
 </launch>

@@ -9,6 +9,8 @@ from enum import IntEnum
 
 class Joy_Handler:
     def __init__(self):
+        self.ButtonNames = rospy.get_param("~joy")
+
         self.axes = [0]*6
         self.buttons = [0]*18
         self.__last_status = [0]*18

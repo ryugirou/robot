@@ -4,16 +4,26 @@ import rospy
 import math
 from geometry_msgs.msg import Twist
 from std_msgs.msg import UInt8
+from std_msgs.msg import Float64
+import threading
+
+def fire_and_forget(f):
+  def wrapped(self):
+    threading.Thread(target=f,args=[self]).start()
+  return wrapped
 
 class Actions:
   def __init__(self):
+    self.ButtonNames = rospy.get_param("~tasks")
     self.cmd_publisher = rospy.Publisher('cmd',UInt8,queue_size=10)
     self.vel_publisher = rospy.Publisher('cmd_vel',Twist,queue_size=1)
     self.goal_publisher = rospy.Publisher('goal',UInt8,queue_size=10)
-    self.result_subscriber = rospy.Subscriber('result',UInt8, self.__resultCallback)
+    self.pass_publisher = rospy.Publisher('pass',Float64,queue_size=10)
     self.__result = 0
-    self.max_lin = 0.5
-    self.max_ang = 0.5
+    self.max_lin = rospy.get_param("~max_lin")
+    self.max_ang = rospy.get_param("~max_ang")
+    self.result_subscriber = rospy.Subscriber('result',UInt8, self.__resultCallback)
+    self.pass_msg = Float64()
 
   def enable(self):
     cmd_msg = UInt8()
@@ -60,3 +70,18 @@ class Actions:
       return True
     else:
       return False
+
+  @fire_and_forget
+  def doSomeWork(self):
+    rospy.loginfo("doSomeWork started")
+    rospy.sleep(2)
+    rospy.loginfo("doSomeWork finished")
+
+  def Pass(self):
+    # if self.pass_msg < 100:
+    self.pass_msg.data = 200
+    self.pass_publisher.publish(self.pass_msg)
+
+  def do(self,string):
+    eval("self."+ string)()
+    # self.doSomeWork()

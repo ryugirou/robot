@@ -29,7 +29,7 @@
       <param name="beta2" value="$(eval 0x608)"/>
       <param name="beta3" value="$(eval 0x4e0)"/>
 
-      <param name="beta4" value="$(eval 0x4b8)"/>
+      <param name="beta4" value="$(eval 0x60c)"/>
       <param name="beta5" value="$(eval 0x4d0)"/>
       <param name="beta6" value="$(eval 0x5b4)"/>
 
@@ -37,8 +37,8 @@
       <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
       <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
       <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
-      <remap from="beta/motor4_cmd_vel" to="base/motor4_cmd_vel"/>
-      <remap from="beta/motor5_cmd_vel" to="base/motor5_cmd_vel"/>
+      <remap from="beta/motor4_cmd_vel" to="pass"/>
+      <remap from="beta/motor5_cmd_vel" to="pass"/>
       <remap from="beta/motor6_cmd_vel" to="base/motor6_cmd_vel"/>
     </node>
 
@@ -63,16 +63,19 @@
       <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
       <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
       <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
+      
     </node>
 
-    <node pkg="state" type="state.py" name="state" machine="robot" output="screen">
-      <rosparam file="$(find robot_control)/config/joy/ds4_usb.yaml" command="load" />
+    <node pkg="state" type="state.py" name="state" output="screen">
+      <rosparam file="$(find state)/config/ds4.yaml" command="load" />
+      <rosparam file="$(find pr)/config/tasks.yaml" command="load" />
       <param name="max_lin" value="0.5" />
-      <param name="max_ang" value="1" />
+      <param name="max_ang" value="0.5" />
       <remap from="cmd" to="beta/cmd" />
-    </node>
+    </node> 
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.355905 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" /> 
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.355905 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" />  -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.395 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" /> 
 
     <!-- LRF -->
     <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">

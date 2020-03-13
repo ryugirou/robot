@@ -38,12 +38,18 @@ class Manual(smach.State):
             actions.teleop(joy.axes[0],joy.axes[1],joy.axes[2])
             if sum(joy.buttons) <= 0:
               continue
-            elif joy.GetButtonState(4):
-              actions.enable()
-            elif joy.GetButtonState(6):
-              actions.disable()
-            elif joy.GetButtonState(10):
+            # elif joy.GetButtonState(joy.ButtonNames['ButtonLB']):
+            #   actions.enable()
+            # elif joy.GetButtonState(joy.ButtonNames['ButtonRB']):
+            #   actions.disable()
+            elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               return '->Auto'
+            else :
+              for button_name,button_index in joy.ButtonNames.items():
+                if not button_name in actions.ButtonNames:
+                  continue
+                if joy.GetButtonState(button_index):
+                  actions.do(actions.ButtonNames[button_name])
 
 # define state Manual
 class Auto(smach.State):
@@ -61,7 +67,7 @@ class Auto(smach.State):
             rospy.sleep(0.1)
             if actions.getResult():
               return '->Manual'
-            elif joy.GetButtonState(10):
+            elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               return '->Manual'
 
 def main():

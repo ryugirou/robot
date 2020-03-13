@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen">
+    <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
+    <param name="device_addr" value="" />
+    <param name="use_standard_msgs" value="true" />
+  </node>
+
+  <node pkg="state" type="state.py" name="state" output="screen">
+    <rosparam file="$(find state)/config/ds4.yaml" command="load" />
+    <rosparam file="$(find state)/config/tasks.yaml" command="load" />
+    <param name="max_lin" value="0.5" />
+    <param name="max_ang" value="1" />
+    <remap from="cmd" to="beta/cmd" />
+  </node>
+</launch>
