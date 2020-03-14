@@ -40,13 +40,13 @@ class Actions:
     self.__initialpose_publisher.publish(initial_pose)
     
 
-  def enable(self):
+  def Enable(self):
     cmd_msg = UInt8()
     cmd_msg.data = 1
     self.__cmd_publisher.publish(cmd_msg)
     rospy.loginfo("enable")
 
-  def disable(self):
+  def Disable(self):
     cmd_msg = UInt8()
     cmd_msg.data = 0
     self.__cmd_publisher.publish(cmd_msg)

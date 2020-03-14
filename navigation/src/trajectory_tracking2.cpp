@@ -15,7 +15,8 @@
 class TrajectoryTracking
 {
   public:
-    TrajectoryTracking(const double& Kp,const double& Ki,const double& Kd,const double& Kp_yaw,const double& epsilon_xy,const double& epsilon_yaw,
+    TrajectoryTracking(const double& Kp,const double& Ki,const double& Kd,const double& Kp_yaw,const double& Ki_yaw,const double& Kd_yaw,
+  const double& epsilon_xy,const double& epsilon_yaw,
   const double& ctrl_freq,const std::string& map_frame_id,const std::string& source_frame_id,const std::string& target_frame_id);
 
     ros::Publisher vel_pub_;
@@ -53,10 +54,11 @@ class TrajectoryTracking
 };
 
 TrajectoryTracking::TrajectoryTracking(
-  const double& Kp,const double& Ki,const double& Kd,const double& Kp_yaw,const double& epsilon_xy,const double& epsilon_yaw,
+  const double& Kp,const double& Ki,const double& Kd,const double& Kp_yaw,const double& Ki_yaw,const double& Kd_yaw,
+  const double& epsilon_xy,const double& epsilon_yaw,
   const double& ctrl_freq,const std::string& map_frame_id,const std::string& odom_frame_id,const std::string& base_frame_id
   ) 
-:current_pose_({0,0,0}),manual_(true),controller_(Kp,Ki,Kd,Kp_yaw),epsilon_xy_(epsilon_xy),epsilon_yaw_(epsilon_yaw),ctrl_freq_(ctrl_freq),
+:current_pose_({0,0,0}),manual_(true),controller_(Kp,Ki,Kd,Kp_yaw,Ki_yaw,Kd_yaw),epsilon_xy_(epsilon_xy),epsilon_yaw_(epsilon_yaw),ctrl_freq_(ctrl_freq),
 map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_frame_id),map_to_odom_(tf2::Quaternion(0,0,0,1))
 {
   tf_.reset(new tf2_ros::Buffer());
@@ -182,19 +184,21 @@ int main(int argc, char **argv)
   ros::NodeHandle private_nh("~");
 
   std::string map_frame_id,odom_frame_id,base_frame_id;
-  double ctrl_freq,Kp,Ki,Kd,Kp_yaw,epsilon_xy,epsilon_yaw;
+  double ctrl_freq,Kp,Ki,Kd,Kp_yaw,Ki_yaw,Kd_yaw,epsilon_xy,epsilon_yaw;
   private_nh.param<double>("ctrl_freq", ctrl_freq,500);
   private_nh.param<double>("Kp", Kp,0);
   private_nh.param<double>("Ki", Ki,0);
   private_nh.param<double>("Kd", Kd,0);
   private_nh.param<double>("Kp_yaw", Kp_yaw,0);
+  private_nh.param<double>("Ki_yaw", Ki_yaw,0);
+  private_nh.param<double>("Kd_yaw", Kd_yaw,0);
   private_nh.param<double>("epsilon_xy", epsilon_xy,0.001);
   private_nh.param<double>("epsilon_yaw", epsilon_yaw,0.01);
   private_nh.param<std::string>("map_frame_id", map_frame_id,"map");
   private_nh.param<std::string>("odom_frame_id", odom_frame_id,"odom");
   private_nh.param<std::string>("base_frame_id", base_frame_id,"base_link");
 
-  auto trajectory_tracking =  TrajectoryTracking(Kp,Ki,Kd,Kp_yaw,epsilon_xy,epsilon_yaw,ctrl_freq,map_frame_id,odom_frame_id,base_frame_id);
+  auto trajectory_tracking =  TrajectoryTracking(Kp,Ki,Kd,Kp_yaw,Ki_yaw,Kd_yaw,epsilon_xy,epsilon_yaw,ctrl_freq,map_frame_id,odom_frame_id,base_frame_id);
 
   trajectory_tracking.vel_pub_ = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
   trajectory_tracking.result_pub_ = nh.advertise<std_msgs::UInt8>("result",1);

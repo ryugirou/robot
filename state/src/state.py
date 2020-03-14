@@ -31,17 +31,14 @@ class Manual(smach.State):
 
     def execute(self, userdata):
         rospy.loginfo("Manual")
-        joy.Set_LEDColor(joy.LEDColor.BLUE)
         actions.send_goal(100)
+        joy.Rumble()
+        joy.Set_LEDColor(joy.LEDColor.BLUE)
         while not rospy.is_shutdown():
             rospy.sleep(0.1)
             actions.teleop(joy.axes[0],joy.axes[1],joy.axes[2])
             if sum(joy.buttons) <= 0:
               continue
-            # elif joy.GetButtonState(joy.ButtonNames['ButtonLB']):
-            #   actions.enable()
-            # elif joy.GetButtonState(joy.ButtonNames['ButtonRB']):
-            #   actions.disable()
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               return '->Auto'
             else :
@@ -77,7 +74,6 @@ class Auto(smach.State):
         while not rospy.is_shutdown():
             rospy.sleep(0.1)
             if actions.getResult():
-              joy.Rumble()
               return '->Manual'
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               return '->Manual'
@@ -89,22 +85,22 @@ def main():
     global joy,actions,list
     joy = joy_handler.Joy_Handler()
     actions = action_handler.Actions()
-    # list = \
-    # [\
-    # Trajectorys.SZ_TO_RZ,\
-    # Trajectorys.RZ_TO_TS1,\
-    # Trajectorys.TS1_TO_RZ,\
-    # Trajectorys.RZ_TO_TS2,\
-    # Trajectorys.TS2_TO_RZ,\
-    # Trajectorys.RZ_TO_TS3,\
-    # Trajectorys.TS3_TO_RZ,\
-    # Trajectorys.RZ_TO_TS4,\
-    # Trajectorys.TS4_TO_RZ,\
-    # Trajectorys.RZ_TO_TS5,\
-    # Trajectorys.TS5_TO_RZ\
-    # ]
+    list = \
+    [\
+    Trajectorys.SZ_TO_RZ,\
+    Trajectorys.RZ_TO_TS1,\
+    Trajectorys.TS1_TO_RZ,\
+    Trajectorys.RZ_TO_TS2,\
+    Trajectorys.TS2_TO_RZ,\
+    Trajectorys.RZ_TO_TS3,\
+    Trajectorys.TS3_TO_RZ,\
+    Trajectorys.RZ_TO_TS4,\
+    Trajectorys.TS4_TO_RZ,\
+    Trajectorys.RZ_TO_TS5,\
+    Trajectorys.TS5_TO_RZ\
+    ]
 
-    list = [Trajectorys.TEST] #test
+    # list = [Trajectorys.TEST] #test
 
     # Create a SMACH state machine
     sm_top = smach.StateMachine(outcomes=['finished'])

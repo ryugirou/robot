@@ -3,8 +3,8 @@ tasks :
   # ButtonB: 3 #X
   # ButtonX: 1 #Δ
   # ButtonY: 0 #□
-  ButtonLB: enable
-  ButtonRB: disable
+  ButtonLB: Enable
+  ButtonRB: Disable
   # ButtonSelect: 8 #share
   # ButtonStart: 10 #logo
   # ButtonLeftThumb: 12

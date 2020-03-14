@@ -209,11 +209,3 @@ include_directories(
 add_executable(gazebo_odom src/gazebo_odom.cpp)
 target_link_libraries(gazebo_odom ${catkin_LIBRARIES})
 add_dependencies(gazebo_odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-add_executable(base_teleop_joy src/base_teleop_joy.cpp)
-target_link_libraries(base_teleop_joy ${catkin_LIBRARIES})
-add_dependencies(base_teleop_joy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-add_executable(cubic_spline_planner src/cubic_spline_planner.cpp)
-target_link_libraries(cubic_spline_planner ${catkin_LIBRARIES})
-add_dependencies(cubic_spline_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

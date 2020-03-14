@@ -6,3 +6,10 @@ double Pid::update(const double& sensor_val,const double& target_val,const doubl
         integral += diff[1] * dt;
         return Kp * diff[1] + Ki * integral + Kd * (diff[1]- diff[0]) / dt;
 }
+
+double Pid::update(const double& error,const double& dt){
+        diff[0] = diff[1];
+        diff[1] = error;
+        integral += diff[1] * dt;
+        return Kp * diff[1] + Ki * integral + Kd * (diff[1]- diff[0]) / dt;
+}

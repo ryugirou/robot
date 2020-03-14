@@ -10,6 +10,7 @@ class Pid{
   public:
     Pid(double _p,double _i,double _d):Kp(_p),Ki(_i),Kd(_d),integral(0){};
     double update(const double& sensor_val,const double& target_val,const double& dt);
+    double update(const double& error,const double& dt);
 };
 
 

@@ -29,6 +29,8 @@
       <param name="Ki" value="0"/>
       <param name="Kd" value="0"/>
       <param name="Kp_yaw" value="4" />
+      <param name="Ki_yaw" value="0" />
+      <param name="Kd_yaw" value="1" />
       <param name="epsilon_xy" value="0.0001"/>
       <param name="epsilon_yaw" value="0.002"/>
     </node>
@@ -53,9 +55,6 @@
         <param name="base_frame_id" value="$(arg robot_name)/base_link" />
         <param name="odom_frame_id" value="$(arg robot_name)/odom" />
         <param name="global_frame_id" value="$(arg robot_name)/map" />
-        <!-- <param name="initial_pose_x" value="0.55" />
-        <param name="initial_pose_y" value="9.55" />
-        <param name="initial_pose_a" value="0" /> -->
       </node>
   </group>
 
