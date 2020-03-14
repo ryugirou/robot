@@ -51,6 +51,17 @@ class Manual(smach.State):
                 if joy.GetButtonState(button_index):
                   actions.do(actions.ButtonNames[button_name])
 
+# define state Init
+class Init(smach.State):
+    def __init__(self):
+        smach.State.__init__(self, outcomes=['initialized'])
+    def execute(self, userdata):
+        if not (rospy.has_param('amcl/initial_pose_x') and rospy.has_param('amcl/initial_pose_y') and rospy.has_param('amcl/initial_pose_a')):
+            actions.pose_intialize()
+            rospy.loginfo("pose initialized ")
+        else :
+            rospy.loginfo("using last pose")
+        return 'initialized'
 # define state Manual
 class Auto(smach.State):
     def __init__(self):
@@ -66,6 +77,7 @@ class Auto(smach.State):
         while not rospy.is_shutdown():
             rospy.sleep(0.1)
             if actions.getResult():
+              joy.Rumble()
               return '->Manual'
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               return '->Manual'
@@ -77,28 +89,29 @@ def main():
     global joy,actions,list
     joy = joy_handler.Joy_Handler()
     actions = action_handler.Actions()
-    list = \
-    [\
-    Trajectorys.SZ_TO_RZ,\
-    Trajectorys.RZ_TO_TS1,\
-    Trajectorys.TS1_TO_RZ,\
-    Trajectorys.RZ_TO_TS2,\
-    Trajectorys.TS2_TO_RZ,\
-    Trajectorys.RZ_TO_TS3,\
-    Trajectorys.TS3_TO_RZ,\
-    Trajectorys.RZ_TO_TS4,\
-    Trajectorys.TS4_TO_RZ,\
-    Trajectorys.RZ_TO_TS5,\
-    Trajectorys.TS5_TO_RZ\
-    ]
+    # list = \
+    # [\
+    # Trajectorys.SZ_TO_RZ,\
+    # Trajectorys.RZ_TO_TS1,\
+    # Trajectorys.TS1_TO_RZ,\
+    # Trajectorys.RZ_TO_TS2,\
+    # Trajectorys.TS2_TO_RZ,\
+    # Trajectorys.RZ_TO_TS3,\
+    # Trajectorys.TS3_TO_RZ,\
+    # Trajectorys.RZ_TO_TS4,\
+    # Trajectorys.TS4_TO_RZ,\
+    # Trajectorys.RZ_TO_TS5,\
+    # Trajectorys.TS5_TO_RZ\
+    # ]
 
-    #list = [Trajectorys.TEST] #test
+    list = [Trajectorys.TEST] #test
 
     # Create a SMACH state machine
     sm_top = smach.StateMachine(outcomes=['finished'])
 
     # Open the container
     with sm_top:
+        smach.StateMachine.add('Init', Init(), transitions={'initialized': 'Manual'})
         smach.StateMachine.add('Manual', Manual(), transitions={'->Auto': 'Auto'})
         smach.StateMachine.add('Auto', Auto(), transitions={'->Manual': 'Manual'})
 

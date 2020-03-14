@@ -71,6 +71,9 @@
       <rosparam file="$(find pr)/config/tasks.yaml" command="load" />
       <param name="max_lin" value="0.5" />
       <param name="max_ang" value="0.5" />
+      <param name="initial_pose_x" value="0.55" />
+      <param name="initial_pose_y" value="9.55" />
+      <param name="initial_pose_a" value="0" />
       <remap from="cmd" to="beta/cmd" />
     </node> 
 

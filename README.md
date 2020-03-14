@@ -9,21 +9,22 @@ cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src
 ```
 ## Usage
-gazebo上で動かすときはsim:=ture,実機で動かすときはsim:=false
+gazebo上で動かすときはrobot_name:=omni4,実機で動かすときはrobot_name:=tr or pr
 ### joystickで動かす
 ```
-roslaunch robot_control slam.launch sim:=true
+roslaunch robot_control manual.launch robot_name:=tr
 ```
-#### 地図を保存
+
+### 自動で動かす
 ```
-cd ~/catkin_ws/src/robot/robot_control/resources/map
-rosrun map_server map_saver map:=/omni4/map
-``` 
-### move_baseで動かす
+roslaunch robot_control traj.launch robot_name:=pr
 ```
-roslaunch robot_control main.launch sim:=true
+
+### laptopから動かす
 ```
-### notepcでデバック
+ssh nhk@crs002.local
+roscore
+```
 ```
 export ROS_IP=`hostname -I`
 export ROS_MASTER_URI=http://crs002.local:11311

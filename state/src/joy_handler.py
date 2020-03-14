@@ -15,7 +15,7 @@ class Joy_Handler:
         self.buttons = [0]*18
         self.__last_status = [0]*18
 
-        self.joy_feedback_publisher = rospy.Publisher('set_feedback',JoyFeedbackArray,queue_size=1000)
+        self.joy_feedback_publisher = rospy.Publisher('set_feedback',JoyFeedbackArray,queue_size=10,latch=True)
         self.joy_subscriber = rospy.Subscriber('joy',Joy, self.__joyCallback)
         self.LEDColor = IntEnum('LEDColor','RED GREEN BLUE')
 
