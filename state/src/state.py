@@ -11,6 +11,8 @@ index = 0
 
 class Trajectorys(IntEnum):
     TEST = 0
+
+    #TR
     SZ_TO_RZ = 1
     RZ_TO_TS1 = 2
     TS1_TO_RZ = 3
@@ -22,6 +24,18 @@ class Trajectorys(IntEnum):
     TS4_TO_RZ = 9
     RZ_TO_TS5 = 10
     TS5_TO_RZ = 11
+
+    #PR
+    PRSZ_TO_PP1 = 12
+    PP1_TO_RZ = 13
+    RZ_TO_PP2 = 14
+    PP2_TO_RZ = 15
+    RZ_TO_PP3 = 16
+    PP3_TO_RZ = 17
+    RZ_TO_PP4 = 18
+    PP4_TO_RZ = 19
+    RZ_TO_PP5 = 20
+    PP5_TO_RZ = 21
 
 
 # define state Manual
@@ -85,22 +99,27 @@ def main():
     global joy,actions,list
     joy = joy_handler.Joy_Handler()
     actions = action_handler.Actions()
-    list = \
-    [\
-    Trajectorys.SZ_TO_RZ,\
-    Trajectorys.RZ_TO_TS1,\
-    Trajectorys.TS1_TO_RZ,\
-    Trajectorys.RZ_TO_TS2,\
-    Trajectorys.TS2_TO_RZ,\
-    Trajectorys.RZ_TO_TS3,\
-    Trajectorys.TS3_TO_RZ,\
-    Trajectorys.RZ_TO_TS4,\
-    Trajectorys.TS4_TO_RZ,\
-    Trajectorys.RZ_TO_TS5,\
-    Trajectorys.TS5_TO_RZ\
-    ]
+
+    # list = \
+    # [\
+    # Trajectorys.SZ_TO_RZ,\
+    # Trajectorys.RZ_TO_TS1,\
+    # Trajectorys.TS1_TO_RZ,\
+    # Trajectorys.RZ_TO_TS2,\
+    # Trajectorys.TS2_TO_RZ,\
+    # Trajectorys.RZ_TO_TS3,\
+    # Trajectorys.TS3_TO_RZ,\
+    # Trajectorys.RZ_TO_TS4,\
+    # Trajectorys.TS4_TO_RZ,\
+    # Trajectorys.RZ_TO_TS5,\
+    # Trajectorys.TS5_TO_RZ\
+    # ]
 
     # list = [Trajectorys.TEST] #test
+    list = \
+    [
+    Trajectorys.PRSZ_TO_PP1
+    ]
 
     # Create a SMACH state machine
     sm_top = smach.StateMachine(outcomes=['finished'])

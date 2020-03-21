@@ -64,7 +64,10 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
   tf_.reset(new tf2_ros::Buffer());
   tfl_.reset(new tf2_ros::TransformListener(*tf_));
 
-  trajectorys_.push_back({{1.0,9.5,0}});
+  //test
+  trajectorys_.push_back({{1.0,8.5,0}});
+
+  //TR
   trajectorys_.push_back({
     #include <path/TR/RedField/sz_to_rz_r.csv>
   });
@@ -97,6 +100,38 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
   });
   trajectorys_.push_back({
     #include <path/TR/RedField/ts5_to_rz_r.csv>
+  });
+
+  //PR
+  trajectorys_.push_back({
+    #include <path/PR/RedField/prsz_to_pp1_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pp1_to_pz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pz_to_pp2_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pp2_to_pz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pz_to_pp3_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pp3_to_pz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pz_to_pp4_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pp4_to_pz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pz_to_pp5_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/PR/RedField/pp5_to_pz_r.csv>
   });
 }
 

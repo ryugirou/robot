@@ -25,12 +25,13 @@
       <param name="odom_frame_id" value="$(arg robot_name)/odom" />
       <param name="base_frame_id"  value="$(arg robot_name)/base_link" />
       <param name="ctrl_freq" value="800"/>
-      <param name="Kp" value="4.0"/>
+      <!-- <param name="Kp" value="20.0"/> 0.05s-->
+      <param name="Kp" value="4"/>
       <param name="Ki" value="0"/>
       <param name="Kd" value="0"/>
-      <param name="Kp_yaw" value="4" />
+      <param name="Kp_yaw" value="5" />
       <param name="Ki_yaw" value="0" />
-      <param name="Kd_yaw" value="1" />
+      <param name="Kd_yaw" value="0" />
       <param name="epsilon_xy" value="0.0001"/>
       <param name="epsilon_yaw" value="0.002"/>
     </node>
@@ -46,7 +47,7 @@
       <param name="epsilon_yaw" value="0.002"/>
     </node> -->
 
-    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red_small_mod/map.yaml">
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
       <param name="frame_id" value="$(arg robot_name)/map"/>
     </node>
 
@@ -59,7 +60,7 @@
   </group>
 
 
-  <!-- Debug -->
+  <!-- Debug 6190-->
   <group if="$(arg debug)">
     <include file="$(find robot_control)/launch/debug.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>

@@ -10,7 +10,7 @@ rosdep install --from-paths src --ignore-src
 ```
 ## Usage
 gazebo上で動かすときはrobot_name:=omni4,実機で動かすときはrobot_name:=tr or pr
-### joystickで動かす
+### 手動で動かす
 ```
 roslaunch robot_control manual.launch robot_name:=tr
 ```
@@ -28,7 +28,12 @@ roscore
 ```
 export ROS_IP=`hostname -I`
 export ROS_MASTER_URI=http://crs002.local:11311
+export ROS_MASTER_URI=http://crs001.local:11311
 ```
+
+## ボタン配置
+pr/config/tasks.yaml,tr/config/tasks.yamlを参照
+
 ## Environment
 | OS | ros | gazebo |
 | ---------- | :--------: | --------: |

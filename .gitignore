@@ -2,4 +2,5 @@
 *.swo
 *.swp
 *.bag
+*.active
 .vscode/

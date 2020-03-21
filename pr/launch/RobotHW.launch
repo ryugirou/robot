@@ -24,14 +24,15 @@
     <node pkg="nodelet" type="nodelet" name="can_handler" 
     args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
 
-      <param name="beta0" value="$(eval 0x4f0)"/> 
+      <param name="beta0" value="$(eval 0x5b0)"/> 
       <param name="beta1" value="$(eval 0x5b8)"/>
       <param name="beta2" value="$(eval 0x608)"/>
       <param name="beta3" value="$(eval 0x4e0)"/>
 
       <param name="beta4" value="$(eval 0x60c)"/>
       <param name="beta5" value="$(eval 0x4d0)"/>
-      <param name="beta6" value="$(eval 0x5b4)"/>
+      <param name="beta6" value="$(eval 0x4a0)"/>
+      <param name="beta7" value="$(eval 0x4b0)"/>
 
       <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
       <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
@@ -39,7 +40,8 @@
       <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
       <remap from="beta/motor4_cmd_vel" to="pass"/>
       <remap from="beta/motor5_cmd_vel" to="pass"/>
-      <remap from="beta/motor6_cmd_vel" to="base/motor6_cmd_vel"/>
+      <remap from="beta/motor6_cmd_vel" to="slide"/>
+      <remap from="beta/motor7_cmd_vel" to="arm"/>
     </node>
 
     <!-- publish odom to TF (later)-->
@@ -71,9 +73,12 @@
       <rosparam file="$(find pr)/config/tasks.yaml" command="load" />
       <param name="max_lin" value="0.5" />
       <param name="max_ang" value="0.5" />
-      <param name="initial_pose_x" value="0.55" />
+      <!-- <param name="initial_pose_x" value="0.55" />
       <param name="initial_pose_y" value="9.55" />
-      <param name="initial_pose_a" value="0" />
+      <param name="initial_pose_a" value="0" /> -->
+      <param name="initial_pose_x" value="4.65" />
+      <param name="initial_pose_y" value="0.55" />
+      <param name="initial_pose_a" value="1.75" />
       <remap from="cmd" to="beta/cmd" />
     </node> 
 

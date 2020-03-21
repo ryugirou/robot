@@ -1,8 +1,8 @@
 tasks : 
-  ButtonA: Pass #O
-  ButtonB: Arm #X
-  ButtonX: Pick #Δ
-  ButtonY: Slide #□
+  ButtonA: Kick #O
+  ButtonB: Try #X
+  # ButtonX: Pick #Δ
+  # ButtonY: Slide #□
   ButtonLB: Enable
   ButtonRB: Disable
   ButtonSelect: Homing #share
