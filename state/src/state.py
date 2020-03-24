@@ -49,8 +49,8 @@ class Manual(smach.State):
         joy.Rumble()
         joy.Set_LEDColor(joy.LEDColor.BLUE)
         while not rospy.is_shutdown():
-            rospy.sleep(0.1)
-            actions.teleop(joy.axes[0],joy.axes[1],joy.axes[2])
+            rospy.sleep(0.03)
+            actions.teleop(joy.axes[1],joy.axes[0],joy.axes[2])
             if sum(joy.buttons) <= 0:
               continue
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
@@ -86,11 +86,17 @@ class Auto(smach.State):
         if index < len(list) - 1:
           index += 1
         while not rospy.is_shutdown():
-            rospy.sleep(0.1)
+            rospy.sleep(0.03)
             if actions.getResult():
               return '->Manual'
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               return '->Manual'
+            else :
+              for button_name,button_index in joy.ButtonNames.items():
+                if not button_name in actions.ButtonNames:
+                  continue
+                if joy.GetButtonState(button_index):
+                  actions.do(actions.ButtonNames[button_name])
 
 def main():
     rospy.init_node('state', anonymous=True)
@@ -100,26 +106,26 @@ def main():
     joy = joy_handler.Joy_Handler()
     actions = action_handler.Actions()
 
-    # list = \
-    # [\
-    # Trajectorys.SZ_TO_RZ,\
-    # Trajectorys.RZ_TO_TS1,\
-    # Trajectorys.TS1_TO_RZ,\
-    # Trajectorys.RZ_TO_TS2,\
-    # Trajectorys.TS2_TO_RZ,\
-    # Trajectorys.RZ_TO_TS3,\
-    # Trajectorys.TS3_TO_RZ,\
-    # Trajectorys.RZ_TO_TS4,\
-    # Trajectorys.TS4_TO_RZ,\
-    # Trajectorys.RZ_TO_TS5,\
-    # Trajectorys.TS5_TO_RZ\
-    # ]
+    list = \
+    [\
+    Trajectorys.SZ_TO_RZ,\
+    Trajectorys.RZ_TO_TS1,\
+    Trajectorys.TS1_TO_RZ,\
+    Trajectorys.RZ_TO_TS2,\
+    Trajectorys.TS2_TO_RZ,\
+    Trajectorys.RZ_TO_TS3,\
+    Trajectorys.TS3_TO_RZ,\
+    Trajectorys.RZ_TO_TS4,\
+    Trajectorys.TS4_TO_RZ,\
+    Trajectorys.RZ_TO_TS5,\
+    Trajectorys.TS5_TO_RZ\
+    ]
 
     # list = [Trajectorys.TEST] #test
-    list = \
-    [
-    Trajectorys.PRSZ_TO_PP1
-    ]
+    # list = \
+    # [
+    # Trajectorys.PRSZ_TO_PP1
+    # ]
 
     # Create a SMACH state machine
     sm_top = smach.StateMachine(outcomes=['finished'])

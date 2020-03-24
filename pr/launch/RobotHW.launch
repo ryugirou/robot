@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="robot_name"/>
-
+  <arg name="lidar"/>
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
 
@@ -50,8 +50,8 @@
       <param name="odom_frame" value="$(arg robot_name)/odom" />
       <param name="base_frame"  value="$(arg robot_name)/base_link" />
       <param name="publish_rate"  value="1000" />
-      <param name="x0" value="0.55"/>
-      <param name="y0" value="9.55"/>
+      <param name="x0" value="4.65"/>
+      <param name="y0" value="0.55"/>
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
@@ -65,41 +65,48 @@
       <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
       <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
       <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
-      
     </node>
 
-    <node pkg="state" type="state.py" name="state" output="screen">
+    <node pkg="state" type="state.py" name="state" output="screen" machine="robot">
       <rosparam file="$(find state)/config/ds4.yaml" command="load" />
       <rosparam file="$(find pr)/config/tasks.yaml" command="load" />
       <param name="max_lin" value="0.5" />
       <param name="max_ang" value="0.5" />
-      <!-- <param name="initial_pose_x" value="0.55" />
-      <param name="initial_pose_y" value="9.55" />
-      <param name="initial_pose_a" value="0" /> -->
       <param name="initial_pose_x" value="4.65" />
       <param name="initial_pose_y" value="0.55" />
       <param name="initial_pose_a" value="1.75" />
       <remap from="cmd" to="beta/cmd" />
     </node> 
 
-    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.355905 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" />  -->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.395 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" /> 
-
     <!-- LRF -->
-    <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
-      <param name="serial_port" value="/dev/sensors/hokuyo_H1323516"/>
-      <param name="frame_id" value="$(arg robot_name)/laser_link"/>
-      <param name="angle_min" value="-1.5"/>
-      <param name="angle_max" value="1.5"/>
-      <remap from="scan" to="scan"/>
-    </node> -->
-    <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
-      <param name="ip_address" value="192.168.0.10"/>
-      <param name="frame_id" value="$(arg robot_name)/laser_link"/>
-      <param name="angle_min" value="-1.5"/>
-      <param name="angle_max" value="1.5"/>
-      <remap from="scan" to="scan"/>
-    </node>
+    <group if="$(arg lidar)">
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0 -0.395 0 0 0 3.14 pr/base_link pr/laser_link" machine="robot"/> 
+
+      <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+        <param name="ip_address" value="192.168.0.10"/>
+        <param name="frame_id" value="$(arg robot_name)/laser_link"/>
+        <param name="angle_min" value="-1.5"/>
+        <param name="angle_max" value="1.5"/>
+        <remap from="scan" to="scan"/>
+      </node>
+
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+        <param name="frame_id" value="$(arg robot_name)/map"/>
+      </node>
+
+      <node pkg="amcl" type="amcl" name="amcl" output="screen" machine="robot">
+          <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
+          <param name="base_frame_id" value="$(arg robot_name)/base_link" />
+          <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+          <param name="global_frame_id" value="$(arg robot_name)/map" />
+      </node>
+    </group>
+    
+    <group unless="$(arg lidar)">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+        <param name="frame_id" value="$(arg robot_name)/odom"/>
+      </node>
+    </group>
 
   </group>
 </launch>

@@ -16,7 +16,7 @@ class TrajectoryTracking
 {
   public:
     TrajectoryTracking(const double& Kp,const double& Ki,const double& Kd,const double& Kp_yaw,const double& Ki_yaw,const double& Kd_yaw,
-  const double& epsilon_xy,const double& epsilon_yaw,
+  const double& epsilon_xy,const double& epsilon_yaw,const Vector3& test,
   const double& ctrl_freq,const std::string& map_frame_id,const std::string& source_frame_id,const std::string& target_frame_id);
 
     ros::Publisher vel_pub_;
@@ -55,7 +55,7 @@ class TrajectoryTracking
 
 TrajectoryTracking::TrajectoryTracking(
   const double& Kp,const double& Ki,const double& Kd,const double& Kp_yaw,const double& Ki_yaw,const double& Kd_yaw,
-  const double& epsilon_xy,const double& epsilon_yaw,
+  const double& epsilon_xy,const double& epsilon_yaw,const Vector3& test,
   const double& ctrl_freq,const std::string& map_frame_id,const std::string& odom_frame_id,const std::string& base_frame_id
   ) 
 :current_pose_({0,0,0}),manual_(true),controller_(Kp,Ki,Kd,Kp_yaw,Ki_yaw,Kd_yaw),epsilon_xy_(epsilon_xy),epsilon_yaw_(epsilon_yaw),ctrl_freq_(ctrl_freq),
@@ -65,7 +65,7 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
   tfl_.reset(new tf2_ros::TransformListener(*tf_));
 
   //test
-  trajectorys_.push_back({{1.0,8.5,0}});
+  trajectorys_.push_back({test});
 
   //TR
   trajectorys_.push_back({
@@ -233,7 +233,13 @@ int main(int argc, char **argv)
   private_nh.param<std::string>("odom_frame_id", odom_frame_id,"odom");
   private_nh.param<std::string>("base_frame_id", base_frame_id,"base_link");
 
-  auto trajectory_tracking =  TrajectoryTracking(Kp,Ki,Kd,Kp_yaw,Ki_yaw,Kd_yaw,epsilon_xy,epsilon_yaw,ctrl_freq,map_frame_id,odom_frame_id,base_frame_id);
+  double test_x,test_y,test_yaw;
+  private_nh.param<double>("test_x", test_x,0);
+  private_nh.param<double>("test_y", test_y,0);
+  private_nh.param<double>("test_yaw", test_yaw,0);
+  Vector3 test = {test_x,test_y,test_yaw};
+
+  auto trajectory_tracking =  TrajectoryTracking(Kp,Ki,Kd,Kp_yaw,Ki_yaw,Kd_yaw,epsilon_xy,epsilon_yaw,test,ctrl_freq,map_frame_id,odom_frame_id,base_frame_id);
 
   trajectory_tracking.vel_pub_ = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
   trajectory_tracking.result_pub_ = nh.advertise<std_msgs::UInt8>("result",1);

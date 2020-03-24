@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="robot_name"/>
-
+  <arg name="lidar"/>
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
 
@@ -28,6 +28,7 @@
       <param name="beta2" value="$(eval 0x5b4)"/>
       <param name="beta3" value="$(eval 0x4e8)"/>
 
+      <!-- <param name="beta4" value="$(eval 0x4b8)"/> -->
       <param name="beta4" value="$(eval 0x4f0)"/>
 
       <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
@@ -38,10 +39,10 @@
     </node>
 
     <!-- publish odom to TF (later)-->
-    <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot"
+    <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot" 
     args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
       <param name="odom_frame" value="$(arg robot_name)/odom" />
-      <param name="base_frame"  value="$(arg robot_name)/base_link" />
+      <param name="base_frame"  value="$(arg robot_name)/odom_link" />
       <param name="publish_rate"  value="1000" />
       <param name="x0" value="0.55"/>
       <param name="y0" value="9.55"/>
@@ -50,6 +51,8 @@
       <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
 
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="-0.11389378992741898 0.10998595445314349 0 0 0 0 tr/odom_link tr/base_link" machine="robot"/> -->
+ <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 tr/odom_link tr/base_link" machine="robot"/>
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
@@ -58,10 +61,9 @@
       <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
       <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
       <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
-      
     </node>
 
-    <node pkg="state" type="state.py" name="state" output="screen">
+    <node pkg="state" type="state.py" name="state" machine="robot" output="screen">
       <rosparam file="$(find state)/config/ds4.yaml" command="load" />
       <rosparam file="$(find tr)/config/tasks.yaml" command="load" />
       <param name="max_lin" value="0.5" />
@@ -72,24 +74,35 @@
       <remap from="cmd" to="beta/cmd" />
     </node> 
 
-    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.355905 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" />  -->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 -0.395 0 0.7071068, -0.7071068, 0, 0 pr/base_link pr/laser_link" /> 
-
     <!-- LRF -->
-    <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
-      <param name="serial_port" value="/dev/sensors/hokuyo_H1323516"/>
-      <param name="frame_id" value="$(arg robot_name)/laser_link"/>
-      <param name="angle_min" value="-1.5"/>
-      <param name="angle_max" value="1.5"/>
-      <remap from="scan" to="scan"/>
-    </node> -->
-    <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
-      <param name="ip_address" value="192.168.0.10"/>
-      <param name="frame_id" value="$(arg robot_name)/laser_link"/>
-      <param name="angle_min" value="-1.5"/>
-      <param name="angle_max" value="1.5"/>
-      <remap from="scan" to="scan"/>
-    </node> -->
+    <group if="$(arg lidar)">
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.4 0 0 0 0 3.14  tr/base_link tr/laser_link" machine="robot" />
+
+      <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+        <param name="ip_address" value="192.168.0.10"/>
+        <param name="frame_id" value="$(arg robot_name)/laser_link"/>
+        <param name="angle_min" value="-1.5"/>
+        <param name="angle_max" value="1.5"/>
+        <remap from="scan" to="scan"/>
+      </node>
+
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+        <param name="frame_id" value="$(arg robot_name)/map"/>
+      </node>
+
+      <node pkg="amcl" type="amcl" name="amcl" output="screen" machine="robot">
+          <rosparam command="load" file="$(find robot_control)/config/amcl.yaml" />
+          <param name="base_frame_id" value="$(arg robot_name)/base_link" />
+          <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+          <param name="global_frame_id" value="$(arg robot_name)/map" />
+      </node>
+    </group>
+    
+    <group unless="$(arg lidar)">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+        <param name="frame_id" value="$(arg robot_name)/odom"/>
+      </node>
+    </group>
 
   </group>
 </launch>

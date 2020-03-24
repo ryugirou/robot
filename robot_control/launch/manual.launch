@@ -2,14 +2,15 @@
 <launch>
   <arg name="manager_name" default="nodelet_manager" />
   <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
-  <arg name="debug" default="true"/>
+  <arg name="lidar" default="false"/>
+  <arg name="debug" default="false"/>
   <arg name="robot_name" default="omni4"/>
-  <arg name="sim" default="false"/>
 
   <include file="$(eval find(robot_name) + '/launch/RobotHW.launch' )">
     <arg name="manager_name" value="$(arg manager_name)" />
     <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
     <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="lidar" value="$(arg lidar)"/>
   </include>
 
   <group ns="$(arg robot_name)">
@@ -31,6 +32,7 @@
       <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
       <param name="device_addr" value="" />
       <param name="use_standard_msgs" value="true" />
+      <param name="deadzone" value="0.1"/>
     </node>   
   </group>
 

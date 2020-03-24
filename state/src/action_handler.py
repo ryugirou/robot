@@ -102,7 +102,7 @@ class Actions:
   #PR
   @fire_and_forget
   def Pass(self):
-    self.__pass_msg.data = 125
+    self.__pass_msg.data = 145
     self.__pass_publisher.publish(self.__pass_msg)
     rospy.sleep(4)
     self.__pass_msg.data = 0
@@ -142,10 +142,15 @@ class Actions:
     rospy.sleep(1)
 
   #TR
+  @fire_and_forget
   def Kick(self):
     kick_msg = Float64()
     kick_msg.data = -23.7
     self.__kick_publisher.publish(kick_msg)
+    rospy.sleep(2)
+    kick_msg.data = 0
+    self.__kick_publisher.publish(kick_msg)
+
 
   @fire_and_forget
   def Try(self):
