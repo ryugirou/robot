@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /Odometry1/Shape1
+        - /Map1
         - /PoseArray1
         - /LaserScan1
         - /CostMap1/Position1
@@ -32,7 +33,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -96,7 +97,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /tr/map
+      Topic: /pr/map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -177,9 +178,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 4266
+      Max Intensity: 4208
       Min Color: 0; 0; 0
-      Min Intensity: 100
+      Min Intensity: 132
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -223,7 +224,7 @@ Visualization Manager:
       Length: 1
       Name: base_link
       Radius: 0.100000001
-      Reference Frame: tr/base_link
+      Reference Frame: pr/base_link
       Value: true
     - Class: rviz/Axes
       Enabled: true
@@ -237,13 +238,13 @@ Visualization Manager:
       Length: 1
       Name: laser_link
       Radius: 0.100000001
-      Reference Frame: tr/laser_link
+      Reference Frame: pr/laser_link
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: tr/map
+    Fixed Frame: pr/odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -263,7 +264,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -1.56499958
+      Angle: -11.0200577
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
@@ -273,11 +274,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 56.3851662
+      Scale: 40.5968475
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 2.83007121
-      Y: 6.10753775
+      X: 4.54304743
+      Y: 3.78903699
     Saved:
       - Class: rviz/Orbit
         Distance: 10

@@ -5,7 +5,8 @@
     <remap from="/rosout_agg" to="/rosout"/>
   </node>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/config/SETTING.rviz" machine="laptop">
+  <arg name="rviz_config" value="$(eval find(robot_name) + '/config/SETTING.rviz' )"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_config)" machine="laptop">
     <remap from="/move_base_simple/goal" to="/$(arg robot_name)/move_base_simple/goal"/>
   </node>
 

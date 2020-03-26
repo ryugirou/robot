@@ -52,6 +52,8 @@
       <param name="publish_rate"  value="1000" />
       <param name="x0" value="4.65"/>
       <param name="y0" value="0.55"/>
+      <param name="yaw0" value="1.57"/>
+      <param name="invert_x" value="true"/>
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
@@ -74,16 +76,23 @@
       <param name="max_ang" value="0.5" />
       <param name="initial_pose_x" value="4.65" />
       <param name="initial_pose_y" value="0.55" />
-      <param name="initial_pose_a" value="1.75" />
+      <param name="initial_pose_a" value="1.57" />
       <remap from="cmd" to="beta/cmd" />
     </node> 
 
     <!-- LRF -->
     <group if="$(arg lidar)">
-      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0 -0.395 0 0 0 3.14 pr/base_link pr/laser_link" machine="robot"/> 
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0 -0.4 0 -1.57 0 3.14 pr/base_link pr/laser_link" machine="robot"/> 
 
-      <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+      <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
         <param name="ip_address" value="192.168.0.10"/>
+        <param name="frame_id" value="$(arg robot_name)/laser_link"/>
+        <param name="angle_min" value="-1.5"/>
+        <param name="angle_max" value="1.5"/>
+        <remap from="scan" to="scan"/>
+      </node> -->
+      <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+        <param name="serial_port" value="/dev/sensors/hokuyo_H1323516"/>
         <param name="frame_id" value="$(arg robot_name)/laser_link"/>
         <param name="angle_min" value="-1.5"/>
         <param name="angle_max" value="1.5"/>

@@ -82,9 +82,11 @@ class Auto(smach.State):
         rospy.loginfo("Auto")
         joy.Set_LEDColor(joy.LEDColor.GREEN)
         global index
+        if index >= len(list):
+          rospy.logwarn("next trajectory does not exist")
+          return '->Manual'
         actions.send_goal(list[index])
-        if index < len(list) - 1:
-          index += 1
+        index += 1
         while not rospy.is_shutdown():
             rospy.sleep(0.03)
             if actions.getResult():

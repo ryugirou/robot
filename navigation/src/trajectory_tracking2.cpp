@@ -69,7 +69,7 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
 
   //TR
   trajectorys_.push_back({
-    #include <path/TR/RedField/sz_to_rz_r.csv>
+    #include <path/TR/RedField/trsz_to_rz_r.csv>
   });
   trajectorys_.push_back({
     #include <path/TR/RedField/rz_to_ts1_r.csv>

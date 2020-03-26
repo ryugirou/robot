@@ -46,6 +46,7 @@
       <param name="publish_rate"  value="1000" />
       <param name="x0" value="0.55"/>
       <param name="y0" value="9.55"/>
+      <param name="yaw0" value="0"/>
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>

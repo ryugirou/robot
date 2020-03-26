@@ -102,7 +102,7 @@ class Actions:
   #PR
   @fire_and_forget
   def Pass(self):
-    self.__pass_msg.data = 145
+    self.__pass_msg.data = 140
     self.__pass_publisher.publish(self.__pass_msg)
     rospy.sleep(4)
     self.__pass_msg.data = 0
@@ -111,7 +111,7 @@ class Actions:
   @fire_and_forget
   def Arm(self):
     arm_msg = Float64()
-    arm_msg.data = -3.5
+    arm_msg.data = -3.6
     self.__arm_publisher.publish(arm_msg)
     while(not self.picked):
       rospy.sleep(0.1)

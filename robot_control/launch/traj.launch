@@ -26,7 +26,7 @@
       <param name="map_frame_id" value="$(arg robot_name)/map" />
       <param name="odom_frame_id" value="$(arg robot_name)/odom" />
       <param name="base_frame_id"  value="$(arg robot_name)/base_link" />
-      <param name="ctrl_freq" value="700"/>
+      <param name="ctrl_freq" value="400"/>
       <!-- <param name="Kp" value="20.0"/> 0.05s-->
       <param name="Kp" value="5"/>
       <param name="Ki" value="0"/>
