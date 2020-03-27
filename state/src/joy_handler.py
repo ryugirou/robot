@@ -57,7 +57,3 @@ class Joy_Handler:
         joy_feedback.array.append(feedback)
         self.joy_feedback_publisher.publish(joy_feedback)
         rospy.sleep(0.1)
-
-    def ClearAxes(self):
-        for axe in self.axes:
-            axe = 0

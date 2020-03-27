@@ -25,9 +25,9 @@
     args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
 
       <param name="beta0" value="$(eval 0x5b0)"/> 
-      <param name="beta1" value="$(eval 0x5b8)"/>
+      <param name="beta1" value="$(eval 0x4e0)"/>
       <param name="beta2" value="$(eval 0x608)"/>
-      <param name="beta3" value="$(eval 0x4e0)"/>
+      <param name="beta3" value="$(eval 0x5b8)"/>
 
       <param name="beta4" value="$(eval 0x60c)"/>
       <param name="beta5" value="$(eval 0x4d0)"/>
@@ -52,8 +52,9 @@
       <param name="publish_rate"  value="1000" />
       <param name="x0" value="4.65"/>
       <param name="y0" value="0.55"/>
-      <param name="yaw0" value="1.57"/>
+      <param name="yaw0" value="0"/>
       <param name="invert_x" value="true"/>
+      <param name="invert_y" value="true"/>
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
@@ -76,13 +77,14 @@
       <param name="max_ang" value="0.5" />
       <param name="initial_pose_x" value="4.65" />
       <param name="initial_pose_y" value="0.55" />
-      <param name="initial_pose_a" value="1.57" />
+      <param name="initial_pose_a" value="0" />
+      <param name="robot_name" value="$(arg robot_name)"/>
       <remap from="cmd" to="beta/cmd" />
     </node> 
 
     <!-- LRF -->
     <group if="$(arg lidar)">
-      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0 -0.4 0 -1.57 0 3.14 pr/base_link pr/laser_link" machine="robot"/> 
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.395 0 0 0 0 3.14 pr/base_link pr/laser_link" machine="robot"/> 
 
       <!-- <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
         <param name="ip_address" value="192.168.0.10"/>

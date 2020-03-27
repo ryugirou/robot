@@ -8,6 +8,7 @@ from std_msgs.msg import Float64
 from geometry_msgs.msg import PoseWithCovarianceStamped , Quaternion
 from tf.transformations import quaternion_from_euler
 import threading
+import tf2_ros
 
 def fire_and_forget(f):
   def wrapped(self):
@@ -17,6 +18,10 @@ def fire_and_forget(f):
 class Actions:
   def __init__(self):
     self.ButtonNames = rospy.get_param("~tasks")
+    #tf
+    self.__tfBuffer = tf2_ros.Buffer()
+    self.__listener = tf2_ros.TransformListener(self.__tfBuffer)
+
     self.__cmd_publisher = rospy.Publisher('cmd',UInt8,queue_size=10,latch=True)
     self.__vel_publisher = rospy.Publisher('cmd_vel',Twist,queue_size=1)
     self.__goal_publisher = rospy.Publisher('goal',UInt8,queue_size=10)
@@ -65,7 +70,7 @@ class Actions:
     self.__cmd_publisher.publish(cmd_msg)
     rospy.loginfo("disable")
 
-  def teleop(self,vel_x,vel_y,vel_z):
+  def teleop(self,vel_x,vel_y,vel_z_l,vel_z_r):
       norm = math.sqrt(vel_x**2+vel_y**2)
       if norm > 1.0:
         vel_x = vel_x / norm
@@ -76,7 +81,16 @@ class Actions:
 
       vel_x *= self.__max_lin
       vel_y *= self.__max_lin
+
+      vel_z = vel_z_l - vel_z_r
       vel_z *= self.__max_ang
+
+      # try:
+      #   trans = self.__tfBuffer.lookup_transform('/tr/base_link', '/tr/map', rospy.Time())
+      # except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+      #   return
+
+      # trans.transform.rotation
 
       vel_msg = Twist()
       vel_msg.linear.x = vel_x
@@ -133,9 +147,9 @@ class Actions:
     pick_msg = UInt8()
     pick_msg.data = 0xFF
     self.__solenoid_publisher.publish(pick_msg)
-    rospy.sleep(1)
+    rospy.sleep(0.1)
     self.picked = True
-    rospy.sleep(4)
+    rospy.sleep(1)
     pick_msg.data = 0x00
     self.__solenoid_publisher.publish(pick_msg)
     self.picked = False

@@ -22,29 +22,11 @@
       <param name="use_standard_msgs" value="true" />
     </node>
 
-    <node pkg="navigation" type="trajectory_tracking2" name="trajectory_tracking2" machine="robot" output="screen">
+    <node pkg="navigation" type="trajectory_tracking2" name="trajectory_tracking2" machine="robot">
       <param name="map_frame_id" value="$(arg robot_name)/map" />
       <param name="odom_frame_id" value="$(arg robot_name)/odom" />
       <param name="base_frame_id"  value="$(arg robot_name)/base_link" />
-      <param name="ctrl_freq" value="400"/>
-      <!-- <param name="Kp" value="20.0"/> 0.05s-->
-      <param name="Kp" value="5"/>
-      <param name="Ki" value="0"/>
-      <param name="Kd" value="0"/>
-      <param name="Kp_yaw" value="5" />
-      <param name="Ki_yaw" value="0" />
-      <param name="Kd_yaw" value="0" />
-      <!-- <param name="epsilon_xy" value="0.00001"/> -->
-      <param name="epsilon_xy" value="0"/>
-      <param name="epsilon_yaw" value="0.002"/>
-      <!-- kick -->
-      <param name="test_x" value="2.712"/>
-      <param name="test_y" value="2.189"/>
-      <param name="test_yaw" value="-2.76"/>
-      <!-- receive -->
-      <!-- <param name="test_x" value="5"/>
-      <param name="test_y" value="2"/>
-      <param name="test_yaw" value="1.5"/> -->
+      <rosparam command="load" file="$(eval find(robot_name) + '/config/trajectory_tracking.yaml' )" />
     </node>
 
   </group>

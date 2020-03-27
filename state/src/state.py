@@ -13,7 +13,7 @@ class Trajectorys(IntEnum):
     TEST = 0
 
     #TR
-    SZ_TO_RZ = 1
+    TRSZ_TO_RZ = 1
     RZ_TO_TS1 = 2
     TS1_TO_RZ = 3
     RZ_TO_TS2 = 4
@@ -50,7 +50,7 @@ class Manual(smach.State):
         joy.Set_LEDColor(joy.LEDColor.BLUE)
         while not rospy.is_shutdown():
             rospy.sleep(0.03)
-            actions.teleop(joy.axes[1],joy.axes[0],joy.axes[2])
+            actions.teleop(joy.axes[joy.ButtonNames['AxisLeftThumbY']],joy.axes[joy.ButtonNames['AxisLeftThumbX']],joy.axes[joy.ButtonNames['AxisLeftTrigger']],joy.axes[joy.ButtonNames['AxisRightTrigger']])
             if sum(joy.buttons) <= 0:
               continue
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
@@ -108,26 +108,28 @@ def main():
     joy = joy_handler.Joy_Handler()
     actions = action_handler.Actions()
 
-    list = \
-    [\
-    Trajectorys.SZ_TO_RZ,\
-    Trajectorys.RZ_TO_TS1,\
-    Trajectorys.TS1_TO_RZ,\
-    Trajectorys.RZ_TO_TS2,\
-    Trajectorys.TS2_TO_RZ,\
-    Trajectorys.RZ_TO_TS3,\
-    Trajectorys.TS3_TO_RZ,\
-    Trajectorys.RZ_TO_TS4,\
-    Trajectorys.TS4_TO_RZ,\
-    Trajectorys.RZ_TO_TS5,\
-    Trajectorys.TS5_TO_RZ\
-    ]
-
-    # list = [Trajectorys.TEST] #test
-    # list = \
-    # [
-    # Trajectorys.PRSZ_TO_PP1
-    # ]
+    robot_name = rospy.get_param("~robot_name")
+    if robot_name == "tr":
+      rospy.loginfo("tr")
+      list = \
+      [\
+      Trajectorys.TRSZ_TO_RZ,\
+      Trajectorys.RZ_TO_TS1,\
+      Trajectorys.TS1_TO_RZ,\
+      Trajectorys.RZ_TO_TS2,\
+      Trajectorys.TS2_TO_RZ,\
+      Trajectorys.RZ_TO_TS3,\
+      Trajectorys.TS3_TO_RZ,\
+      Trajectorys.RZ_TO_TS4,\
+      Trajectorys.TS4_TO_RZ,\
+      Trajectorys.RZ_TO_TS5,\
+      Trajectorys.TS5_TO_RZ\
+      ]
+    elif robot_name == "pr":
+      rospy.loginfo("pr")
+      list = [Trajectorys.TEST]*100 #test
+    else:
+      rospy.logwarn(robot_name + "is not a valid name")
 
     # Create a SMACH state machine
     sm_top = smach.StateMachine(outcomes=['finished'])

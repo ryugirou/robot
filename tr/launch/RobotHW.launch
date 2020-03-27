@@ -72,6 +72,7 @@
       <param name="initial_pose_x" value="0.55" />
       <param name="initial_pose_y" value="9.55" />
       <param name="initial_pose_a" value="0" />
+      <param name="robot_name" value="$(arg robot_name)"/>
       <remap from="cmd" to="beta/cmd" />
     </node> 
 
