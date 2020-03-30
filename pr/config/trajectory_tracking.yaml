@@ -7,5 +7,6 @@ Ki_yaw : 0
 Kd_yaw : 0
 epsilon_xy : 0.01
 epsilon_yaw : 0.01
+test_x : 5
 test_y : 2
 test_yaw : 0

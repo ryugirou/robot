@@ -25,17 +25,24 @@ class Trajectorys(IntEnum):
     RZ_TO_TS5 = 10
     TS5_TO_RZ = 11
 
+    TS1_TO_KZ = 12
+    TS2_TO_KZ = 13
+    TS3_TO_KZ = 14
+    TS4_TO_KZ = 15
+    TS5_TO_KZ = 16
+
+    KZ_TO_RZ = 17
     #PR
-    PRSZ_TO_PP1 = 12
-    PP1_TO_RZ = 13
-    RZ_TO_PP2 = 14
-    PP2_TO_RZ = 15
-    RZ_TO_PP3 = 16
-    PP3_TO_RZ = 17
-    RZ_TO_PP4 = 18
-    PP4_TO_RZ = 19
-    RZ_TO_PP5 = 20
-    PP5_TO_RZ = 21
+    # PRSZ_TO_PP1 = 12
+    # PP1_TO_RZ = 13
+    # RZ_TO_PP2 = 14
+    # PP2_TO_RZ = 15
+    # RZ_TO_PP3 = 16
+    # PP3_TO_RZ = 17
+    # RZ_TO_PP4 = 18
+    # PP4_TO_RZ = 19
+    # RZ_TO_PP5 = 20
+    # PP5_TO_RZ = 21
 
 
 # define state Manual

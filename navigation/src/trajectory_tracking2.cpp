@@ -102,6 +102,26 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
     #include <path/TR/RedField/ts5_to_rz_r.csv>
   });
 
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts1_to_kz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts2_to_kz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts3_to_kz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts4_to_kz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts5_to_kz_r.csv>
+  });
+
+  trajectorys_.push_back({
+    #include <path/TR/RedField/kz_to_rz_r.csv>
+  });
+
   //PR
   trajectorys_.push_back({
     #include <path/PR/RedField/prsz_to_pp1_r.csv>

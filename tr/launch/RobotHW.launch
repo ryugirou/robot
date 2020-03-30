@@ -35,7 +35,7 @@
       <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
       <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
       <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
-      <remap from="beta/motor4_cmd_vel" to="kick"/>
+      <remap from="beta/motor4_cmd_swing" to="kick"/>
     </node>
 
     <!-- publish odom to TF (later)-->

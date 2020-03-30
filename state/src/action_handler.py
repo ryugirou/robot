@@ -26,20 +26,23 @@ class Actions:
     self.__vel_publisher = rospy.Publisher('cmd_vel',Twist,queue_size=1)
     self.__goal_publisher = rospy.Publisher('goal',UInt8,queue_size=10)
     #PR
-    self.__pass_publisher = rospy.Publisher('pass',Float64,queue_size=10)
-    self.__arm_publisher = rospy.Publisher('arm',Float64,queue_size=10)
-    self.__solenoid_publisher = rospy.Publisher('solenoid',UInt8,queue_size=10)
-    self.__slide_publisher = rospy.Publisher('slide',Float64,queue_size=10)
+    if rospy.get_param("~robot_name") == "pr":
+      self.__pass_publisher = rospy.Publisher('pass',Float64,queue_size=10)
+      self.__arm_publisher = rospy.Publisher('arm',Float64,queue_size=10)
+      self.__solenoid_publisher = rospy.Publisher('solenoid',UInt8,queue_size=10)
+      self.__slide_publisher = rospy.Publisher('slide',Float64,queue_size=10)
+      self.__limit_switch_sub = rospy.Subscriber('limit_switch',UInt8,lambda msg: self.Pick() if msg.data else 0)
+      self.__picked = True
     #TR
-    self.__kick_publisher = rospy.Publisher('kick',Float64,queue_size=10)
+    elif rospy.get_param("~robot_name") == "tr":
+      self.__kick_publisher = rospy.Publisher('kick',Float64,queue_size=10)
 
     self.__initialpose_publisher = rospy.Publisher('initialpose',PoseWithCovarianceStamped,queue_size=10,latch=True)
     self.__result = 0
     self.__max_lin = rospy.get_param("~max_lin")
     self.__max_ang = rospy.get_param("~max_ang")
     self.__result_subscriber = rospy.Subscriber('result',UInt8, self.__resultCallback)
-    self.__pass_msg = Float64()
-    self.picked = False
+    
 
   def pose_intialize(self):
     initial_pose = PoseWithCovarianceStamped()
@@ -85,13 +88,6 @@ class Actions:
       vel_z = vel_z_l - vel_z_r
       vel_z *= self.__max_ang
 
-      # try:
-      #   trans = self.__tfBuffer.lookup_transform('/tr/base_link', '/tr/map', rospy.Time())
-      # except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-      #   return
-
-      # trans.transform.rotation
-
       vel_msg = Twist()
       vel_msg.linear.x = vel_x
       vel_msg.linear.y = vel_y
@@ -115,51 +111,54 @@ class Actions:
 
   #PR
   @fire_and_forget
-  def Pass(self):
-    self.__pass_msg.data = 140
-    self.__pass_publisher.publish(self.__pass_msg)
-    rospy.sleep(4)
-    self.__pass_msg.data = 0
-    self.__pass_publisher.publish(self.__pass_msg)
-
-  @fire_and_forget
   def Arm(self):
     arm_msg = Float64()
-    arm_msg.data = -3.6
+    arm_msg.data = -3.65
     self.__arm_publisher.publish(arm_msg)
-    while(not self.picked):
-      rospy.sleep(0.1)
+    self.__picked = False
+    while(not self.__picked):
+      rospy.sleep(0.5)
     arm_msg.data = 0.0
     self.__arm_publisher.publish(arm_msg)
 
   @fire_and_forget
+  def Pick(self):
+    if self.__picked: return
+    self.__picked = True
+    pick_msg = UInt8()
+    pick_msg.data = 0xFF
+    self.__solenoid_publisher.publish(pick_msg)
+    rospy.sleep(1)
+    pick_msg.data = 0x00
+    self.__solenoid_publisher.publish(pick_msg)
+    rospy.sleep(1)
+
+  @fire_and_forget
   def Slide(self):
+    self.Pass()
+    rospy.sleep(1)
     slide_msg = Float64()
     slide_msg.data = -0.6
     self.__slide_publisher.publish(slide_msg)
-    self.Pass()
     rospy.sleep(5)
     slide_msg.data = 0
     self.__slide_publisher.publish(slide_msg)
 
   @fire_and_forget
-  def Pick(self):
-    pick_msg = UInt8()
-    pick_msg.data = 0xFF
-    self.__solenoid_publisher.publish(pick_msg)
-    rospy.sleep(0.1)
-    self.picked = True
-    rospy.sleep(1)
-    pick_msg.data = 0x00
-    self.__solenoid_publisher.publish(pick_msg)
-    self.picked = False
-    rospy.sleep(1)
+  def Pass(self):
+    pass_msg = Float64()
+    pass_msg.data = 140
+    self.__pass_publisher.publish(pass_msg)
+    rospy.sleep(4)
+    pass_msg.data = 0
+    self.__pass_publisher.publish(pass_msg)
 
   #TR
   @fire_and_forget
   def Kick(self):
     kick_msg = Float64()
-    kick_msg.data = -23.7
+    # kick_msg.data = -23.7
+    kick_msg.data = -26
     self.__kick_publisher.publish(kick_msg)
     rospy.sleep(2)
     kick_msg.data = 0
