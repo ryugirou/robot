@@ -113,11 +113,11 @@ def main():
 
     global joy,actions,list
     joy = joy_handler.Joy_Handler()
-    actions = action_handler.Actions()
 
     robot_name = rospy.get_param("~robot_name")
     if robot_name == "tr":
       rospy.loginfo("tr")
+      actions = action_handler.ActionsTr()
       list = \
       [\
       Trajectorys.TRSZ_TO_RZ,\
@@ -134,6 +134,7 @@ def main():
       ]
     elif robot_name == "pr":
       rospy.loginfo("pr")
+      actions = action_handler.ActionsPr()
       list = [Trajectorys.TEST]*100 #test
     else:
       rospy.logwarn(robot_name + "is not a valid name")

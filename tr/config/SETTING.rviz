@@ -224,7 +224,7 @@ Visualization Manager:
       Length: 1
       Name: base_link
       Radius: 0.100000001
-      Reference Frame: pr/base_link
+      Reference Frame: tr/base_link
       Value: true
     - Class: rviz/Axes
       Enabled: true
@@ -244,7 +244,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: tr/map
+    Fixed Frame: tr/odom
     Frame Rate: 30
   Name: root
   Tools:
