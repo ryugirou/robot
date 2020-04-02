@@ -53,8 +53,8 @@
       <param name="x0" value="4.65"/>
       <param name="y0" value="0.55"/>
       <param name="yaw0" value="0"/>
-      <param name="invert_x" value="true"/>
-      <param name="invert_y" value="true"/>
+      <param name="invert_x" value="false"/>
+      <param name="invert_y" value="false"/>
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>

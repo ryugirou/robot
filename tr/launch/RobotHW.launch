@@ -36,6 +36,8 @@
       <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
       <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
       <remap from="beta/motor4_cmd_swing" to="kick"/>
+      <remap from="beta/motor4_cmd_vel" to="kick_pos"/>
+
     </node>
 
     <!-- publish odom to TF (later)-->
@@ -44,9 +46,13 @@
       <param name="odom_frame" value="$(arg robot_name)/odom" />
       <param name="base_frame"  value="$(arg robot_name)/odom_link" />
       <param name="publish_rate"  value="1000" />
+      <param name="invert_x" value="false"/>
+      <param name="invert_y" value="false"/>
+      <param name="invert_z" value="false"/>
       <param name="x0" value="0.55"/>
       <param name="y0" value="9.55"/>
-      <param name="yaw0" value="0"/>
+      <!-- <param name="yaw0" value="0.785398"/> -->
+      <param name="yaw0" value="0.0"/>
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
@@ -71,6 +77,7 @@
       <param name="max_ang" value="0.5" />
       <param name="initial_pose_x" value="0.55" />
       <param name="initial_pose_y" value="9.55" />
+      <!-- <param name="initial_pose_a" value="0.785398" /> -->
       <param name="initial_pose_a" value="0" />
       <param name="robot_name" value="$(arg robot_name)"/>
       <remap from="cmd" to="beta/cmd" />

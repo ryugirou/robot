@@ -3,4 +3,5 @@
 *.swp
 *.bag
 *.active
+*.pyc
 .vscode/

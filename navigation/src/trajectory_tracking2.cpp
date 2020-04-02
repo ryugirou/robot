@@ -38,7 +38,10 @@ class TrajectoryTracking
     bool manual_;
 
     bool isReached();
-    
+
+    double distance();
+    static constexpr double distance_tolerance_ = 0.3;
+
     bool getOdomPose();
     bool getMapToOdom();
 
@@ -103,23 +106,31 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
   });
 
   trajectorys_.push_back({
-    #include <path/TR/RedField/ts1_to_kz_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/TR/RedField/ts2_to_kz_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/TR/RedField/ts3_to_kz_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/TR/RedField/ts4_to_kz_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/TR/RedField/ts5_to_kz_r.csv>
+    #include <path/TR/RedField/rz_to_kz_r.csv>
   });
 
   trajectorys_.push_back({
     #include <path/TR/RedField/kz_to_rz_r.csv>
+  });
+
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts1_to_wp_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts2_to_wp_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts3_to_wp_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts4_to_wp_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/ts5_to_wp_r.csv>
+  });
+
+  trajectorys_.push_back({
+    #include <path/TR/RedField/wp_to_kz_r.csv>
   });
 
   //PR
@@ -193,6 +204,11 @@ bool TrajectoryTracking::getMapToOdom()
   return true;
 }
 
+double TrajectoryTracking::distance()
+{
+  return sqrt(pow(target_pose_->x - current_pose_.x,2) + pow(target_pose_->y - current_pose_.y,2));
+}
+
 bool TrajectoryTracking::isReached()
 {
   bool condition_x = sqrt(pow(goal_pose_->x - current_pose_.x,2)) < epsilon_xy_;
@@ -217,7 +233,11 @@ void TrajectoryTracking::timerCallback(const ros::TimerEvent &)
 
   vel_pub_.publish(controller_.update(current_pose_,target_pose_,goal_pose_,ctrl_freq_));
 
-  if(target_pose_ != goal_pose_) target_pose_++;
+  if(distance() > distance_tolerance_){
+    ROS_WARN("target position too far,stop updating target pose");
+    return;
+  }
+  else if(target_pose_ != goal_pose_) target_pose_++;
 }
 
 void TrajectoryTracking::goalCallback(const std_msgs::UInt8::ConstPtr& goal_ptr){
@@ -235,6 +255,7 @@ void TrajectoryTracking::goalCallback(const std_msgs::UInt8::ConstPtr& goal_ptr)
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "TrajectoryTracking");
+  ROS_INFO("trajectorytracking has started.");
   ros::NodeHandle nh;
   ros::NodeHandle private_nh("~");
 
