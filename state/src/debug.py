@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: UTF-8
 from enum import IntEnum
-
+import time
+import rospy
 #スーパークラス
 class SuperClass(object): #objectクラスを継承するのを忘れない
 	def __init__(self):
@@ -33,11 +34,11 @@ class Trajectorys(IntEnum):
     TS2_TO_WP = 15
 
 if __name__ == '__main__':
-	list = [
-		1,
-		2,
-		3,
-		4
-	]
-	for i in list:
-		print(i)
+    rospy.init_node('debug', anonymous=True)
+    start = time.time()
+    t = 10
+    time.sleep(1)
+    time.sleep(2)
+    elapsed_time = time.time() - start
+    # rospy.loginfo("%s : %f sec",Trajectorys.TS5_TO_RZ,elapsed_time)
+    rospy.loginfo(Trajectorys(0))

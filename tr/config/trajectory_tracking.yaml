@@ -1,12 +1,12 @@
-ctrl_freq : 800
-Kp : 5
+ctrl_freq : 900
+Kp : 4
 Ki : 0
-Kd : 0
+Kd : 0.5
 Kp_yaw : 5
 Ki_yaw : 0
 Kd_yaw : 0
-epsilon_xy : 0
-epsilon_yaw : 0.002
+epsilon_xy : 0.01
+epsilon_yaw : 0.01
 test_x : 2.712
 test_y : 2.189
 test_yaw : -2.76 #380 250

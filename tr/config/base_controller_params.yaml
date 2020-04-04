@@ -1,4 +1,4 @@
-motor_max_acc : 30
+motor_max_acc : 45
 motor_max_vel : 60
 invert_x : false
 invert_y : true

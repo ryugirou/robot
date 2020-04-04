@@ -6,47 +6,9 @@ import smach_ros
 import joy_handler
 import action_handler
 from trajectory import Trajectorys
+import time
 
 index = 0
-
-# class Trajectorys(IntEnum):
-#     TEST = 0
-
-#     #TR
-#     TRSZ_TO_RZ = 1
-#     RZ_TO_TS1 = 2
-#     TS1_TO_RZ = 3
-#     RZ_TO_TS2 = 4
-#     TS2_TO_RZ = 5
-#     RZ_TO_TS3 = 6
-#     TS3_TO_RZ = 7
-#     RZ_TO_TS4 = 8
-#     TS4_TO_RZ = 9
-#     RZ_TO_TS5 = 10
-#     TS5_TO_RZ = 11
-
-#     RZ_TO_KZ = 12
-#     KZ_TO_RZ = 13
-
-#     TS1_TO_WP = 14
-#     TS2_TO_WP = 15
-#     TS3_TO_WP = 16
-#     TS4_TO_WP = 17
-#     TS5_TO_WP = 18
-    
-#     WP_TO_KZ = 19
-#     #PR
-#     # PRSZ_TO_PP1 = 12
-#     # PP1_TO_RZ = 13
-#     # RZ_TO_PP2 = 14
-#     # PP2_TO_RZ = 15
-#     # RZ_TO_PP3 = 16
-#     # PP3_TO_RZ = 17
-#     # RZ_TO_PP4 = 18
-#     # PP4_TO_RZ = 19
-#     # RZ_TO_PP5 = 20
-    # PP5_TO_RZ = 21
-
 
 # define state Manual
 class Manual(smach.State):
@@ -96,12 +58,16 @@ class Auto(smach.State):
           rospy.logwarn("next trajectory does not exist")
           return '->Manual'
         actions.send_goal(list[index])
-        index += 1
+        start = time.time()
         while not rospy.is_shutdown():
             rospy.sleep(0.03)
             if actions.getResult():
+              elapsed_time = time.time() - start
+              rospy.loginfo("%s : %f sec",list[index],elapsed_time)
+              index += 1
               return '->Manual'
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
+              index += 1
               return '->Manual'
             else :
               for button_name,button_index in joy.ButtonNames.items():
@@ -158,41 +124,41 @@ def main():
     elif robot_name == "pr":
       rospy.loginfo("pr")
       actions = action_handler.ActionsPr()
-      # list = [Trajectorys.TEST]*100 
-      list = \
-      [
-      Trajectorys.TRSZ_TO_RZ,
+      list = [Trajectorys.TEST]*100 
+      # list = \
+      # [
+      # Trajectorys.TRSZ_TO_RZ,
 
-      Trajectorys.RZ_TO_TS1,
-      Trajectorys.TS1_TO_RZ,
+      # Trajectorys.RZ_TO_TS1,
+      # Trajectorys.TS1_TO_RZ,
 
-      Trajectorys.RZ_TO_TS2,
-      Trajectorys.TS2_TO_RZ,
+      # Trajectorys.RZ_TO_TS2,
+      # Trajectorys.TS2_TO_RZ,
 
-      Trajectorys.RZ_TO_TS3,
-      Trajectorys.TS3_TO_RZ,
+      # Trajectorys.RZ_TO_TS3,
+      # Trajectorys.TS3_TO_RZ,
 
-      Trajectorys.RZ_TO_TS4,
-      Trajectorys.TS4_TO_RZ,
+      # Trajectorys.RZ_TO_TS4,
+      # Trajectorys.TS4_TO_RZ,
 
-      Trajectorys.RZ_TO_TS5,
-      Trajectorys.TS5_TO_RZ,
+      # Trajectorys.RZ_TO_TS5,
+      # Trajectorys.TS5_TO_RZ,
 
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
+      # Trajectorys.RZ_TO_KZ,
+      # Trajectorys.KZ_TO_RZ,
 
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
+      # Trajectorys.RZ_TO_KZ,
+      # Trajectorys.KZ_TO_RZ,
 
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
+      # Trajectorys.RZ_TO_KZ,
+      # Trajectorys.KZ_TO_RZ,
 
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
+      # Trajectorys.RZ_TO_KZ,
+      # Trajectorys.KZ_TO_RZ,
 
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ
-      ]
+      # Trajectorys.RZ_TO_KZ,
+      # Trajectorys.KZ_TO_RZ
+      # ]
     else:
       rospy.logwarn(robot_name + "is not a valid name")
 

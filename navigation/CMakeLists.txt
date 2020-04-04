@@ -18,6 +18,7 @@ include_directories(
 
 add_subdirectory(lib/controller_pid)
 add_subdirectory(lib/pid_position)
+add_subdirectory(lib/controller_pid_polar)
 
 catkin_package(
   INCLUDE_DIRS lib/pid_position
@@ -25,12 +26,12 @@ catkin_package(
   CATKIN_DEPENDS geometry_msgs roscpp std_msgs tf tf2
 )
 
-# add_executable(trajectory_tracking src/trajectory_tracking.cpp)
-# target_include_directories(trajectory_tracking PRIVATE lib/controller_pid)
-# target_link_libraries(trajectory_tracking ${catkin_LIBRARIES} controller_pid pid_position)
-# add_dependencies(trajectory_tracking ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_executable(trajectory_tracking2 src/trajectory_tracking2.cpp)
+# target_include_directories(trajectory_tracking2 PRIVATE lib/controller_pid)
+# target_link_libraries(trajectory_tracking2 ${catkin_LIBRARIES} controller_pid pid_position)
+# add_dependencies(trajectory_tracking2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(trajectory_tracking2 src/trajectory_tracking2.cpp)
-target_include_directories(trajectory_tracking2 PRIVATE lib/controller_pid)
-target_link_libraries(trajectory_tracking2 ${catkin_LIBRARIES} controller_pid pid_position)
+target_include_directories(trajectory_tracking2 PRIVATE lib/controller_pid_polar)
+target_link_libraries(trajectory_tracking2 ${catkin_LIBRARIES} controller_pid_polar pid_position)
 add_dependencies(trajectory_tracking2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

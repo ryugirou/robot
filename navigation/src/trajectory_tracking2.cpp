@@ -10,7 +10,7 @@
 #include <std_msgs/UInt8.h>
 #include <tf/tf.h>
 #include "trajectory_tracking.hpp"
-#include "controller_pid.hpp"
+#include "controller_pid_polar.hpp"
 
 class TrajectoryTracking
 {
