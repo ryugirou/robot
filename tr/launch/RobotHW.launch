@@ -30,6 +30,7 @@
 
       <!-- <param name="beta4" value="$(eval 0x4b8)"/> -->
       <param name="beta4" value="$(eval 0x4f0)"/>
+      <param name="beta5" value="$(eval 0x4d8)"/>
 
       <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
       <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
@@ -37,6 +38,8 @@
       <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
       <remap from="beta/motor4_cmd_swing" to="kick"/>
       <remap from="beta/motor4_cmd_vel" to="kick_pos"/>
+      <remap from="beta/motor5_cmd_vel" to="try"/>
+
 
     </node>
 

@@ -2,7 +2,7 @@ tasks :
   ButtonA: Kick #O
   ButtonB: Try #X
   # ButtonX: Pick #Δ
-  ButtonY: Hold #□
+  # ButtonY: Hold #□
   ButtonLB: Enable
   ButtonRB: Disable
   ButtonSelect: Homing #share

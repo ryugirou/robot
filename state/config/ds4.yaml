@@ -7,6 +7,7 @@ joy :
   ButtonRB: 6
   ButtonSelect: 8 #share
   ButtonStart: 10 #logo
+  ButtonTouchpad : 11
   ButtonLeftThumb: 12
   ButtonRightThumb: 13
   AxisLeftThumbX: 0

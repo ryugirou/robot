@@ -110,6 +110,7 @@ class ActionsPr(ActionsVirtual):
       self.__slide_publisher = rospy.Publisher('slide',Float64,queue_size=10)
       self.__solenoid_publisher = rospy.Publisher('solenoid',UInt8,queue_size=10)
       self.__limit_switch_sub = rospy.Subscriber('limit_switch',UInt8,lambda msg: self.Pick() if msg.data else 0)
+      self.__passed = False
       self.__picked = True
       self.__solenoid_msg = UInt8()
       self.__solenoid_msg.data = 0b000000
@@ -121,7 +122,7 @@ class ActionsPr(ActionsVirtual):
       self.__arm_publisher.publish(arm_msg)
       self.__picked = False
       while(not self.__picked):
-        rospy.sleep(0.5)
+        rospy.sleep(1)
       arm_msg.data = 0.0
       self.__arm_publisher.publish(arm_msg)
 
@@ -131,67 +132,59 @@ class ActionsPr(ActionsVirtual):
       self.__picked = True
       self.__solenoid_msg.data |= ActionsPr.PICK_POSITION
       self.__solenoid_publisher.publish(self.__solenoid_msg)
-      rospy.sleep(1)
+      rospy.sleep(2)
       self.__solenoid_msg.data &= ~ActionsPr.PICK_POSITION
       self.__solenoid_publisher.publish(self.__solenoid_msg)
       rospy.sleep(1)
 
     @fire_and_forget
     def Slide(self):
-      self.Pass()
-      rospy.sleep(1)
       slide_msg = Float64()
       slide_msg.data = -0.6
       self.__slide_publisher.publish(slide_msg)
-      rospy.sleep(5)
+      self.__passed = True
+      while self.__passed:
+        rospy.sleep(0.1)
+      rospy.sleep(1)
       slide_msg.data = 0
       self.__slide_publisher.publish(slide_msg)
 
     @fire_and_forget
     def Pass(self):
       pass_msg = Float64()
-      pass_msg.data = 140
+      pass_msg.data = 150
       self.__pass_publisher.publish(pass_msg)
-      rospy.sleep(4)
+      while not self.__passed:
+        rospy.sleep(0.1)
+      rospy.sleep(2)
+      self.__passed = False
       pass_msg.data = 0
       self.__pass_publisher.publish(pass_msg)
 
 class ActionsTr(ActionsVirtual):
 
-    TRY_POSITION = 0b000001
+    ARM_POSITION = 0b000001
     HOLD_POSITION = 0b000010
+    SLIDE_POSITION = 0b000100
 
     def __init__(self):
       super(ActionsTr,self).__init__()
       self.__kick_publisher = rospy.Publisher('kick',Float64,queue_size=10)
-      self.__solenoid_publisher = rospy.Publisher('solenoid',UInt8,queue_size=10)
-      self.__solenoid_msg = UInt8()
-      self.__solenoid_msg.data = 0b000000
+      # self.__solenoid_publisher = rospy.Publisher('solenoid',UInt8,queue_size=10)
+      self.__try_publisher = rospy.Publisher('try',Float64,queue_size=10)
 
 
     @fire_and_forget
     def Kick(self):
       kick_msg = Float64()
-      kick_msg.data = -26
-      self.__kick_publisher.publish(kick_msg)
-      rospy.sleep(2)
-      kick_msg.data = 0
+      kick_msg.data = -18
       self.__kick_publisher.publish(kick_msg)
 
     @fire_and_forget
     def Try(self):
-      self.__solenoid_msg.data |= ActionsTr.TRY_POSITION
-      self.__solenoid_publisher.publish(self.__solenoid_msg)
-      rospy.sleep(1)
-      self.Release()
-      rospy.sleep(2)
-      self.__solenoid_msg.data &= ~ActionsTr.TRY_POSITION
-      self.__solenoid_publisher.publish(self.__solenoid_msg)
-
-    def Hold(self):
-      self.__solenoid_msg.data |= ActionsTr.HOLD_POSITION
-      self.__solenoid_publisher.publish(self.__solenoid_msg)
-
-    def Release(self):
-      self.__solenoid_msg.data &= ~ActionsTr.HOLD_POSITION
-      self.__solenoid_publisher.publish(self.__solenoid_msg)
+      try_msg = Float64()
+      try_msg.data = -1.2
+      self.__try_publisher.publish(try_msg)
+      rospy.sleep(1.5)
+      try_msg.data = 0
+      self.__try_publisher.publish(try_msg)

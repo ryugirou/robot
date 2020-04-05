@@ -27,6 +27,16 @@ class Manual(smach.State):
               continue
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               return '->Auto'
+            elif joy.GetButtonState(joy.ButtonNames['ButtonTouchpad']):
+              global index
+              index = 0
+              rospy.loginfo("reset")
+              for __ in range(3) :
+                joy.Set_LEDColor(joy.LEDColor.RED)
+                rospy.sleep(1)
+                joy.Set_LEDColor(joy.LEDColor.BLUE)
+                rospy.sleep(1)
+              continue
             else :
               for button_name,button_index in joy.ButtonNames.items():
                 if not button_name in actions.ButtonNames:
@@ -92,39 +102,54 @@ def main():
       Trajectorys.TRSZ_TO_RZ,
 
       Trajectorys.RZ_TO_TS1,
-      Trajectorys.TS1_TO_RZ,
+      Trajectorys.TS1_TO_RZ2,
 
       Trajectorys.RZ_TO_TS2,
-      Trajectorys.TS2_TO_RZ,
+      Trajectorys.TS2_TO_RZ3,
 
       Trajectorys.RZ_TO_TS3,
-      Trajectorys.TS3_TO_RZ,
+      Trajectorys.TS3_TO_WP,
+
+      Trajectorys.WP_TO_KZ,
+      Trajectorys.KZ_TO_RZ,
+
+      Trajectorys.RZ_TO_KZ,
+      Trajectorys.KZ_TO_RZ,
+
+      Trajectorys.RZ_TO_KZ,
+      Trajectorys.KZ_TO_RZ3,
 
       Trajectorys.RZ_TO_TS4,
-      Trajectorys.TS4_TO_RZ,
+      Trajectorys.TS4_TO_WP,
+
+      Trajectorys.WP_TO_KZ,
+      Trajectorys.KZ_TO_RZ3,
 
       Trajectorys.RZ_TO_TS5,
-      Trajectorys.TS5_TO_RZ,
+      Trajectorys.TS5_TO_WP,
 
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
-
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
-
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
-
-      Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
-
-      Trajectorys.RZ_TO_KZ,
+      Trajectorys.WP_TO_KZ,
       Trajectorys.KZ_TO_RZ
       ]
     elif robot_name == "pr":
       rospy.loginfo("pr")
       actions = action_handler.ActionsPr()
-      list = [Trajectorys.TEST]*100 
+      list = [
+        Trajectorys.RZ1,
+        Trajectorys.PRSZ,
+
+        Trajectorys.RZ2,
+        Trajectorys.PRSZ,
+
+        Trajectorys.RZ3,
+        Trajectorys.PRSZ,
+
+        Trajectorys.RZ3,
+        Trajectorys.PRSZ,
+
+        Trajectorys.RZ3,
+        Trajectorys.PRSZ,
+      ]*100 
       # list = \
       # [
       # Trajectorys.TRSZ_TO_RZ,

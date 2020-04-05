@@ -1,11 +1,12 @@
 tasks : 
-  ButtonA: Pass #O
+  ButtonA: Slide #O
   ButtonB: Arm #X
   ButtonX: Pick #Δ
-  ButtonY: Slide #□
+  ButtonY: Pass #□
   ButtonLB: Enable
   ButtonRB: Disable
   ButtonSelect: Homing #share
+  ButtonTouchpad : Reset
   # ButtonStart: 10 #logo
   # ButtonLeftThumb: 12
   # ButtonRightThumb: 13

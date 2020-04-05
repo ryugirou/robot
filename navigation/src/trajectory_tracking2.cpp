@@ -78,28 +78,28 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
     #include <path/TR/RedField/rz_to_ts1_r.csv>
   });
   trajectorys_.push_back({
-    #include <path/TR/RedField/ts1_to_rz_r.csv>
+    #include <path/TR/RedField/ts1_to_rz2_r.csv>
   });
   trajectorys_.push_back({
-    #include <path/TR/RedField/rz_to_ts2_r.csv>
+    #include <path/TR/RedField/rz2_to_ts2_r.csv>
   });
   trajectorys_.push_back({
-    #include <path/TR/RedField/ts2_to_rz_r.csv>
+    #include <path/TR/RedField/ts2_to_rz3_r.csv>
   });
   trajectorys_.push_back({
-    #include <path/TR/RedField/rz_to_ts3_r.csv>
+    #include <path/TR/RedField/rz3_to_ts3_r.csv>
   });
   trajectorys_.push_back({
-    #include <path/TR/RedField/ts3_to_rz_r.csv>
+    #include <path/TR/RedField/ts3_to_rz3_r.csv>
   });
   trajectorys_.push_back({
-    #include <path/TR/RedField/rz_to_ts4_r.csv>
+    #include <path/TR/RedField/rz3_to_ts4_r.csv>
   });
   trajectorys_.push_back({
-    #include <path/TR/RedField/ts4_to_rz_r.csv>
+    #include <path/TR/RedField/ts4_to_rz3_r.csv>
   });
   trajectorys_.push_back({
-     #include <path/TR/RedField/rz_to_ts5_r.csv>
+     #include <path/TR/RedField/rz3_to_ts5_r.csv>
   });
   trajectorys_.push_back({
     #include <path/TR/RedField/ts5_to_rz_r.csv>
@@ -107,10 +107,6 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
 
   trajectorys_.push_back({
     #include <path/TR/RedField/rz_to_kz_r.csv>
-  });
-
-  trajectorys_.push_back({
-    #include <path/TR/RedField/kz_to_rz_r.csv>
   });
 
   trajectorys_.push_back({
@@ -133,36 +129,31 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
     #include <path/TR/RedField/wp_to_kz_r.csv>
   });
 
+  trajectorys_.push_back({
+    #include <path/TR/RedField/kz_to_rz_r.csv>
+  });
+  trajectorys_.push_back({
+    #include <path/TR/RedField/kz_to_rz2_r.csv>
+  });
+
+  trajectorys_.push_back({
+    #include <path/TR/RedField/kz_to_rz3_r.csv>
+  });
+
+  
+
   //PR
   trajectorys_.push_back({
-    #include <path/PR/RedField/prsz_to_pp1_r.csv>
+    {5,2,0}
   });
   trajectorys_.push_back({
-    #include <path/PR/RedField/pp1_to_pz_r.csv>
+    {5,3.805,0}
   });
   trajectorys_.push_back({
-    #include <path/PR/RedField/pz_to_pp2_r.csv>
+    {5,5.135,0}
   });
   trajectorys_.push_back({
-    #include <path/PR/RedField/pp2_to_pz_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/PR/RedField/pz_to_pp3_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/PR/RedField/pp3_to_pz_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/PR/RedField/pz_to_pp4_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/PR/RedField/pp4_to_pz_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/PR/RedField/pz_to_pp5_r.csv>
-  });
-  trajectorys_.push_back({
-    #include <path/PR/RedField/pp5_to_pz_r.csv>
+    {5.702,0.8,0}
   });
 }
 
