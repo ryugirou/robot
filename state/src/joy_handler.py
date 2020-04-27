@@ -24,7 +24,7 @@ class Joy_Handler:
             if(self.__last_status[i] != button):
                 self.buttons[i] = 1 if self.__last_status[i] == 1 else 0
                 self.__last_status[i] = button
-                #rospy.loginfo("status_changed")
+                # rospy.loginfo("status_changed")
 
         for i,axe in enumerate(data.axes,0):
             self.axes[i] = axe

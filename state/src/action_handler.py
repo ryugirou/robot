@@ -23,13 +23,13 @@ class ActionsVirtual(object) :
       self.__listener = tf2_ros.TransformListener(self.__tfBuffer)
 
       self.__cmd_publisher = rospy.Publisher('cmd',UInt8,queue_size=10,latch=True)
-      self.__vel_publisher = rospy.Publisher('cmd_vel',Twist,queue_size=1)
+      self._vel_publisher = rospy.Publisher('cmd_vel',Twist,queue_size=1)
       self.__goal_publisher = rospy.Publisher('goal',UInt8,queue_size=10)
 
       self.__initialpose_publisher = rospy.Publisher('initialpose',PoseWithCovarianceStamped,queue_size=10,latch=True)
       self.__result = 0
-      self.__max_lin = rospy.get_param("~max_lin")
-      self.__max_ang = rospy.get_param("~max_ang")
+      self._max_lin = rospy.get_param("~max_lin")
+      self._max_ang = rospy.get_param("~max_ang")
       self.__result_subscriber = rospy.Subscriber('result',UInt8, self.__resultCallback)
 
     def pose_intialize(self):
@@ -70,17 +70,17 @@ class ActionsVirtual(object) :
           vel_x = vel_x
           vel_y = vel_y
 
-        vel_x *= self.__max_lin
-        vel_y *= self.__max_lin
+        vel_x *= self._max_lin
+        vel_y *= self._max_lin
 
         vel_z = vel_z_l - vel_z_r
-        vel_z *= self.__max_ang
+        vel_z *= self._max_ang
 
         vel_msg = Twist()
         vel_msg.linear.x = vel_x
         vel_msg.linear.y = vel_y
         vel_msg.angular.z = vel_z
-        self.__vel_publisher.publish(vel_msg)
+        self._vel_publisher.publish(vel_msg)
 
     def send_goal(self,trajectory):
       goal_msg = UInt8()
@@ -114,6 +114,8 @@ class ActionsPr(ActionsVirtual):
       self.__picked = True
       self.__solenoid_msg = UInt8()
       self.__solenoid_msg.data = 0b000000
+
+
 
     @fire_and_forget
     def Arm(self):
@@ -152,11 +154,12 @@ class ActionsPr(ActionsVirtual):
     @fire_and_forget
     def Pass(self):
       pass_msg = Float64()
-      pass_msg.data = 150
+      pass_msg.data = 120
+      # pass_msg.data = 300
       self.__pass_publisher.publish(pass_msg)
       while not self.__passed:
         rospy.sleep(0.1)
-      rospy.sleep(2)
+      rospy.sleep(3)
       self.__passed = False
       pass_msg.data = 0
       self.__pass_publisher.publish(pass_msg)
@@ -170,15 +173,45 @@ class ActionsTr(ActionsVirtual):
     def __init__(self):
       super(ActionsTr,self).__init__()
       self.__kick_publisher = rospy.Publisher('kick',Float64,queue_size=10)
-      # self.__solenoid_publisher = rospy.Publisher('solenoid',UInt8,queue_size=10)
+      self.__kick_pos_publisher = rospy.Publisher('kick_pos',Float64,queue_size=10)
+      self.__limit = 0
       self.__try_publisher = rospy.Publisher('try',Float64,queue_size=10)
+      self.__limit_switch_sub = rospy.Subscriber('limit_switch',UInt8,self.__limitCallback)
 
+    #over_ride
+    def teleop(self,vel_x,vel_y,vel_z_l,vel_z_r):
+      norm = math.sqrt(vel_x**2+vel_y**2)
+      if norm > 1.0:
+          vel_x = vel_x / norm
+          vel_y = vel_y / norm
+      else:
+          vel_x = vel_x
+          vel_y = vel_y
+
+      vel_x *= self._max_lin
+      vel_y *= self._max_lin
+
+      vel_z = vel_z_l - vel_z_r
+      vel_z *= self._max_ang
+
+      vel_msg = Twist()
+      vel_msg.linear.x = -vel_x + vel_y
+      vel_msg.linear.y = -vel_y - vel_x
+      vel_msg.angular.z = vel_z
+      self._vel_publisher.publish(vel_msg)
+
+    def __limitCallback(self,data):
+      self.__limit = data.data
 
     @fire_and_forget
     def Kick(self):
       kick_msg = Float64()
-      kick_msg.data = -18
+      kick_msg.data = -22
       self.__kick_publisher.publish(kick_msg)
+      rospy.sleep(1.5)
+      self.Enable()
+      rospy.sleep(1)
+      self.SetPosition()
 
     @fire_and_forget
     def Try(self):
@@ -188,3 +221,16 @@ class ActionsTr(ActionsVirtual):
       rospy.sleep(1.5)
       try_msg.data = 0
       self.__try_publisher.publish(try_msg)
+
+    def SetPosition(self):
+      reset_msg = Float64()
+      reset_msg.data = 0
+      self.__kick_pos_publisher.publish(reset_msg)
+
+
+    def Tune(self):
+      self.__limit = 0
+      while self.__limit == 0:
+        rospy.sleep(0.1)
+        self.teleop(0.1,0,0,0)
+      self.teleop(0,0,0,0)

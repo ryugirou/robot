@@ -2,10 +2,11 @@ tasks :
   ButtonA: Kick #O
   ButtonB: Try #X
   # ButtonX: Pick #Δ
-  # ButtonY: Hold #□
+  ButtonY: Tune #□
   ButtonLB: Enable
   ButtonRB: Disable
   ButtonSelect: Homing #share
+  ButtonOption : SetPosition
   # ButtonStart: 10 #logo
   # ButtonLeftThumb: 12
   # ButtonRightThumb: 13

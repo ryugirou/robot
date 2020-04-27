@@ -13,9 +13,9 @@ class Trajectorys(IntEnum):
     TS2_TO_RZ3 = 5
     RZ_TO_TS3 = 6
     TS3_TO_RZ3 = 7
-    RZ_TO_TS4 = 8
+    RZ3_TO_TS4 = 8
     TS4_TO_RZ3 = 9
-    RZ_TO_TS5 = 10
+    RZ3_TO_TS5 = 10
     TS5_TO_RZ = 11
 
     RZ_TO_KZ = 12
@@ -31,6 +31,15 @@ class Trajectorys(IntEnum):
     KZ_TO_RZ = 19
     KZ_TO_RZ2 = 20
     KZ_TO_RZ3 = 21
+
+    TS1_TO_KZ = 22
+    TS2_TO_KZ = 23
+    TS3_TO_KZ = 24
+    TS4_TO_KZ = 25
+    TS5_TO_KZ = 26
+
+    KZ_TO_KZ2 = 27
+    KZ_TO_KZ3 = 28
     #PR
     # PRSZ_TO_PP1 = 12
     # PP1_TO_RZ = 13
@@ -42,7 +51,7 @@ class Trajectorys(IntEnum):
     # PP4_TO_RZ = 19
     # RZ_TO_PP5 = 20
     # PP5_TO_RZ = 21
-    RZ1 = 22
-    RZ2 = 23
-    RZ3 = 24
-    PRSZ = 25
+    RZ1 = 29
+    RZ2 = 30
+    RZ3 = 31
+    PRSZ = 32

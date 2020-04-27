@@ -10,6 +10,20 @@ import time
 
 index = 0
 
+
+
+# define state Init
+class Init(smach.State):
+    def __init__(self):
+        smach.State.__init__(self, outcomes=['initialized'])
+    def execute(self, userdata):
+        if not (rospy.has_param('amcl/initial_pose_x') and rospy.has_param('amcl/initial_pose_y') and rospy.has_param('amcl/initial_pose_a')):
+            actions.pose_intialize()
+            rospy.loginfo("pose initialized ")
+        else :
+            rospy.loginfo("using last pose")
+        return 'initialized'
+
 # define state Manual
 class Manual(smach.State):
     def __init__(self):
@@ -44,17 +58,6 @@ class Manual(smach.State):
                 if joy.GetButtonState(button_index):
                   actions.do(actions.ButtonNames[button_name])
 
-# define state Init
-class Init(smach.State):
-    def __init__(self):
-        smach.State.__init__(self, outcomes=['initialized'])
-    def execute(self, userdata):
-        if not (rospy.has_param('amcl/initial_pose_x') and rospy.has_param('amcl/initial_pose_y') and rospy.has_param('amcl/initial_pose_a')):
-            actions.pose_intialize()
-            rospy.loginfo("pose initialized ")
-        else :
-            rospy.loginfo("using last pose")
-        return 'initialized'
 # define state Manual
 class Auto(smach.State):
     def __init__(self):
@@ -79,6 +82,16 @@ class Auto(smach.State):
             elif joy.GetButtonState(joy.ButtonNames['ButtonStart']):
               index += 1
               return '->Manual'
+            elif joy.GetButtonState(joy.ButtonNames['ButtonTouchpad']):
+              global index
+              index = 0
+              rospy.loginfo("reset")
+              for __ in range(3) :
+                joy.Set_LEDColor(joy.LEDColor.RED)
+                rospy.sleep(1)
+                joy.Set_LEDColor(joy.LEDColor.BLUE)
+                rospy.sleep(1)
+              continue
             else :
               for button_name,button_index in joy.ButtonNames.items():
                 if not button_name in actions.ButtonNames:
@@ -97,6 +110,40 @@ def main():
     if robot_name == "tr":
       rospy.loginfo("tr")
       actions = action_handler.ActionsTr()
+      # list = \
+      # [
+      # Trajectorys.TRSZ_TO_RZ,
+
+      # Trajectorys.RZ_TO_TS1,
+      # Trajectorys.TS1_TO_RZ2,
+
+      # Trajectorys.RZ_TO_TS2,
+      # Trajectorys.TS2_TO_RZ3,
+
+      # Trajectorys.RZ_TO_TS3,
+      # Trajectorys.TS3_TO_WP,
+
+      # Trajectorys.WP_TO_KZ,
+      # Trajectorys.KZ_TO_RZ,
+
+      # Trajectorys.RZ_TO_KZ,
+      # Trajectorys.KZ_TO_RZ,
+
+      # Trajectorys.RZ_TO_KZ,
+      # Trajectorys.KZ_TO_RZ3,
+
+      # Trajectorys.RZ_TO_TS4,
+      # Trajectorys.TS4_TO_WP,
+
+      # Trajectorys.WP_TO_KZ,
+      # Trajectorys.KZ_TO_RZ3,
+
+      # Trajectorys.RZ_TO_TS5,
+      # Trajectorys.TS5_TO_WP,
+
+      # Trajectorys.WP_TO_KZ,
+      # Trajectorys.KZ_TO_RZ
+      # ]
       list = \
       [
       Trajectorys.TRSZ_TO_RZ,
@@ -108,28 +155,21 @@ def main():
       Trajectorys.TS2_TO_RZ3,
 
       Trajectorys.RZ_TO_TS3,
-      Trajectorys.TS3_TO_WP,
+      Trajectorys.TS3_TO_RZ3,
+      
+      Trajectorys.RZ3_TO_TS4,
+      Trajectorys.TS4_TO_KZ,
 
-      Trajectorys.WP_TO_KZ,
       Trajectorys.KZ_TO_RZ,
-
       Trajectorys.RZ_TO_KZ,
-      Trajectorys.KZ_TO_RZ,
 
-      Trajectorys.RZ_TO_KZ,
+      Trajectorys.KZ_TO_KZ2,
+      Trajectorys.KZ_TO_KZ3,
+      
       Trajectorys.KZ_TO_RZ3,
 
-      Trajectorys.RZ_TO_TS4,
-      Trajectorys.TS4_TO_WP,
-
-      Trajectorys.WP_TO_KZ,
-      Trajectorys.KZ_TO_RZ3,
-
-      Trajectorys.RZ_TO_TS5,
-      Trajectorys.TS5_TO_WP,
-
-      Trajectorys.WP_TO_KZ,
-      Trajectorys.KZ_TO_RZ
+      Trajectorys.RZ3_TO_TS5,
+      Trajectorys.TS5_TO_KZ
       ]
     elif robot_name == "pr":
       rospy.loginfo("pr")
@@ -150,40 +190,6 @@ def main():
         Trajectorys.RZ3,
         Trajectorys.PRSZ,
       ]*100 
-      # list = \
-      # [
-      # Trajectorys.TRSZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_TS1,
-      # Trajectorys.TS1_TO_RZ,
-
-      # Trajectorys.RZ_TO_TS2,
-      # Trajectorys.TS2_TO_RZ,
-
-      # Trajectorys.RZ_TO_TS3,
-      # Trajectorys.TS3_TO_RZ,
-
-      # Trajectorys.RZ_TO_TS4,
-      # Trajectorys.TS4_TO_RZ,
-
-      # Trajectorys.RZ_TO_TS5,
-      # Trajectorys.TS5_TO_RZ,
-
-      # Trajectorys.RZ_TO_KZ,
-      # Trajectorys.KZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_KZ,
-      # Trajectorys.KZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_KZ,
-      # Trajectorys.KZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_KZ,
-      # Trajectorys.KZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_KZ,
-      # Trajectorys.KZ_TO_RZ
-      # ]
     else:
       rospy.logwarn(robot_name + "is not a valid name")
 
@@ -195,6 +201,8 @@ def main():
         smach.StateMachine.add('Init', Init(), transitions={'initialized': 'Manual'})
         smach.StateMachine.add('Manual', Manual(), transitions={'->Auto': 'Auto'})
         smach.StateMachine.add('Auto', Auto(), transitions={'->Manual': 'Manual'})
+        # smach.StateMachine.add('Kick', Kick(), transitions={'kicked': 'Manual'})
+
 
     # Create and start the introspection server
     sis = smach_ros.IntrospectionServer('server_name', sm_top, '/PR')
