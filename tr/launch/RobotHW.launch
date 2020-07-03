@@ -4,6 +4,10 @@
   <arg name="lidar"/>
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
+  <arg name="color"/>
+  <arg name="x0" default="$(eval 0.55 if color=='red' else 0.55)"/>
+  <arg name="y0" default="$(eval 9.55 if color=='red' else 0.55)"/>
+  <arg name="yaw0" default="$(eval 0.785398 if color=='red' else 0.785398)"/> 
 
   <include file="$(find tr)/config/machine/remote.machine"/>
 
@@ -52,10 +56,10 @@
       <param name="invert_x" value="false"/>
       <param name="invert_y" value="false"/>
       <param name="invert_z" value="false"/>
-      <param name="x0" value="0.55"/>
-      <param name="y0" value="9.55"/>
-      <!-- <param name="yaw0" value="0.785398"/> -->
-      <param name="yaw0" value="0.0"/>
+      <param name="x0" value="$(arg x0)"/>
+      <param name="y0" value="$(arg y0)"/>
+      <param name="yaw0" value="$(arg yaw0)"/>
+      <!-- <param name="yaw0" value="0.0"/> -->
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
@@ -78,10 +82,10 @@
       <rosparam file="$(find tr)/config/tasks.yaml" command="load" />
       <param name="max_lin" value="0.5" />
       <param name="max_ang" value="0.5" />
-      <param name="initial_pose_x" value="0.55" />
-      <param name="initial_pose_y" value="9.55" />
-      <!-- <param name="initial_pose_a" value="0.785398" /> -->
-      <param name="initial_pose_a" value="0" />
+      <param name="initial_pose_x" value="$(arg x0)" />
+      <param name="initial_pose_y" value="$(arg y0)" />
+      <param name="initial_pose_a" value="$(arg yaw0)" />
+      <!-- <param name="initial_pose_a" value="0" /> -->
       <param name="robot_name" value="$(arg robot_name)"/>
       <remap from="cmd" to="beta/cmd" />
     </node> 

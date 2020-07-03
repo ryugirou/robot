@@ -1,0 +1,18 @@
+tasks : 
+  ButtonA: Kick #O
+  ButtonB: Try #X
+  # ButtonX: Pick #Δ
+  ButtonY: Tune #□
+  ButtonLB: Enable
+  ButtonRB: Disable
+  ButtonSelect: Homing #share
+  ButtonOption : SetPosition
+  # ButtonStart: 10 #logo
+  # ButtonLeftThumb: 12
+  # ButtonRightThumb: 13
+  # AxisLeftThumbX: 0
+  # AxisLeftThumbY: 1
+  # AxisRightThumbX: 2
+  # AxisRightThumbY: 3
+  # AxisLeftTrigger: 4
+  # AxisRightTrigger: 5

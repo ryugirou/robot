@@ -5,12 +5,14 @@
   <arg name="lidar" default="true"/>
   <arg name="debug" default="true"/>
   <arg name="robot_name" default="omni4"/>
+  <arg name="color" default="blue"/>
 
   <include file="$(eval find(robot_name) + '/launch/RobotHW.launch' )">
     <arg name="manager_name" value="$(arg manager_name)" />
     <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="lidar" value="$(arg lidar)"/>
+    <arg name="color" value="$(arg color)"/>
   </include>
   
 

@@ -1,65 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <arg name="manager_name" default="nodelet_manager" />
-  <!-- <arg name="nodelet_mode" default="load" /> -->
-  <arg name="nodelet_mode" default="standalone" />
+  <arg name="nodelet_mode" default="standalone" /><!-- set to standalone if you want to use as node-->
 
+  <!-- Nodelet Manager -->
   <group if="$(eval nodelet_mode=='load')">
-    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen"/>
   </group>
-   
-  <node pkg="nodelet" type="nodelet" name="vel_control" 
-  args="$(arg nodelet_mode) base_controller_plugins/Vel_control $(arg manager_name)">
-    <param name="lower_limit" value="0.0"/>
-    <param name="upper_limit" value="15.0"/>
-    <remap from="pos" to="base/motor0_cmd_vel"/>
-    <remap from="vel" to="motor0_vel"/>
-  </node> 
 
-
-  <!-- CAN -->
-
-  <!-- <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge_node">
-    <param name="can_device" value="slcan0"/>
-    <remap from="received_messages" to="can_rx"/>
-    <remap from="sent_messages" to="can_tx"/>
-  </node> -->
-
-  <node pkg="nodelet" type="nodelet" name="usb_can_node" 
-    args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" output="screen">
-      <param name="port" value="/dev/usbcan0"/>
-      <param name="baud" value="1000000"/>
+  <node pkg="nodelet" type="nodelet" name="motor1" 
+  args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" output="screen">
+      <param name="bid" type="string" value="4d8" />
+      <!-- <param name="ctrl_freq" value="2" /> -->
   </node>
 
-  <node pkg="nodelet" type="nodelet" name="can_handler" 
-  args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" >
-    <param name="beta0" value="$(eval 0x5b4)"/> 
-    <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
-  </node>
-
-  <!-- <node pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" output="screen">
-    <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
-    <param name="device_addr" value="" />
-    <param name="use_standard_msgs" value="true" />
-  </node> -->
-
-  <!-- <node name="joy_node" pkg="joy" type="joy_node"/>     -->
-
-  <!-- <node pkg="robot_control" type="state.py" name="state">
-      <rosparam file="$(find robot_control)/config/joy/ds4.yaml" command="load" />
-      <param name="max_lin" value="0.5" />
-      <param name="max_ang" value="1" />
-      <param name="publish_vel" value="true" />
-      <remap from="cmd" to="beta/cmd" />
-
-      <remap from="slide" to="base/motor4_cmd_vel"/>
-      <remap from="arm" to="base/motor5_cmd_vel"/>
-      <remap from="launcher" to="base/motor6_cmd_vel"/>
-  </node> -->
-
-  <!-- <node pkg="can_plugins" type="ping" name="ping" output="screen">
-    <param name="ctrl_freq" value="1000"/>
-  </node> -->
-
-
+  <include file="$(find can_plugins)/launch/slcan.launch"/>
+  <include file="$(find can_plugins)/launch/ping.launch"/>
 </launch>

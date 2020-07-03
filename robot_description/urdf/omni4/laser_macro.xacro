@@ -5,7 +5,7 @@
     <joint name="${prefix}_joint" type="fixed">
      <parent link="${parent}"/>
      <child  link="${prefix}_link"/>
-     <origin xyz="${xyz}" rpy="-3.14 0 -1.57"/>
+     <origin xyz="${xyz}" rpy="-3.14 0 0"/>
    </joint>
    <link name="${prefix}_link">
       <visual name="visual">
@@ -34,7 +34,7 @@
        <ray>
          <scan>
            <horizontal>
-             <samples>720</samples>
+             <samples>180</samples>
              <resolution>1</resolution>
              <min_angle>${radians(-90)}</min_angle>
              <max_angle>${radians( 90)}</max_angle>

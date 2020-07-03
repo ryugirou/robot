@@ -163,8 +163,6 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
     #include <path/TR/RedField/kz2_to_kz3_r.csv>
   });
 
-
-
   //PR
   trajectorys_.push_back({
     {5,2,0}

@@ -27,7 +27,7 @@ class Init(smach.State):
 # define state Manual
 class Manual(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['->Auto'])
+        smach.State.__init__(self, outcomes=['->Auto','->Finished'])
 
     def execute(self, userdata):
         rospy.loginfo("Manual")
@@ -57,11 +57,12 @@ class Manual(smach.State):
                   continue
                 if joy.GetButtonState(button_index):
                   actions.do(actions.ButtonNames[button_name])
+        return '->Finished'
 
 # define state Manual
 class Auto(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['->Manual'])
+        smach.State.__init__(self, outcomes=['->Manual','->Finished'])
 
     def execute(self, userdata):
         rospy.loginfo("Auto")
@@ -98,6 +99,7 @@ class Auto(smach.State):
                   continue
                 if joy.GetButtonState(button_index):
                   actions.do(actions.ButtonNames[button_name])
+        return '->Finished'
 
 def main():
     rospy.init_node('state', anonymous=True)
@@ -191,16 +193,43 @@ def main():
         Trajectorys.PRSZ,
       ]*100 
     else:
-      rospy.logwarn(robot_name + "is not a valid name")
+      rospy.loginfo(robot_name)
+      actions = action_handler.ActionsVirtual()
+      list = [
+        Trajectorys.TRSZ_TO_RZ,
+
+        Trajectorys.RZ_TO_TS1,
+        Trajectorys.TS1_TO_RZ2,
+
+        Trajectorys.RZ_TO_TS2,
+        Trajectorys.TS2_TO_RZ3,
+
+        Trajectorys.RZ_TO_TS3,
+        Trajectorys.TS3_TO_RZ3,
+        
+        Trajectorys.RZ3_TO_TS4,
+        Trajectorys.TS4_TO_KZ,
+
+        Trajectorys.KZ_TO_RZ,
+        Trajectorys.RZ_TO_KZ,
+
+        Trajectorys.KZ_TO_KZ2,
+        Trajectorys.KZ_TO_KZ3,
+        
+        Trajectorys.KZ_TO_RZ3,
+
+        Trajectorys.RZ3_TO_TS5,
+        Trajectorys.TS5_TO_KZ
+      ]
 
     # Create a SMACH state machine
-    sm_top = smach.StateMachine(outcomes=['finished'])
+    sm_top = smach.StateMachine(outcomes=['Finished'])
 
     # Open the container
     with sm_top:
         smach.StateMachine.add('Init', Init(), transitions={'initialized': 'Manual'})
-        smach.StateMachine.add('Manual', Manual(), transitions={'->Auto': 'Auto'})
-        smach.StateMachine.add('Auto', Auto(), transitions={'->Manual': 'Manual'})
+        smach.StateMachine.add('Manual', Manual(), transitions={'->Auto': 'Auto','->Finished':'Finished'})
+        smach.StateMachine.add('Auto', Auto(), transitions={'->Manual': 'Manual','->Finished':'Finished'})
         # smach.StateMachine.add('Kick', Kick(), transitions={'kicked': 'Manual'})
 
 
@@ -216,4 +245,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except rospy.exceptions.ROSInterruptException: pass

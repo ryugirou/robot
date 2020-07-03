@@ -61,7 +61,8 @@
  	</joint>
  	<link name="wheel3_attach_link" />
 	<xacro:omni_wheel_set prefix="wheel3" parent="wheel3_attach_link" />
-  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.0 -0.355905 0.15" robot_name="$(arg robot_name)"/>
+  <!-- <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.0 -0.355905 0.15" robot_name="$(arg robot_name)"/> -->
+  <xacro:laser_macro prefix="laser" parent="base_link" xyz="0.355905 0.0 0.15" robot_name="$(arg robot_name)"/>
 
   <link name="odom_link"/>
   
@@ -71,6 +72,31 @@
      <origin xyz="0.0 0.0 -0.0" rpy="0 0 0"/>
   </joint>
  
+ 	<link name="catch_link">
+ 	  <visual>
+ 	    <geometry>
+ 	      <box size="0.1 0.1 0.02" />
+ 	    </geometry>
+ 	    <material name="red">
+				<color rgba="1.0 0.0 0.0 1.0"/>
+			</material>
+ 	  </visual>
+ 	  <collision>
+ 	    <geometry>
+ 	      <box size="0.1 0.1 0.02" />
+ 	    </geometry>
+ 	  </collision>
+ 	  <inertial>
+ 	    <mass value="0"/>
+ 	    <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+ 	  </inertial>  
+ 	</link>
+  <joint name="catch_joint" type="fixed">
+     <parent link="base_link"/>
+     <child  link="catch_link"/>
+     <origin xyz="0.1 -0.1 0.2" rpy="0 1.57 2.35619"/>
+  </joint>
+
 	<gazebo>
     		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       			<robotNamespace>/$(arg robot_name)</robotNamespace>

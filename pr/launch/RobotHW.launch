@@ -4,6 +4,11 @@
   <arg name="lidar"/>
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
+  <arg name="color"/>
+  <arg name="x0" default="$(eval 4.66 if color=='red' else 4.66)"/>
+  <arg name="y0" default="$(eval 0.55 if color=='red' else 0.55)"/>
+  <arg name="yaw0" default="$(eval 0 if color=='red' else 0)"/>
+  <!-- TO DO:x0,yo,yaw0 for blue -->
 
   <include file="$(find pr)/config/machine/remote.machine"/>
 
