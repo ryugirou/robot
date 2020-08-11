@@ -5,6 +5,7 @@
   <arg name="lidar" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="robot_name" default="omni4"/>
+  <arg name="color" default="red"/>
 
   <!-- Debug -->
   <group if="$(arg debug)">
@@ -18,6 +19,7 @@
     <arg name="nodelet_mode" value="$(arg nodelet_mode)" />
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="lidar" value="$(arg lidar)"/>
+    <arg name="color" value="$(arg color)"/>
   </include>
 
   <group ns="$(arg robot_name)">

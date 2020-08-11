@@ -5,9 +5,9 @@
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
   <arg name="color"/>
-  <arg name="x0" default="$(eval 0.55 if color=='red' else 0.55)"/>
-  <arg name="y0" default="$(eval 9.55 if color=='red' else 0.55)"/>
-  <arg name="yaw0" default="$(eval 0.785398 if color=='red' else 0.785398)"/> 
+  <arg name="x0" default="$(eval 0.55 if color=='blue' else 0.55)"/>
+  <arg name="y0" default="$(eval 0.55 if color=='blue' else 9.55)"/>
+  <arg name="yaw0" default="$(eval 0.785398 if color=='blue' else 0.785398)"/> 
 
   <include file="$(find tr)/config/machine/remote.machine"/>
 
@@ -19,32 +19,38 @@
     </group>
 
     <!-- CAN -->
-    <node pkg="nodelet" type="nodelet" name="usb_can_node" 
-    args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
-      <param name="port" value="/dev/usbcan0"/>
-      <param name="baud" value="1000000"/>
-    </node>    
+    <node pkg="nodelet" type="nodelet" name="slcan_bridge" 
+    args="$(arg nodelet_mode) can_plugins/SlcanBridge $(arg manager_name)" machine="robot"/>
 
     <node pkg="nodelet" type="nodelet" name="can_handler" 
-    args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
-      <param name="beta0" value="$(eval 0x4c4)"/> 
-      <param name="beta1" value="$(eval 0x5bc)"/>
-      <param name="beta2" value="$(eval 0x5b4)"/>
-      <param name="beta3" value="$(eval 0x4e8)"/>
+    args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot"/>
 
-      <!-- <param name="beta4" value="$(eval 0x4b8)"/> -->
-      <param name="beta4" value="$(eval 0x4f0)"/>
-      <param name="beta5" value="$(eval 0x4d8)"/>
-
-      <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
-      <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
-      <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
-      <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
-      <remap from="beta/motor4_cmd_swing" to="kick"/>
-      <remap from="beta/motor4_cmd_vel" to="kick_pos"/>
-      <remap from="beta/motor5_cmd_vel" to="try"/>
-
-
+    <!--Motor Driver-->
+    <node pkg="nodelet" type="nodelet" name="motor0" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4c4" />
+      <remap from="motor0_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor1" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="5bc" />
+      <remap from="motor1_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor2" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="5b4" />
+      <remap from="motor2_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor3" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4e8" />
+      <remap from="motor3_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor4" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4f0" />
+      <remap from="motor4_cmd" to="beta/cmd"/>
+      <remap from="motor4_cmd_val" to="kick"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor5" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4d8" />
+      <remap from="motor5_cmd" to="beta/cmd"/>
+      <remap from="motor5_cmd_val" to="try"/>
     </node>
 
     <!-- publish odom to TF (later)-->
@@ -66,15 +72,12 @@
     </node>
 
     <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="-0.11389378992741898 0.10998595445314349 0 0 0 0 tr/odom_link tr/base_link" machine="robot"/> -->
- <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 tr/odom_link tr/base_link" machine="robot"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 tr/odom_link tr/base_link" machine="robot"/>
+
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
       <rosparam command="load" file="$(find tr)/config/base_controller_params.yaml" />
-      <remap from="motor0_cmd_vel" to="base/motor0_cmd_vel" />
-      <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
-      <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
-      <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
     </node>
 
     <node pkg="state" type="state.py" name="state" machine="robot" output="screen">
@@ -102,7 +105,7 @@
         <remap from="scan" to="scan"/>
       </node>
 
-      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/$(arg color)/map.yaml">
         <param name="frame_id" value="$(arg robot_name)/map"/>
       </node>
 
@@ -115,7 +118,7 @@
     </group>
     
     <group unless="$(arg lidar)">
-      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/$(arg color)/map.yaml">
         <param name="frame_id" value="$(arg robot_name)/odom"/>
       </node>
     </group>

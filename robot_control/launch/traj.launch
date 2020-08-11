@@ -5,7 +5,7 @@
   <arg name="lidar" default="true"/>
   <arg name="debug" default="true"/>
   <arg name="robot_name" default="omni4"/>
-  <arg name="color" default="blue"/>
+  <arg name="color" default="red"/>
 
   <include file="$(eval find(robot_name) + '/launch/RobotHW.launch' )">
     <arg name="manager_name" value="$(arg manager_name)" />
@@ -24,7 +24,13 @@
       <param name="use_standard_msgs" value="true" />
     </node>
 
-    <node pkg="navigation" type="trajectory_tracking2" name="trajectory_tracking2" machine="robot" output="screen">
+    <!-- <node pkg="navigation" type="trajectory_tracking2" name="trajectory_tracking2" machine="robot" output="screen">
+      <param name="map_frame_id" value="$(arg robot_name)/map" />
+      <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+      <param name="base_frame_id"  value="$(arg robot_name)/base_link" />
+      <rosparam command="load" file="$(eval find(robot_name) + '/config/trajectory_tracking.yaml' )" />
+    </node> -->
+    <node pkg="navigation" type="trajectory_tracking" name="trajectory_tracking" machine="robot" output="screen">
       <param name="map_frame_id" value="$(arg robot_name)/map" />
       <param name="odom_frame_id" value="$(arg robot_name)/odom" />
       <param name="base_frame_id"  value="$(arg robot_name)/base_link" />
@@ -33,7 +39,7 @@
 
   </group>
 
-  <!-- Debug 6190-->
+  <!-- Debug -->
   <group if="$(arg debug)">
     <include file="$(find robot_control)/launch/debug.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>

@@ -5,9 +5,9 @@
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
   <arg name="color"/>
-  <arg name="x0" default="$(eval 4.66 if color=='red' else 4.66)"/>
-  <arg name="y0" default="$(eval 0.55 if color=='red' else 0.55)"/>
-  <arg name="yaw0" default="$(eval 0 if color=='red' else 0)"/>
+  <arg name="x0" default="$(eval 4.66 if color=='blue' else 4.66)"/>
+  <arg name="y0" default="$(eval 0.55 if color=='blue' else 0.55)"/>
+  <arg name="yaw0" default="$(eval 0 if color=='blue' else 0)"/>
   <!-- TO DO:x0,yo,yaw0 for blue -->
 
   <include file="$(find pr)/config/machine/remote.machine"/>
@@ -20,33 +20,60 @@
     </group>
 
     <!-- CAN -->
-    <node pkg="nodelet" type="nodelet" name="usb_can_node" 
-    args="$(arg nodelet_mode) can_plugins/UsbCanNode $(arg manager_name)" machine="robot">
-      <param name="port" value="/dev/usbcan0"/>
-      <param name="baud" value="1000000"/>
-    </node>    
+    <node pkg="nodelet" type="nodelet" name="slcan_bridge" 
+    args="$(arg nodelet_mode) can_plugins/SlcanBridge $(arg manager_name)" machine="robot"/>
 
     <node pkg="nodelet" type="nodelet" name="can_handler" 
-    args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot">
+    args="$(arg nodelet_mode) can_plugins/CanHandler $(arg manager_name)" machine="robot"/>
 
-      <param name="beta0" value="$(eval 0x5b0)"/> 
-      <param name="beta1" value="$(eval 0x4e0)"/>
-      <param name="beta2" value="$(eval 0x608)"/>
-      <param name="beta3" value="$(eval 0x5b8)"/>
+    <!--Motor Driver-->
+    <node pkg="nodelet" type="nodelet" name="motor0" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="5b0" />
+      <remap from="motor0_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor1" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4e0" />
+      <remap from="motor1_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor2" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="608" />
+      <remap from="motor2_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor3" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="5b8" />
+      <remap from="motor3_cmd" to="beta/cmd"/>
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor4" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="60c" />
+      <remap from="motor4_cmd" to="beta/cmd"/>
+      <remap from="motor4_cmd_val" to="pass"/>
+      <param name="ctrl_freq" value="5" />
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor5" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4d0" />
+      <remap from="motor5_cmd" to="beta/cmd"/>
+      <remap from="motor5_cmd_val" to="pass"/>
+      <param name="ctrl_freq" value="5" />
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor6" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4a0" />
+      <remap from="motor6_cmd" to="beta/cmd"/>
+      <remap from="motor6_cmd_val" to="slide"/>
+      <param name="ctrl_freq" value="5" />
+    </node>
+    <node pkg="nodelet" type="nodelet" name="motor7" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
+      <param name="bid" type="string" value="4b0" />
+      <remap from="motor7_cmd" to="beta/cmd"/>
+      <remap from="motor7_cmd_val" to="arm"/>
+      <param name="ctrl_freq" value="5" />
+    </node>
 
-      <param name="beta4" value="$(eval 0x60c)"/>
-      <param name="beta5" value="$(eval 0x4d0)"/>
-      <param name="beta6" value="$(eval 0x4a0)"/>
-      <param name="beta7" value="$(eval 0x4b0)"/>
-
-      <remap from="beta/motor0_cmd_vel" to="base/motor0_cmd_vel"/>
-      <remap from="beta/motor1_cmd_vel" to="base/motor1_cmd_vel"/>
-      <remap from="beta/motor2_cmd_vel" to="base/motor2_cmd_vel"/>
-      <remap from="beta/motor3_cmd_vel" to="base/motor3_cmd_vel"/>
-      <remap from="beta/motor4_cmd_vel" to="pass"/>
-      <remap from="beta/motor5_cmd_vel" to="pass"/>
-      <remap from="beta/motor6_cmd_vel" to="slide"/>
-      <remap from="beta/motor7_cmd_vel" to="arm"/>
+    <!--Solenoid_Driver-->  
+    <node pkg="can_plugins" type="solenoid_driver_node" name="solenoid" machine="robot">
+      <param name="bid" type="string" value="100" />
+      <param name="name" value="solenoid"/>
+      <remap from="solenoid_cmd" to="beta/cmd"/>
+      <remap from="solenoid_order" to="solenoid"/>
     </node>
 
     <!-- publish odom to TF (later)-->
@@ -69,13 +96,9 @@
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
       <rosparam command="load" file="$(find pr)/config/base_controller_params.yaml" />
-      <remap from="motor0_cmd_vel" to="base/motor0_cmd_vel" />
-      <remap from="motor1_cmd_vel" to="base/motor1_cmd_vel" />
-      <remap from="motor2_cmd_vel" to="base/motor2_cmd_vel" />
-      <remap from="motor3_cmd_vel" to="base/motor3_cmd_vel" />
     </node>
 
-    <node pkg="state" type="state.py" name="state" output="screen" machine="robot">
+    <!-- <node pkg="state" type="state.py" name="state" output="screen" machine="robot">
       <rosparam file="$(find state)/config/ds4.yaml" command="load" />
       <rosparam file="$(find pr)/config/tasks.yaml" command="load" />
       <param name="max_lin" value="0.5" />
@@ -85,7 +108,19 @@
       <param name="initial_pose_a" value="0" />
       <param name="robot_name" value="$(arg robot_name)"/>
       <remap from="cmd" to="beta/cmd" />
-    </node> 
+    </node>  -->
+    <node pkg="state" type="state2.py" name="state" machine="robot" output="screen">
+      <rosparam file="$(find state)/config/ds4.yaml" command="load" />
+      <rosparam file="$(find robot_name)/config/tasks.yaml" command="load" />
+      <param name="max_lin" value="0.5" />
+      <param name="max_ang" value="0.5" />
+      <param name="color" value="$(arg color)" />
+      <param name="robot_name" value="$(arg robot_name)"/>
+      <param name="initial_pose_x" value="$(arg x0)" />
+      <param name="initial_pose_y" value="$(arg y0)" />
+      <param name="initial_pose_a" value="$(arg yaw0)" />
+      <remap from="cmd" to="beta/cmd" />
+    </node>
 
     <!-- LRF -->
     <group if="$(arg lidar)">
@@ -106,7 +141,7 @@
         <remap from="scan" to="scan"/>
       </node>
 
-      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/$(arg color)/map.yaml">
         <param name="frame_id" value="$(arg robot_name)/map"/>
       </node>
 
@@ -119,7 +154,7 @@
     </group>
     
     <group unless="$(arg lidar)">
-      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/$(arg color)/map.yaml">
         <param name="frame_id" value="$(arg robot_name)/odom"/>
       </node>
     </group>

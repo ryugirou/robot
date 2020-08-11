@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /LaserScan1
         - /laser1
+        - /Axes1
       Splitter Ratio: 0.5
     Tree Height: 484
   - Class: rviz/Selection
@@ -101,7 +102,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.019999999552965164
+      Size (m): 0.03999999910593033
       Style: Flat Squares
       Topic: /omni4/scan
       Unreliable: false
@@ -121,6 +122,13 @@ Visualization Manager:
       Name: laser
       Radius: 0.10000000149011612
       Reference Frame: omni4/laser_link
+      Value: true
+    - Class: rviz/Axes
+      Enabled: true
+      Length: 1
+      Name: Axes
+      Radius: 0.10000000149011612
+      Reference Frame: omni4/map
       Value: true
   Enabled: true
   Global Options:
@@ -150,25 +158,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.618624687194824
+      Distance: 15.053315162658691
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 3.6392745971679688
-        Y: 4.74060583114624
-        Z: -1.1400563716888428
+        X: 3.675668239593506
+        Y: 5.967704772949219
+        Z: -1.1021595001220703
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.5497963428497314
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.113572597503662
+      Yaw: 3.0785739421844482
     Saved: ~
 Window Geometry:
   Displays:

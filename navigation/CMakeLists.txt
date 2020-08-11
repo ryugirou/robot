@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   tf2
+  tr
 )
 
 include_directories(
@@ -35,3 +36,8 @@ add_executable(trajectory_tracking2 src/trajectory_tracking2.cpp)
 target_include_directories(trajectory_tracking2 PRIVATE lib/controller_pid_polar)
 target_link_libraries(trajectory_tracking2 ${catkin_LIBRARIES} controller_pid_polar pid_position)
 add_dependencies(trajectory_tracking2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(trajectory_tracking src/trajectory_tracking3.cpp)
+target_include_directories(trajectory_tracking PRIVATE lib/controller_pid_polar)
+target_link_libraries(trajectory_tracking ${catkin_LIBRARIES} controller_pid_polar pid_position)
+add_dependencies(trajectory_tracking ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

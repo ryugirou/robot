@@ -15,7 +15,7 @@
     </include>
     <include>
       <uri>model://NHK2020</uri>
-      <pose>0 10.1 0 0 0 -1.57</pose>
+      <pose>6.7 0 0 0 0 1.57</pose>
     </include>   
   </world>
 </sdf>

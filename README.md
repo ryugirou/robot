@@ -26,7 +26,7 @@ ssh nhk@crs002.local
 roscore
 ```
 ```
-export ROS_IP=`hostname -I`
+export ROS_IP=`hostname -I| cut -d' ' -f1`
 export ROS_MASTER_URI=http://crs002.local:11311
 export ROS_MASTER_URI=http://crs001.local:11311
 ```
