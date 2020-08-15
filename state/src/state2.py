@@ -9,8 +9,6 @@ import time
 
 index = 0
 
-
-
 # define state Init
 class Init(smach.State):
     def __init__(self):
@@ -67,7 +65,7 @@ class Auto(smach.State):
         rospy.loginfo("Auto")
         joy.Set_LEDColor(joy.LEDColor.GREEN)
         global index
-        if index >= len(list):
+        if index > len(list):
           rospy.logwarn("next trajectory does not exist")
           return '->Manual'
         actions.send_goal(list[index])
@@ -112,9 +110,46 @@ def main():
     if robot_name == "tr":
       rospy.loginfo("tr")
       actions = action_handler2.ActionsTr()
+      list = [
+        "trsz_to_rz",
+        "rz_to_ts1",
+        "ts1_to_rz2",
+        "rz2_to_ts2",
+        "ts2_to_rz3",
+        "rz3_to_ts3",
+        "ts3_to_rz3",
+        "rz3_to_ts4",
+        "ts4_to_kz",
+        "kz_to_rz",
+        "rz_to_kz",
+        "kz_to_kz2",
+        "kz2_to_kz3",
+        "kz3_to_rz3",
+        "rz3_to_ts5",
+        "ts5_to_kz"
+      ]
     elif robot_name == "pr":
       rospy.loginfo("pr")
       actions = action_handler2.ActionsPr()
+      list = [
+        "trsz_to_rz",
+        "rz_to_ts1",
+        "ts1_to_rz2",
+        "rz2_to_ts2",
+        "ts2_to_rz3",
+        "rz3_to_ts3",
+        "ts3_to_rz3",
+        "rz3_to_ts4",
+        "ts4_to_kz",
+        "kz_to_rz",
+        "rz_to_kz",
+        "kz_to_kz2",
+        "kz2_to_kz3",
+        "kz3_to_rz3",
+        "rz3_to_ts5",
+        "ts5_to_kz"
+      ]
+      robot_name = "tr"
     else:
       rospy.loginfo(robot_name)
       actions = action_handler2.ActionsVirtual()
@@ -130,6 +165,8 @@ def main():
         "ts4_to_kz",
         "kz_to_rz",
         "rz_to_kz",
+        "kz_to_kz2",
+        "kz2_to_kz3",
         "kz3_to_rz3",
         "rz3_to_ts5",
         "ts5_to_kz"

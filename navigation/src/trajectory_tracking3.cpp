@@ -28,7 +28,6 @@ class TrajectoryTracking
     void timerCallback(const ros::TimerEvent &);
     void goalCallback(const std_msgs::StringConstPtr& string);
   private:
-    // std::vector<std::vector<Vector3>> trajectorys_;
     std::unordered_map<std::string,std::vector<Vector3>> trajectorys_;
     std::vector<Vector3>::const_iterator target_pose_;
     std::vector<Vector3>::const_iterator goal_pose_;
@@ -94,12 +93,21 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
     #include "tr/RedField/ts2_to_rz3.csv"
   };
 
+  trajectorys_["tr/RedField/rz3_to_ts3"] = {
+    #include "tr/RedField/rz3_to_ts3.csv"
+  };
+
+  trajectorys_["tr/RedField/ts3_to_rz3"] = {
+    #include "tr/RedField/ts3_to_rz3.csv"
+  };
+
   trajectorys_["tr/RedField/rz3_to_ts4"] = {
     #include "tr/RedField/rz3_to_ts4.csv"
   };
 
   trajectorys_["tr/RedField/ts4_to_kz"] = {
-    #include "tr/RedField/ts4_to_kz.csv"
+    #include "tr/RedField/ts4_to_wp.csv"
+    ,{2.712,2.189,-2.76}
   };
 
   trajectorys_["tr/RedField/kz_to_rz"] = {
@@ -110,6 +118,9 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
     #include "tr/RedField/rz_to_kz.csv"
   };
 
+  trajectorys_["tr/RedField/kz_to_kz2"] = {{2.808,1.850,-2.722}};
+  trajectorys_["tr/RedField/kz2_to_kz3"] = {{3.043,1.631,-2.689}};
+
   trajectorys_["tr/RedField/kz3_to_rz3"] = {
     #include "tr/RedField/kz3_to_rz3.csv"
   };
@@ -118,6 +129,10 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
     #include "tr/RedField/rz3_to_ts5.csv"
   };
 
+  trajectorys_["tr/RedField/ts5_to_kz"] = {
+    #include "tr/RedField/ts5_to_wp.csv"
+    ,{2.712,2.189,-2.76}
+  };
   //TR BlueFiled
   trajectorys_["tr/BlueField/trsz_to_rz"] = { 
     #include "tr/BlueField/trsz_to_rz.csv"
@@ -137,6 +152,14 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
 
   trajectorys_["tr/BlueField/ts2_to_rz3"] = {
     #include "tr/BlueField/ts2_to_rz3.csv"
+  };
+
+  trajectorys_["tr/BlueField/rz3_to_ts3"] = {
+    #include "tr/BlueField/rz3_to_ts3.csv"
+  };
+
+  trajectorys_["tr/BlueField/ts3_to_rz3"] = {
+    #include "tr/BlueField/ts3_to_rz3.csv"
   };
 
   trajectorys_["tr/BlueField/rz3_to_ts4"] = {
@@ -161,6 +184,10 @@ map_frame_id_(map_frame_id),odom_frame_id_(odom_frame_id),base_frame_id_(base_fr
 
   trajectorys_["tr/BlueField/rz3_to_ts5"] = {
     #include "tr/BlueField/rz3_to_ts5.csv"
+  };
+
+  trajectorys_["tr/BlueField/ts5_to_kz"] = {
+    #include "tr/BlueField/ts5_to_kz.csv"
   };
 }
 

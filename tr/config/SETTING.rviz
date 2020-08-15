@@ -13,8 +13,9 @@ Panels:
         - /CostMap1/Position1
         - /base_link1
         - /laser_link1
-      Splitter Ratio: 0.50555557
-    Tree Height: 463
+        - /OverlayDiagnostic1
+      Splitter Ratio: 0.5055555701255798
+    Tree Height: 416
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -23,7 +24,7 @@ Panels:
       - /2D Nav Goal1
       - /Publish Point1
     Name: Tool Properties
-    Splitter Ratio: 0.588679016
+    Splitter Ratio: 0.5886790156364441
   - Class: rviz/Views
     Expanded:
       - /Current View1
@@ -34,6 +35,8 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: LaserScan
+Preferences:
+  PromptSaveOnExit: true
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -45,7 +48,7 @@ Visualization Manager:
       Color: 160; 160; 164
       Enabled: true
       Line Style:
-        Line Width: 0.0299999993
+        Line Width: 0.029999999329447746
         Value: Lines
       Name: Grid
       Normal Cell Count: 0
@@ -57,7 +60,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Angle Tolerance: 0.100000001
+    - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
       Covariance:
         Orientation:
@@ -69,7 +72,7 @@ Visualization Manager:
           Scale: 1
           Value: true
         Position:
-          Alpha: 0.300000012
+          Alpha: 0.30000001192092896
           Color: 204; 51; 204
           Scale: 1
           Value: true
@@ -77,21 +80,21 @@ Visualization Manager:
       Enabled: false
       Keep: 1
       Name: Odometry
-      Position Tolerance: 0.100000001
+      Position Tolerance: 0.10000000149011612
       Shape:
         Alpha: 1
         Axes Length: 1
-        Axes Radius: 0.100000001
+        Axes Radius: 0.10000000149011612
         Color: 170; 0; 0
-        Head Length: 0.300000012
-        Head Radius: 0.100000001
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
         Shaft Length: 1
-        Shaft Radius: 0.0500000007
+        Shaft Radius: 0.05000000074505806
         Value: Arrow
       Topic: /pr/dump
       Unreliable: false
       Value: false
-    - Alpha: 0.699999988
+    - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
@@ -103,16 +106,16 @@ Visualization Manager:
       Value: true
     - Alpha: 1
       Arrow Length: 0.5
-      Axes Length: 0.300000012
-      Axes Radius: 0.00999999978
+      Axes Length: 0.30000001192092896
+      Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
       Color: 0; 0; 255
       Enabled: true
-      Head Length: 0.0700000003
-      Head Radius: 0.0299999993
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
       Name: PoseArray
-      Shaft Length: 0.230000004
-      Shaft Radius: 0.00999999978
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
       Topic: /tr/particlecloud
       Unreliable: false
@@ -122,11 +125,11 @@ Visualization Manager:
       Class: rviz/Path
       Color: 25; 255; 0
       Enabled: true
-      Head Diameter: 0.300000012
-      Head Length: 0.200000003
-      Length: 0.300000012
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
       Line Style: Lines
-      Line Width: 0.0299999993
+      Line Width: 0.029999999329447746
       Name: GlobalPlan
       Offset:
         X: 0
@@ -134,9 +137,9 @@ Visualization Manager:
         Z: 0
       Pose Color: 255; 85; 255
       Pose Style: None
-      Radius: 0.0299999993
-      Shaft Diameter: 0.100000001
-      Shaft Length: 0.100000001
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
       Topic: /omni4/move_base/DWAPlannerROS/global_plan
       Unreliable: false
       Value: true
@@ -145,11 +148,11 @@ Visualization Manager:
       Class: rviz/Path
       Color: 85; 85; 255
       Enabled: true
-      Head Diameter: 0.300000012
-      Head Length: 0.200000003
-      Length: 0.300000012
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
       Line Style: Lines
-      Line Width: 0.0299999993
+      Line Width: 0.029999999329447746
       Name: LocalPlan
       Offset:
         X: 0
@@ -157,9 +160,9 @@ Visualization Manager:
         Z: 0
       Pose Color: 255; 85; 255
       Pose Style: None
-      Radius: 0.0299999993
-      Shaft Diameter: 0.100000001
-      Shaft Length: 0.100000001
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
       Topic: /omni4/move_base/DWAPlannerROS/local_plan
       Unreliable: false
       Value: true
@@ -178,22 +181,22 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 7942
+      Max Intensity: 4091
       Min Color: 0; 0; 0
-      Min Intensity: 162
+      Min Intensity: 108
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.0500000007
+      Size (m): 0.05000000074505806
       Style: Flat Squares
       Topic: /tr/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
-    - Alpha: 0.699999988
+    - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
@@ -206,7 +209,7 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: true
+      Enabled: false
       Links:
         All Links Enabled: true
         Expand Joint Details: false
@@ -217,29 +220,41 @@ Visualization Manager:
       Robot Description: /pr/robot_description
       TF Prefix: pr
       Update Interval: 0
-      Value: true
+      Value: false
       Visual Enabled: true
     - Class: rviz/Axes
       Enabled: true
       Length: 1
       Name: base_link
-      Radius: 0.100000001
+      Radius: 0.10000000149011612
       Reference Frame: tr/base_link
       Value: true
     - Class: rviz/Axes
-      Enabled: true
+      Enabled: false
       Length: 1
       Name: odom_link
-      Radius: 0.100000001
+      Radius: 0.10000000149011612
       Reference Frame: tr/odom_link
-      Value: true
+      Value: false
     - Class: rviz/Axes
       Enabled: true
       Length: 1
       Name: laser_link
-      Radius: 0.100000001
-      Reference Frame: pr/laser_link
+      Radius: 0.10000000149011612
+      Reference Frame: tr/laser_link
       Value: true
+    - Class: jsk_rviz_plugin/OverlayDiagnostic
+      Enabled: true
+      Name: OverlayDiagnostic
+      Topic: /diagnostics
+      Value: true
+      alpha: 0.800000011920929
+      diagnostics namespace: "tr/nodelet_manager: SlcanBridge"
+      left: 12
+      size: 128
+      stall duration: 5
+      top: 12
+      type: SAC
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -255,7 +270,10 @@ Visualization Manager:
     - Class: rviz/FocusCamera
     - Class: rviz/Measure
     - Class: rviz/SetInitialPose
+      Theta std deviation: 0.2617993950843811
       Topic: /initialpose
+      X std deviation: 0.5
+      Y std deviation: 0.5
     - Class: rviz/SetGoal
       Topic: /move_base_simple/goal
     - Class: rviz/PublishPoint
@@ -264,26 +282,26 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -11.0200577
+      Angle: -11.010059356689453
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
-        Stereo Eye Separation: 0.0599999987
+        Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Invert Z Axis: false
       Name: Current View
-      Near Clip Distance: 0.00999999978
-      Scale: 40.5968475
+      Near Clip Distance: 0.009999999776482582
+      Scale: 63.53477478027344
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 4.54304743
-      Y: 3.78903699
+      X: 2.7710986137390137
+      Y: 5.522048473358154
     Saved:
       - Class: rviz/Orbit
         Distance: 10
         Enable Stereo Rendering:
-          Stereo Eye Separation: 0.0599999987
+          Stereo Eye Separation: 0.05999999865889549
           Stereo Focal Distance: 1
           Swap Stereo Eyes: false
           Value: false
@@ -292,18 +310,18 @@ Visualization Manager:
           Y: 0
           Z: 0
         Focal Shape Fixed Size: true
-        Focal Shape Size: 0.0500000007
+        Focal Shape Size: 0.05000000074505806
         Invert Z Axis: false
         Name: Orbit
-        Near Clip Distance: 0.00999999978
-        Pitch: 0.785398006
+        Near Clip Distance: 0.009999999776482582
+        Pitch: 0.785398006439209
         Target Frame: <Fixed Frame>
         Value: Orbit (rviz)
-        Yaw: 0.785398006
+        Yaw: 0.785398006439209
       - Class: rviz/Orbit
         Distance: 10
         Enable Stereo Rendering:
-          Stereo Eye Separation: 0.0599999987
+          Stereo Eye Separation: 0.05999999865889549
           Stereo Focal Distance: 1
           Swap Stereo Eyes: false
           Value: false
@@ -312,18 +330,18 @@ Visualization Manager:
           Y: 0
           Z: 0
         Focal Shape Fixed Size: true
-        Focal Shape Size: 0.0500000007
+        Focal Shape Size: 0.05000000074505806
         Invert Z Axis: false
         Name: Orbit
-        Near Clip Distance: 0.00999999978
-        Pitch: 0.785398006
+        Near Clip Distance: 0.009999999776482582
+        Pitch: 0.785398006439209
         Target Frame: <Fixed Frame>
         Value: Orbit (rviz)
-        Yaw: 0.785398006
+        Yaw: 0.785398006439209
       - Class: rviz/Orbit
         Distance: 10
         Enable Stereo Rendering:
-          Stereo Eye Separation: 0.0599999987
+          Stereo Eye Separation: 0.05999999865889549
           Stereo Focal Distance: 1
           Swap Stereo Eyes: false
           Value: false
@@ -332,41 +350,41 @@ Visualization Manager:
           Y: 0
           Z: 0
         Focal Shape Fixed Size: true
-        Focal Shape Size: 0.0500000007
+        Focal Shape Size: 0.05000000074505806
         Invert Z Axis: false
         Name: Orbit
-        Near Clip Distance: 0.00999999978
-        Pitch: 0.785398006
+        Near Clip Distance: 0.009999999776482582
+        Pitch: 0.785398006439209
         Target Frame: <Fixed Frame>
         Value: Orbit (rviz)
-        Yaw: 0.785398006
+        Yaw: 0.785398006439209
       - Class: rviz/Orbit
-        Distance: 3.6722374
+        Distance: 3.6722373962402344
         Enable Stereo Rendering:
-          Stereo Eye Separation: 0.0599999987
+          Stereo Eye Separation: 0.05999999865889549
           Stereo Focal Distance: 1
           Swap Stereo Eyes: false
           Value: false
         Focal Point:
-          X: -0.108490258
-          Y: 0.392200887
-          Z: -0.200613648
+          X: -0.10849025845527649
+          Y: 0.39220088720321655
+          Z: -0.20061364769935608
         Focal Shape Fixed Size: true
-        Focal Shape Size: 0.0500000007
+        Focal Shape Size: 0.05000000074505806
         Invert Z Axis: false
         Name: Orbit
-        Near Clip Distance: 0.00999999978
-        Pitch: 0.785398006
+        Near Clip Distance: 0.009999999776482582
+        Pitch: 0.785398006439209
         Target Frame: <Fixed Frame>
         Value: Orbit (rviz)
-        Yaw: 0.785398006
+        Yaw: 0.785398006439209
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 744
+  Height: 713
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000016a0000025efc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001c50000017e000002c6000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000000280000025e000000d700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f0000025efc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000025e000000ad00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005150000003efc0100000002fb0000000800540069006d00650100000000000005150000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000003a50000025e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000016a0000022bfc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001c50000017e000002c6000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000022b000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f0000025efc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000000280000025e000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000005560000003efc0100000002fb0000000800540069006d0065010000000000000556000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000003e60000022b00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -375,6 +393,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1301
-  X: 65
-  Y: 24
+  Width: 1366
+  X: 0
+  Y: 27

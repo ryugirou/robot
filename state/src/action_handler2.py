@@ -217,7 +217,7 @@ class ActionsTr(ActionsVirtual):
     @fire_and_forget
     def Try(self):
       try_msg = Float64()
-      try_msg.data = -1.2
+      try_msg.data = -1.5
       self.__try_publisher.publish(try_msg)
       rospy.sleep(1.5)
       try_msg.data = 0

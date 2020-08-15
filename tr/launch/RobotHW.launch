@@ -7,7 +7,7 @@
   <arg name="color"/>
   <arg name="x0" default="$(eval 0.55 if color=='blue' else 0.55)"/>
   <arg name="y0" default="$(eval 0.55 if color=='blue' else 9.55)"/>
-  <arg name="yaw0" default="$(eval 0.785398 if color=='blue' else 0.785398)"/> 
+  <arg name="yaw0" default="$(eval pi/4 if color=='blue' else pi/4)"/> 
 
   <include file="$(find tr)/config/machine/remote.machine"/>
 
@@ -27,7 +27,7 @@
 
     <!--Motor Driver-->
     <node pkg="nodelet" type="nodelet" name="motor0" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="4c4" />
+      <param name="bid" type="string" value="52c" />
       <remap from="motor0_cmd" to="beta/cmd"/>
     </node>
     <node pkg="nodelet" type="nodelet" name="motor1" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
@@ -44,35 +44,34 @@
     </node>
     <node pkg="nodelet" type="nodelet" name="motor4" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
       <param name="bid" type="string" value="4f0" />
+      <param name="swing" value="true"/>
       <remap from="motor4_cmd" to="beta/cmd"/>
-      <remap from="motor4_cmd_val" to="kick"/>
+      <remap from="motor4_cmd_val" to="kick_pos"/>
+      <remap from="motor4_cmd_swing" to="kick"/>
     </node>
     <node pkg="nodelet" type="nodelet" name="motor5" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
       <param name="bid" type="string" value="4d8" />
       <remap from="motor5_cmd" to="beta/cmd"/>
       <remap from="motor5_cmd_val" to="try"/>
+      <param name="ctrl_freq" value="5" />
     </node>
 
     <!-- publish odom to TF (later)-->
     <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot" 
     args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
-      <param name="odom_frame" value="$(arg robot_name)/odom" />
+      <param name="odom_frame" value="$(arg robot_name)/odom_link_init" />
       <param name="base_frame"  value="$(arg robot_name)/odom_link" />
       <param name="publish_rate"  value="1000" />
       <param name="invert_x" value="false"/>
       <param name="invert_y" value="false"/>
       <param name="invert_z" value="false"/>
-      <param name="x0" value="$(arg x0)"/>
-      <param name="y0" value="$(arg y0)"/>
-      <param name="yaw0" value="$(arg yaw0)"/>
-      <!-- <param name="yaw0" value="0.0"/> -->
       <remap from="odom/x" to="base/odom/x"/>
       <remap from="odom/y" to="base/odom/y"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
 
-    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="-0.11389378992741898 0.10998595445314349 0 0 0 0 tr/odom_link tr/base_link" machine="robot"/> -->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 tr/odom_link tr/base_link" machine="robot"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_init_broadcaster" args="$(arg x0) $(arg y0) 0 $(arg yaw0) 0 0 $(arg robot_name)/odom $(arg robot_name)/odom_link_init" machine="robot"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 $(arg robot_name)/odom_link $(arg robot_name)/base_link" machine="robot"/>
 
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
@@ -80,30 +79,30 @@
       <rosparam command="load" file="$(find tr)/config/base_controller_params.yaml" />
     </node>
 
-    <node pkg="state" type="state.py" name="state" machine="robot" output="screen">
+    <node pkg="state" type="state2.py" name="state" machine="robot" output="screen">
       <rosparam file="$(find state)/config/ds4.yaml" command="load" />
-      <rosparam file="$(find tr)/config/tasks.yaml" command="load" />
+      <rosparam file="$(eval find(robot_name) + '/config/tasks.yaml' )" command="load" />
       <param name="max_lin" value="0.5" />
       <param name="max_ang" value="0.5" />
+      <param name="color" value="$(arg color)" />
+      <param name="robot_name" value="$(arg robot_name)"/>
       <param name="initial_pose_x" value="$(arg x0)" />
       <param name="initial_pose_y" value="$(arg y0)" />
       <param name="initial_pose_a" value="$(arg yaw0)" />
-      <!-- <param name="initial_pose_a" value="0" /> -->
-      <param name="robot_name" value="$(arg robot_name)"/>
       <remap from="cmd" to="beta/cmd" />
-    </node> 
+    </node>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.4 0 0 0 0 3.14  $(arg robot_name)/base_link $(arg robot_name)/laser_link" machine="robot" />
+    <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
+      <param name="ip_address" value="192.168.0.10"/>
+      <param name="frame_id" value="$(arg robot_name)/laser_link"/>
+      <param name="angle_min" value="-1.5"/>
+      <param name="angle_max" value="1.5"/>
+      <remap from="scan" to="scan"/>
+    </node>
 
     <!-- LRF -->
     <group if="$(arg lidar)">
-      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.4 0 0 0 0 3.14  tr/base_link tr/laser_link" machine="robot" />
-
-      <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
-        <param name="ip_address" value="192.168.0.10"/>
-        <param name="frame_id" value="$(arg robot_name)/laser_link"/>
-        <param name="angle_min" value="-1.5"/>
-        <param name="angle_max" value="1.5"/>
-        <remap from="scan" to="scan"/>
-      </node>
 
       <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/$(arg color)/map.yaml">
         <param name="frame_id" value="$(arg robot_name)/map"/>

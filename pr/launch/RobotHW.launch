@@ -5,10 +5,15 @@
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
   <arg name="color"/>
-  <arg name="x0" default="$(eval 4.66 if color=='blue' else 4.66)"/>
+  <!-- <arg name="x0" default="$(eval 4.66 if color=='blue' else 4.66)"/>
   <arg name="y0" default="$(eval 0.55 if color=='blue' else 0.55)"/>
-  <arg name="yaw0" default="$(eval 0 if color=='blue' else 0)"/>
+  <arg name="yaw0" default="$(eval 0 if color=='blue' else 0)"/> -->
   <!-- TO DO:x0,yo,yaw0 for blue -->
+
+  <arg name="x0" default="$(eval 0.55 if color=='blue' else 0.55)"/>
+  <arg name="y0" default="$(eval 0.55 if color=='blue' else 9.55)"/>
+  <arg name="yaw0" default="$(eval pi/4 if color=='blue' else pi/4)"/>
+  <!-- <arg name="yaw0" default="$(eval 0 if color=='blue' else 0)"/> -->
 
   <include file="$(find pr)/config/machine/remote.machine"/>
 
@@ -79,12 +84,9 @@
     <!-- publish odom to TF (later)-->
     <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot"
     args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
-      <param name="odom_frame" value="$(arg robot_name)/odom" />
+      <param name="odom_frame" value="$(arg robot_name)/odom_link_init"/>
       <param name="base_frame"  value="$(arg robot_name)/base_link" />
       <param name="publish_rate"  value="1000" />
-      <param name="x0" value="4.65"/>
-      <param name="y0" value="0.55"/>
-      <param name="yaw0" value="0"/>
       <param name="invert_x" value="false"/>
       <param name="invert_y" value="false"/>
       <remap from="odom/x" to="base/odom/x"/>
@@ -92,26 +94,17 @@
       <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
 
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="$(arg x0) $(arg y0) 0 $(arg yaw0) 0 0 pr/odom pr/odom_link_init" machine="robot"/>
+
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
       <rosparam command="load" file="$(find pr)/config/base_controller_params.yaml" />
     </node>
 
-    <!-- <node pkg="state" type="state.py" name="state" output="screen" machine="robot">
-      <rosparam file="$(find state)/config/ds4.yaml" command="load" />
-      <rosparam file="$(find pr)/config/tasks.yaml" command="load" />
-      <param name="max_lin" value="0.5" />
-      <param name="max_ang" value="0.5" />
-      <param name="initial_pose_x" value="4.65" />
-      <param name="initial_pose_y" value="0.55" />
-      <param name="initial_pose_a" value="0" />
-      <param name="robot_name" value="$(arg robot_name)"/>
-      <remap from="cmd" to="beta/cmd" />
-    </node>  -->
     <node pkg="state" type="state2.py" name="state" machine="robot" output="screen">
       <rosparam file="$(find state)/config/ds4.yaml" command="load" />
-      <rosparam file="$(find robot_name)/config/tasks.yaml" command="load" />
+      <rosparam file="$(eval find(robot_name) + '/config/tasks.yaml' )" command="load" />
       <param name="max_lin" value="0.5" />
       <param name="max_ang" value="0.5" />
       <param name="color" value="$(arg color)" />
