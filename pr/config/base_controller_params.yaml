@@ -1,7 +1,4 @@
 motor_max_acc : 30 #50
 motor_max_vel : 30 #80
-invert_x : true
-invert_y : true
-invert_z : true
 robot_radius : 0.412579
 wheel_radius : 0.0508

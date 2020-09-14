@@ -5,12 +5,9 @@ import smach
 import smach_ros
 import joy_handler
 import action_handler
-from trajectory import Trajectorys
 import time
 
 index = 0
-
-
 
 # define state Init
 class Init(smach.State):
@@ -31,7 +28,7 @@ class Manual(smach.State):
 
     def execute(self, userdata):
         rospy.loginfo("Manual")
-        actions.send_goal(100)
+        actions.send_goal("manual")
         joy.Rumble()
         joy.Set_LEDColor(joy.LEDColor.BLUE)
         while not rospy.is_shutdown():
@@ -68,7 +65,7 @@ class Auto(smach.State):
         rospy.loginfo("Auto")
         joy.Set_LEDColor(joy.LEDColor.GREEN)
         global index
-        if index >= len(list):
+        if index > len(list):
           rospy.logwarn("next trajectory does not exist")
           return '->Manual'
         actions.send_goal(list[index])
@@ -109,118 +106,68 @@ def main():
     joy = joy_handler.Joy_Handler()
 
     robot_name = rospy.get_param("~robot_name")
+    Field = "BlueField" if rospy.get_param("~color")=="blue" else "RedField"
     if robot_name == "tr":
       rospy.loginfo("tr")
       actions = action_handler.ActionsTr()
-      # list = \
-      # [
-      # Trajectorys.TRSZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_TS1,
-      # Trajectorys.TS1_TO_RZ2,
-
-      # Trajectorys.RZ_TO_TS2,
-      # Trajectorys.TS2_TO_RZ3,
-
-      # Trajectorys.RZ_TO_TS3,
-      # Trajectorys.TS3_TO_WP,
-
-      # Trajectorys.WP_TO_KZ,
-      # Trajectorys.KZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_KZ,
-      # Trajectorys.KZ_TO_RZ,
-
-      # Trajectorys.RZ_TO_KZ,
-      # Trajectorys.KZ_TO_RZ3,
-
-      # Trajectorys.RZ_TO_TS4,
-      # Trajectorys.TS4_TO_WP,
-
-      # Trajectorys.WP_TO_KZ,
-      # Trajectorys.KZ_TO_RZ3,
-
-      # Trajectorys.RZ_TO_TS5,
-      # Trajectorys.TS5_TO_WP,
-
-      # Trajectorys.WP_TO_KZ,
-      # Trajectorys.KZ_TO_RZ
-      # ]
-      list = \
-      [
-      Trajectorys.TRSZ_TO_RZ,
-
-      Trajectorys.RZ_TO_TS1,
-      Trajectorys.TS1_TO_RZ2,
-
-      Trajectorys.RZ_TO_TS2,
-      Trajectorys.TS2_TO_RZ3,
-
-      Trajectorys.RZ_TO_TS3,
-      Trajectorys.TS3_TO_RZ3,
-      
-      Trajectorys.RZ3_TO_TS4,
-      Trajectorys.TS4_TO_KZ,
-
-      Trajectorys.KZ_TO_RZ,
-      Trajectorys.RZ_TO_KZ,
-
-      Trajectorys.KZ_TO_KZ2,
-      Trajectorys.KZ_TO_KZ3,
-      
-      Trajectorys.KZ_TO_RZ3,
-
-      Trajectorys.RZ3_TO_TS5,
-      Trajectorys.TS5_TO_KZ
+      list = [
+        "trsz_to_rz",
+        "rz_to_ts1",
+        "ts1_to_rz2",
+        "rz2_to_ts2",
+        "ts2_to_rz3",
+        "rz3_to_ts3",
+        "ts3_to_rz3",
+        "rz3_to_ts4",
+        "ts4_to_kz",
+        "kz_to_rz",
+        "rz_to_kz",
+        "kz_to_kz2",
+        "kz2_to_kz3",
+        "kz3_to_rz3",
+        "rz3_to_ts5",
+        "ts5_to_kz"
       ]
     elif robot_name == "pr":
       rospy.loginfo("pr")
       actions = action_handler.ActionsPr()
       list = [
-        Trajectorys.RZ1,
-        Trajectorys.PRSZ,
-
-        Trajectorys.RZ2,
-        Trajectorys.PRSZ,
-
-        Trajectorys.RZ3,
-        Trajectorys.PRSZ,
-
-        Trajectorys.RZ3,
-        Trajectorys.PRSZ,
-
-        Trajectorys.RZ3,
-        Trajectorys.PRSZ,
-      ]*100 
+        "rz1",
+        "prsz",
+        "rz2",
+        "prsz",
+        "rz3",
+        "prsz",
+        "rz3",
+        "prsz",
+        "rz3",
+        "prsz"
+      ]
     else:
       rospy.loginfo(robot_name)
       actions = action_handler.ActionsVirtual()
       list = [
-        Trajectorys.TRSZ_TO_RZ,
-
-        Trajectorys.RZ_TO_TS1,
-        Trajectorys.TS1_TO_RZ2,
-
-        Trajectorys.RZ_TO_TS2,
-        Trajectorys.TS2_TO_RZ3,
-
-        Trajectorys.RZ_TO_TS3,
-        Trajectorys.TS3_TO_RZ3,
-        
-        Trajectorys.RZ3_TO_TS4,
-        Trajectorys.TS4_TO_KZ,
-
-        Trajectorys.KZ_TO_RZ,
-        Trajectorys.RZ_TO_KZ,
-
-        Trajectorys.KZ_TO_KZ2,
-        Trajectorys.KZ_TO_KZ3,
-        
-        Trajectorys.KZ_TO_RZ3,
-
-        Trajectorys.RZ3_TO_TS5,
-        Trajectorys.TS5_TO_KZ
+        "trsz_to_rz",
+        "rz_to_ts1",
+        "ts1_to_rz2",
+        "rz2_to_ts2",
+        "ts2_to_rz3",
+        "rz3_to_ts3",
+        "ts3_to_rz3",
+        "rz3_to_ts4",
+        "ts4_to_kz",
+        "kz_to_rz",
+        "rz_to_kz",
+        "kz_to_kz2",
+        "kz2_to_kz3",
+        "kz3_to_rz3",
+        "rz3_to_ts5",
+        "ts5_to_kz"
       ]
+      robot_name = "tr"
+
+    for index,object in enumerate(list):
+      list[index] = robot_name + "/" + object
 
     # Create a SMACH state machine
     sm_top = smach.StateMachine(outcomes=['Finished'])
@@ -230,8 +177,6 @@ def main():
         smach.StateMachine.add('Init', Init(), transitions={'initialized': 'Manual'})
         smach.StateMachine.add('Manual', Manual(), transitions={'->Auto': 'Auto','->Finished':'Finished'})
         smach.StateMachine.add('Auto', Auto(), transitions={'->Manual': 'Manual','->Finished':'Finished'})
-        # smach.StateMachine.add('Kick', Kick(), transitions={'kicked': 'Manual'})
-
 
     # Create and start the introspection server
     sis = smach_ros.IntrospectionServer('server_name', sm_top, '/PR')

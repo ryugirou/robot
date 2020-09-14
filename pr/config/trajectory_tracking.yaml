@@ -1,5 +1,5 @@
 ctrl_freq : 900
-Kp : 4
+Kp : 3.5
 Ki : 0
 Kd : 0
 Kp_yaw : 5

@@ -6,15 +6,11 @@
   <arg name="nodelet_mode"/>
   <arg name="color"/>
   <arg name="map"/>
-  <arg name="x0" default="4.66"/>
-  <arg name="y0" default="0.55"/>
-  <arg name="yaw0" default="0"/>
-
-  <!-- <arg name="x0" default="0.55"/>
+  <arg name="x0" default="0.55"/>
   <arg name="y0" default="9.55"/>
-  <arg name="yaw0" default="$(eval pi/4)"/> -->
+  <arg name="yaw0" default="$(eval pi/4)"/> 
 
-  <include file="$(find pr)/config/machine/remote.machine"/>
+  <include file="$(find tr)/config/machine/remote.machine"/>
 
   <group ns="$(arg robot_name)">
 
@@ -32,55 +28,36 @@
 
     <!--Motor Driver-->
     <node pkg="nodelet" type="nodelet" name="motor0" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="5b0" />
+      <param name="bid" type="string" value="52c" />
       <remap from="motor0_cmd" to="beta/cmd"/>
     </node>
     <node pkg="nodelet" type="nodelet" name="motor1" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="4e0" />
+      <param name="bid" type="string" value="5bc" />
       <remap from="motor1_cmd" to="beta/cmd"/>
     </node>
     <node pkg="nodelet" type="nodelet" name="motor2" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="608" />
+      <param name="bid" type="string" value="5b4" />
       <remap from="motor2_cmd" to="beta/cmd"/>
     </node>
     <node pkg="nodelet" type="nodelet" name="motor3" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="5b8" />
+      <param name="bid" type="string" value="4e8" />
       <remap from="motor3_cmd" to="beta/cmd"/>
     </node>
     <node pkg="nodelet" type="nodelet" name="motor4" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="60c" />
+      <param name="bid" type="string" value="4f0" />
+      <param name="swing" value="true"/>
       <remap from="motor4_cmd" to="beta/cmd"/>
-      <remap from="motor4_cmd_val" to="pass"/>
-      <param name="ctrl_freq" value="5" />
+      <remap from="motor4_cmd_val" to="kick_pos"/>
+      <remap from="motor4_cmd_swing" to="kick"/>
     </node>
     <node pkg="nodelet" type="nodelet" name="motor5" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="4d0" />
+      <param name="bid" type="string" value="4d8" />
       <remap from="motor5_cmd" to="beta/cmd"/>
-      <remap from="motor5_cmd_val" to="pass"/>
-      <param name="ctrl_freq" value="5" />
-    </node>
-    <node pkg="nodelet" type="nodelet" name="motor6" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="4a0" />
-      <remap from="motor6_cmd" to="beta/cmd"/>
-      <remap from="motor6_cmd_val" to="slide"/>
-      <param name="ctrl_freq" value="5" />
-    </node>
-    <node pkg="nodelet" type="nodelet" name="motor7" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="4b0" />
-      <remap from="motor7_cmd" to="beta/cmd"/>
-      <remap from="motor7_cmd_val" to="arm"/>
+      <remap from="motor5_cmd_val" to="try"/>
       <param name="ctrl_freq" value="5" />
     </node>
 
-    <!--Solenoid_Driver-->  
-    <node pkg="can_plugins" type="solenoid_driver_node" name="solenoid" machine="robot">
-      <param name="bid" type="string" value="100" />
-      <param name="name" value="solenoid"/>
-      <remap from="solenoid_cmd" to="beta/cmd"/>
-      <remap from="solenoid_order" to="solenoid"/>
-    </node>
-
-    <!-- publish odom to TF (later)-->
+    <!-- publish odom to TF -->
     <node pkg="nodelet" type="nodelet" name="odom_broadcaster" machine="robot"
     args="$(arg nodelet_mode) odometry_source_plugins/OdomBroadcaster $(arg manager_name)" output="screen">
       <param name="odom_frame" value="$(arg robot_name)/odom_link_init"/>
@@ -94,13 +71,14 @@
       <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="$(arg x0) $(arg y0) 0 $(arg yaw0) 0 0 pr/odom pr/odom_link_init" machine="robot"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_init_broadcaster" args="$(arg x0) $(arg y0) 0 $(arg yaw0) 0 0 $(arg robot_name)/odom $(arg robot_name)/odom_link_init" machine="robot"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 $(arg robot_name)/odom_link $(arg robot_name)/base_link" machine="robot"/>
 
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
-      <rosparam command="load" file="$(find pr)/config/base_controller_params.yaml" />
-      <param name="invert_x" value="$(eval false if color=='blue' else true)"/>
+      <rosparam command="load" file="$(find tr)/config/base_controller_params.yaml" />
+      <param name="invert_x" value="$(eval true if color=='blue' else false)"/>
       <param name="invert_y" value="$(eval false if color=='blue' else true)"/>
       <param name="invert_z" value="$(eval false if color=='blue' else true)"/>
       <param name="swap_x_y" value="$(eval true if color=='blue' else false)"/>
@@ -121,17 +99,16 @@
 
     <!-- LRF -->
     <group if="$(eval color=='red')">
-      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.4 0 0 0 0 3.14 pr/base_link pr/laser_link" machine="robot"/>
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.4 0 0 0 0 3.14 $(arg robot_name)/base_link $(arg robot_name)/laser_link" machine="robot"/>
     </group>
     <group if="$(eval color=='blue')">
-      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0 -0.4 0 -1.57 0 0 pr/base_link pr/laser_link" machine="robot"/> 
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0 -0.4 0 -1.57 0 0 $(arg robot_name)/base_link $(arg robot_name)/laser_link" machine="robot"/> 
     </group>
     <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
-      <param name="serial_port" value="/dev/sensors/hokuyo_H1323516"/>
+      <param name="ip_address" value="192.168.0.10"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>
       <param name="angle_min" value="-1.5"/>
       <param name="angle_max" value="1.5"/>
-      <param name="intensity" value="false"/>
       <remap from="scan" to="scan"/>
     </node>
     <group if="$(arg lidar)">

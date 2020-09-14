@@ -5,9 +5,10 @@
   <arg name="manager_name"/>
   <arg name="nodelet_mode"/>
   <arg name="color"/>
-  <arg name="x0" default="$(eval 0.55 if color=='blue' else 0.55)"/>
-  <arg name="y0" default="$(eval 0.55 if color=='blue' else 9.55)"/>
-  <arg name="yaw0" default="$(eval pi/4 if color=='blue' else pi/4)"/> 
+  <arg name="map"/>
+  <arg name="x0" default="$(eval 0.55)"/>
+  <arg name="y0" default="$(eval 9.55)"/>
+  <arg name="yaw0" default="$(eval pi/4)"/> 
 
   <include file="$(find tr)/config/machine/remote.machine"/>
 
@@ -42,8 +43,8 @@
       <param name="bid" type="string" value="4e8" />
       <remap from="motor3_cmd" to="beta/cmd"/>
     </node>
-    <node pkg="nodelet" type="nodelet" name="motor4" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot">
-      <param name="bid" type="string" value="4f0" />
+    <node pkg="nodelet" type="nodelet" name="motor4" args="$(arg nodelet_mode) can_plugins/Md201xNode $(arg manager_name)" machine="robot" output="screen">
+      <param name="bid" type="string" value="520" />
       <param name="swing" value="true"/>
       <remap from="motor4_cmd" to="beta/cmd"/>
       <remap from="motor4_cmd_val" to="kick_pos"/>
@@ -62,24 +63,25 @@
       <param name="odom_frame" value="$(arg robot_name)/odom_link_init" />
       <param name="base_frame"  value="$(arg robot_name)/odom_link" />
       <param name="publish_rate"  value="1000" />
-      <param name="invert_x" value="false"/>
-      <param name="invert_y" value="false"/>
-      <param name="invert_z" value="false"/>
-      <remap from="odom/x" to="base/odom/x"/>
-      <remap from="odom/y" to="base/odom/y"/>
+      <param name="invert_x" value="$(eval true if color=='blue' else false)"/>
+      <param name="invert_y" value="$(eval true if color=='blue' else false)"/>
+      <param name="invert_z" value="$(eval true if color=='blue' else false)"/>
+      <remap from="odom/x" to="$(eval 'base/odom/y' if color=='blue' else 'base/odom/x')"/>
+      <remap from="odom/y" to="$(eval 'base/odom/x' if color=='blue' else 'base/odom/y')"/>
       <remap from="odom/yaw" to="base/odom/yaw"/>
     </node>
-
-    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_init_broadcaster" args="$(arg x0) $(arg y0) 0 $(arg yaw0) 0 0 $(arg robot_name)/odom $(arg robot_name)/odom_link_init" machine="robot"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 $(arg robot_name)/odom_link $(arg robot_name)/base_link" machine="robot"/>
 
     <!-- convert x-y velocity to each motor velocity -->
     <node pkg="nodelet" type="nodelet" name="base_controller" 
     args="$(arg nodelet_mode) base_controller_plugins/Omni4 $(arg manager_name)" machine="robot">
       <rosparam command="load" file="$(find tr)/config/base_controller_params.yaml" />
+      <param name="invert_x" value="$(eval true if color=='blue' else false)"/>
+      <param name="invert_y" value="$(eval false if color=='blue' else true)"/>
+      <param name="invert_z" value="$(eval false if color=='blue' else true)"/>
+      <param name="swap_x_y" value="$(eval true if color=='blue' else false)"/>
     </node>
 
-    <node pkg="state" type="state2.py" name="state" machine="robot" output="screen">
+    <node pkg="state" type="state.py" name="state" machine="robot" output="screen">
       <rosparam file="$(find state)/config/ds4.yaml" command="load" />
       <rosparam file="$(eval find(robot_name) + '/config/tasks.yaml' )" command="load" />
       <param name="max_lin" value="0.5" />
@@ -92,7 +94,17 @@
       <remap from="cmd" to="beta/cmd" />
     </node>
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.4 0 0 0 0 3.14  $(arg robot_name)/base_link $(arg robot_name)/laser_link" machine="robot" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_init_broadcaster" args="$(arg x0) $(arg y0) 0 $(arg yaw0) 0 0 $(arg robot_name)/odom $(arg robot_name)/odom_link_init" machine="robot"/>
+
+    <!-- LRF -->
+    <group if="$(eval color=='red')">
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0.4 0 0 0 0 3.14 $(arg robot_name)/base_link $(arg robot_name)/laser_link" machine="robot"/>
+      <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.11389378992741898 -0.10998595445314349 0 0 0 0 $(arg robot_name)/odom_link $(arg robot_name)/base_link" machine="robot"/>
+    </group>
+    <group if="$(eval color=='blue')">
+      <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link_broadcaster" args="0 -0.4 0 -1.57 0 0 $(arg robot_name)/base_link $(arg robot_name)/laser_link" machine="robot"/> 
+      <node pkg="tf2_ros" type="static_transform_publisher" name="odom_link_broadcaster" args="0.10998595445314349 -0.11389378992741898 0 0 0 0 $(arg robot_name)/odom_link $(arg robot_name)/base_link" machine="robot"/>
+    </group>
     <node name="urg_node" pkg="urg_node" type="urg_node" machine="robot">
       <param name="ip_address" value="192.168.0.10"/>
       <param name="frame_id" value="$(arg robot_name)/laser_link"/>
@@ -101,10 +113,9 @@
       <remap from="scan" to="scan"/>
     </node>
 
-    <!-- LRF -->
     <group if="$(arg lidar)">
 
-      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/$(arg color)/map.yaml">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
         <param name="frame_id" value="$(arg robot_name)/map"/>
       </node>
 
@@ -117,7 +128,7 @@
     </group>
     
     <group unless="$(arg lidar)">
-      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/$(arg color)/map.yaml">
+      <node pkg="map_server" type="map_server" name="map_server" args="$(find robot_control)/resources/red/map.yaml">
         <param name="frame_id" value="$(arg robot_name)/odom"/>
       </node>
     </group>

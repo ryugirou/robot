@@ -4,6 +4,7 @@ import rospy
 import math
 from geometry_msgs.msg import Twist
 from std_msgs.msg import UInt8
+from std_msgs.msg import String
 from std_msgs.msg import Float64
 from geometry_msgs.msg import PoseWithCovarianceStamped , Quaternion
 from tf.transformations import quaternion_from_euler
@@ -24,7 +25,7 @@ class ActionsVirtual(object) :
 
       self.__cmd_publisher = rospy.Publisher('cmd',UInt8,queue_size=10,latch=True)
       self._vel_publisher = rospy.Publisher('cmd_vel',Twist,queue_size=1)
-      self.__goal_publisher = rospy.Publisher('goal',UInt8,queue_size=10)
+      self.__goal_publisher = rospy.Publisher('goal',String,queue_size=10)
 
       self.__initialpose_publisher = rospy.Publisher('initialpose',PoseWithCovarianceStamped,queue_size=10,latch=True)
       self.__result = 0
@@ -83,7 +84,7 @@ class ActionsVirtual(object) :
         self._vel_publisher.publish(vel_msg)
 
     def send_goal(self,trajectory):
-      goal_msg = UInt8()
+      goal_msg = String()
       goal_msg.data = trajectory
       self.__goal_publisher.publish(goal_msg)
 
@@ -154,8 +155,8 @@ class ActionsPr(ActionsVirtual):
     @fire_and_forget
     def Pass(self):
       pass_msg = Float64()
-      pass_msg.data = 120
-      # pass_msg.data = 300
+      # pass_msg.data = 140
+      pass_msg.data = 150
       self.__pass_publisher.publish(pass_msg)
       while not self.__passed:
         rospy.sleep(0.1)
@@ -216,9 +217,9 @@ class ActionsTr(ActionsVirtual):
     @fire_and_forget
     def Try(self):
       try_msg = Float64()
-      try_msg.data = -1.2
+      try_msg.data = -1.5
       self.__try_publisher.publish(try_msg)
-      rospy.sleep(1.5)
+      rospy.sleep(2)
       try_msg.data = 0
       self.__try_publisher.publish(try_msg)
 
